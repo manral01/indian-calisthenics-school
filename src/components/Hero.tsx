@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
   ChevronDown,
   Dumbbell,
   GalleryVerticalEnd,
@@ -84,13 +83,6 @@ const Eyebrow = styled(motion.div)`
   letter-spacing: 0.09em;
   margin-bottom: 25px;
 `;
-const Name = styled(motion.p)`
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 15px;
-`;
 const Title = styled(motion.h1)`
   font-size: clamp(3rem, 12vw, 7.9rem);
   font-weight: 900;
@@ -122,21 +114,6 @@ const Buttons = styled(motion.div)`
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: row;
     justify-content: center;
-  }
-`;
-const Button = styled.a<{ $outline?: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  padding: 16px 26px;
-  min-width: 205px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  font-weight: 800;
-  font-size: 0.93rem;
-  transition: 0.25s;
-  ${({ theme, $outline }) => ($outline ? `border:2px solid rgba(255,255,255,.35); color:white; background:rgba(5,5,5,.4);backdrop-filter:blur(8px);&:hover{border-color:${theme.colors.orange};color:${theme.colors.orange};}` : `color:white;background:${theme.gradients.fire};box-shadow:${theme.shadows.glow};`)} &:hover {
-    transform: translateY(-4px) scale(1.025);
   }
 `;
 const QuickGrid = styled(motion.div)`
@@ -222,8 +199,8 @@ export const Hero = () => (
         {(
           [
             [UserRound, "ABOUT", "#about"],
-            [Dumbbell, "PROGRAMS", "#skills"],
-            [Sparkles, "SCHEDULE", "#schedule"],
+            [Dumbbell, "TRAINING", "#skills"],
+            [Sparkles, "FAQ", "#faq"],
             [GalleryVerticalEnd, "GALLERY", "#gallery"],
           ] as [typeof UserRound, string, string][]
         ).map(([Icon, label, href]) => (

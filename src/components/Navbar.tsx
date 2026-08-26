@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { business } from "../data/business";
 
 const Header = styled.header`
@@ -102,8 +102,7 @@ export const Navbar = () => (
     <Links>
       {[
         ["ABOUT", "#about"],
-        ["PROGRAMS", "#programs"],
-        ["SCHEDULE", "#schedule"],
+        ["TRAINING", "#skills"],
         ["GALLERY", "#gallery"],
         ["FAQ", "#faq"],
         ["CONTACT", "#contact"],

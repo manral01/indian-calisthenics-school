@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Mail, MapPin } from "lucide-react";
+import { business } from "../data/business";
+
 const Foot = styled.footer`
   padding: 68px 16px 25px;
   color: white;
@@ -85,23 +87,23 @@ export const Footer = () => (
         <Col>
           <Heading>QUICK LINKS</Heading>
           <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#programs">Coaching</a>
           <a href="#gallery">Gallery</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
         </Col>
         <Col>
           <Heading>SOCIAL</Heading>
-          <a href="#contact">Instagram</a>
-          <a href="#contact">YouTube</a>
-          <a href="#contact">TikTok</a>
+          <a href={business.instagram} target="_blank" rel="noopener noreferrer">
+            Instagram
+          </a>
         </Col>
         <Col>
           <Heading>CONTACT</Heading>
-          <a href="mailto:ics@gmail.com">
-            <Mail size={14} style={{ verticalAlign: "-2px" }} /> ics@gmail.com
+          <a href={`mailto:${business.email}`}>
+            <Mail size={14} style={{ verticalAlign: "-2px" }} /> {business.email}
           </a>
           <p>
-            <MapPin size={14} style={{ verticalAlign: "-2px" }} /> Hyderabad
+            <MapPin size={14} style={{ verticalAlign: "-2px" }} /> {business.location}
           </p>
         </Col>
       </Top>

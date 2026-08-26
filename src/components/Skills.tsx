@@ -1,8 +1,7 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
-import { skillsData, type Skill } from "../data/skills";
+import { skillsData } from "../data/skills";
 import hero from "../assets/hero.png";
 const Section = styled.section`
   padding: 35px 16px;
@@ -17,13 +16,6 @@ const Header = styled.div`
   max-width: 680px;
   margin: 0 auto 42px;
 `;
-const Tag = styled.div`
-  color: ${({ theme }) => theme.colors.orange};
-  font-size: 0.75rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  margin-bottom: 14px;
-`;
 const H = styled.h2`
   font-size: clamp(2.5rem, 5vw, 4.2rem);
   font-weight: 900;
@@ -33,25 +25,6 @@ const H = styled.h2`
     -webkit-background-clip: text;
     color: transparent;
   }
-`;
-const Filters = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 28px;
-`;
-const Filter = styled.button<{ $active: boolean }>`
-  padding: 10px 15px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.07em;
-  transition: 0.2s;
-  background: ${({ $active, theme }) => ($active ? theme.gradients.fire : "rgba(255,255,255,.07)")};
-  color: ${({ $active }) => ($active ? "white" : "rgba(255,255,255,.55)")};
-  border: 1px solid
-    ${({ $active }) => ($active ? "transparent" : "rgba(255,255,255,.10)")};
 `;
 const Grid = styled.div`
   display: grid;
@@ -134,30 +107,35 @@ const Desc = styled.p`
   line-height: 1.55;
   color: ${({ theme }) => theme.colors.muted};
 `;
-type FilterType = "ALL" | Skill["category"];
-export const Skills = () => {
-  const [filter, setFilter] = useState<FilterType>("ALL");
-  const list =
-    filter === "ALL"
-      ? skillsData
-      : skillsData.filter((s) => s.category === filter);
+
+interface SkillsProps {
+  onNavigate?: (path: string) => void;
+  onOpenPersonalTraining?: () => void;
+}
+
+export const Skills = ({ onNavigate, onOpenPersonalTraining }: SkillsProps) => {
+  const list = skillsData;
+
+  const handleCardClick = (skillName: string) => {
+    if (skillName === "Calisthenics") {
+      if (onNavigate) onNavigate("/training/calisthenics");
+      else window.history.pushState({}, "", "/training/calisthenics");
+    } else if (skillName === "Kids Training") {
+      if (onNavigate) onNavigate("/training/kids");
+      else window.history.pushState({}, "", "/training/kids");
+    } else if (skillName.includes("Personal Training")) {
+      if (onOpenPersonalTraining) onOpenPersonalTraining();
+    }
+  };
+
   return (
     <Section id="skills">
       <Wrap>
         <Header>
           <H>
-         <span>TRAINING PROGRAMS</span>
+            <span>TRAINING PROGRAMS</span>
           </H>
         </Header>
-        {/* <Filters>
-          {(
-            ["ALL", "CALISTHENICS", "STRENGTH", "MOVEMENT"] as FilterType[]
-          ).map((x) => (
-            <Filter key={x} $active={filter === x} onClick={() => setFilter(x)}>
-              {x}
-            </Filter>
-          ))}
-        </Filters> */}
         <Grid>
           {list.map((skill, i) => (
             <Card
@@ -166,9 +144,11 @@ export const Skills = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
+              onClick={() => handleCardClick(skill.name)}
+              style={{ cursor: "pointer" }}
             >
               <Image>
-                <img src={hero} alt={`${skill.name} temporary placeholder`} />
+                <img src={hero} alt={`${skill.name} training`} />
                 <PlayIcon>
                   <Play size={16} fill="currentColor" />
                 </PlayIcon>
