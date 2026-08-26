@@ -1,21 +1,24 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
 import { skillsData } from "../data/skills";
 import hero from "../assets/hero.png";
+
 const Section = styled.section`
-  padding: 35px 16px;
+  padding: 40px 16px;
   background: #050505;
 `;
+
 const Wrap = styled.div`
   max-width: 1180px;
   margin: auto;
 `;
+
 const Header = styled.div`
   text-align: center;
   max-width: 680px;
-  margin: 0 auto 42px;
+  margin: 0 auto 36px;
 `;
+
 const H = styled.h2`
   font-size: clamp(2.5rem, 5vw, 4.2rem);
   font-weight: 900;
@@ -26,6 +29,7 @@ const H = styled.h2`
     color: transparent;
   }
 `;
+
 const Grid = styled.div`
   display: grid;
   gap: 18px;
@@ -37,58 +41,52 @@ const Grid = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
+
 const Card = styled(motion.article)`
   overflow: hidden;
   border-radius: ${({ theme }) => theme.radius.md};
   background: #151515;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: ${({ theme }) => theme.shadows.card};
-  transition: 0.3s;
+  transition: all 0.3s ease;
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 28px 65px rgba(255, 106, 0, 0.15);
     border-color: rgba(255, 106, 0, 0.25);
   }
 `;
-const Image = styled.div`
-  height: 175px;
+
+const ImageContainer = styled.div`
+  height: 180px;
   position: relative;
   overflow: hidden;
-  background: #0d0d0d;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.5s;
-    filter: saturate(0.7) brightness(0.8);
-  }
-  ${Card}:hover & img {
-    transform: scale(1.1);
-    filter: saturate(0.9) brightness(0.9);
-  }
+  background: #080808;
+
   &:after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), transparent);
+    background: linear-gradient(
+      0deg,
+      rgba(21, 21, 21, 0.95) 0%,
+      rgba(0, 0, 0, 0.2) 60%,
+      transparent 100%
+    );
   }
 `;
-const PlayIcon = styled.div`
-  position: absolute;
-  z-index: 2;
-  right: 14px;
-  bottom: 13px;
-  display: grid;
-  place-items: center;
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.gradients.fire};
-  color: white;
+
+const CardImg = styled(motion.img)`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s ease;
 `;
+
 const Body = styled.div`
-  padding: 18px;
+  padding: 18px 20px 22px;
 `;
+
 const Level = styled.div`
   font-size: 0.69rem;
   color: ${({ theme }) => theme.colors.orange};
@@ -96,12 +94,14 @@ const Level = styled.div`
   letter-spacing: 0.1em;
   margin-bottom: 7px;
 `;
+
 const Title = styled.h3`
   font-size: 1.4rem;
   font-weight: 900;
   margin-bottom: 9px;
   color: white;
 `;
+
 const Desc = styled.p`
   font-size: 0.88rem;
   line-height: 1.55;
@@ -140,19 +140,24 @@ export const Skills = ({ onNavigate, onOpenPersonalTraining }: SkillsProps) => {
           {list.map((skill, i) => (
             <Card
               key={skill.name}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
+              whileTap={{ scale: 0.97 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: i * 0.07 }}
               onClick={() => handleCardClick(skill.name)}
               style={{ cursor: "pointer" }}
             >
-              <Image>
-                <img src={hero} alt={`${skill.name} training`} />
-                <PlayIcon>
-                  <Play size={16} fill="currentColor" />
-                </PlayIcon>
-              </Image>
+              <ImageContainer>
+                <CardImg
+                  src={skill.image || hero}
+                  alt={`${skill.name} training`}
+                  initial={{ scale: 1.12 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                />
+              </ImageContainer>
               <Body>
                 <Level>{skill.level}</Level>
                 <Title>{skill.name}</Title>

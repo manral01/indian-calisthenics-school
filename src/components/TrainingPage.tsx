@@ -7,6 +7,7 @@ import { TimingSelector } from "./TimingSelector";
 import { PricingSelector } from "./PricingSelector";
 import { BookingModal, type BookingContext } from "./BookingModal";
 import { Footer } from "./Footer";
+import mainLogo from "../assets/mainLogo.jpeg";
 
 interface Props {
   programId: "calisthenics" | "kids";
@@ -55,12 +56,22 @@ const BackButton = styled.button`
 `;
 
 const BrandLogo = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.88rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   color: white;
   span {
     color: ${({ theme }) => theme.colors.orange};
+  }
+  img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255, 106, 0, 0.5);
   }
 `;
 
@@ -188,6 +199,7 @@ export const TrainingPage = ({ programId, onNavigateHome }: Props) => {
           <ArrowLeft size={16} /> BACK TO LAB
         </BackButton>
         <BrandLogo>
+          <img src={mainLogo} alt="Indian Calisthenics School Logo" />
           INDIAN CALISTHENICS <span>SCHOOL</span>
         </BrandLogo>
       </HeaderNav>

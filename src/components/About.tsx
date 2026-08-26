@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
-import hero from "../assets/groupThree.jpeg";
+import hero from "../assets/WhatsApp Image 2026-08-26 at 15.35.03.jpeg";
 import { business } from "../data/business";
 const Section = styled.section`
   padding: 10px 12px;
@@ -114,9 +114,11 @@ export const About = () => (
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
       >
-        <img
+        <motion.img
           src={hero}
-          alt="Indian Calisthenics School temporary image placeholder"
+          alt="Indian Calisthenics School coaching space"
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         />
         <Badge>CALISTHENICS • STRENGTH • MOVEMENT</Badge>
       </ImageBox>

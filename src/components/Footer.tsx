@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Mail, MapPin } from "lucide-react";
 import { business } from "../data/business";
+import mainLogo from "../assets/mainLogo.jpeg";
 
 const Foot = styled.footer`
-  padding: 68px 16px 25px;
+  padding: 40px 16px 20px;
   color: white;
   background: #050505;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -21,7 +22,10 @@ const Top = styled.div`
   }
 `;
 const Brand = styled.div`
-  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.8rem;
   font-weight: 900;
   letter-spacing: -0.05em;
   margin-bottom: 14px;
@@ -29,6 +33,13 @@ const Brand = styled.div`
     background: ${({ theme }) => theme.gradients.fire};
     -webkit-background-clip: text;
     color: transparent;
+  }
+  img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid ${({ theme }) => theme.colors.orange};
   }
 `;
 const Tagline = styled.p`
@@ -74,7 +85,10 @@ export const Footer = () => (
       <Top>
         <div>
           <Brand>
-            Indian <span>Calisthenics</span> School
+            <img src={mainLogo} alt="Indian Calisthenics School Logo" />
+            <div>
+              Indian <span>Calisthenics</span> School
+            </div>
           </Brand>
           <Tagline>
             Strength.

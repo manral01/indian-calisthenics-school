@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://indiancalisthenicsschool.com/sitemap.xml

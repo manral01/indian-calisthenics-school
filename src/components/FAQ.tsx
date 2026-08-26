@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus } from "lucide-react";
 import { faqData } from "../data/faq";
 const Section = styled.section`
-  padding: 100px 16px;
+  padding: 40px 16px;
   background: #0d0d0d;
 `;
 const Wrap = styled.div`

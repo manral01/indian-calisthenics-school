@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Mail } from "lucide-react";
 import { business } from "../data/business";
+import mainLogo from "../assets/mainLogo.jpeg";
 
 const Header = styled.header`
   position: fixed;
@@ -27,16 +28,13 @@ const Brand = styled.a`
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
   color: white;
 `;
-const Mark = styled.span`
-  display: grid;
-  place-items: center;
+const LogoImg = styled.img`
   width: 32px;
   height: 32px;
   flex: 0 0 32px;
   border-radius: 50%;
-  background: ${({ theme }) => theme.gradients.fire};
-  font-size: 0.72rem;
-  font-weight: 900;
+  object-fit: cover;
+  border: 1px solid rgba(255, 106, 0, 0.5);
 `;
 const Name = styled.span`
   font-size: 0.78rem;
@@ -96,7 +94,7 @@ const Action = styled.a`
 export const Navbar = () => (
   <Header>
     <Brand href="#home">
-      <Mark>ICS</Mark>
+      <LogoImg src={mainLogo} alt="Indian Calisthenics School Logo" />
       <Name>{business.name}</Name>
     </Brand>
     <Links>

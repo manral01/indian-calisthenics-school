@@ -199,8 +199,8 @@ export const Hero = () => (
         {(
           [
             [UserRound, "ABOUT", "#about"],
-            [Dumbbell, "TRAINING", "#skills"],
-            [Sparkles, "FAQ", "#faq"],
+            [Dumbbell, "PROGRAMS", "#skills"],
+            [Sparkles, "SCHEDULE", "#schedule"],
             [GalleryVerticalEnd, "GALLERY", "#gallery"],
           ] as [typeof UserRound, string, string][]
         ).map(([Icon, label, href]) => (

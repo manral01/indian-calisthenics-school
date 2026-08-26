@@ -1,29 +1,31 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, ZoomIn } from "lucide-react";
+import { X } from "lucide-react";
 
-// ── Real images ───────────────────────────────────────────────────────────────
+// ── Truly unique images for gallery ───────────────────────────────────────────
 import img1 from "../assets/imageOne.jpeg";
-import img2 from "../assets/random.jpeg";
+import img3 from "../assets/groupThree.jpeg";
+import wa3 from "../assets/WhatsApp Image 2026-08-26 at 22.19.23.jpeg";
+import wa4 from "../assets/WhatsApp Image 2026-08-26 at 22.19.24.jpeg";
+import wa5 from "../assets/WhatsApp Image 2026-08-26 at 22.19.25.jpeg";
+import wa6 from "../assets/WhatsApp Image 2026-08-27 at 03.06.54.jpeg";
+import wa7 from "../assets/WhatsApp Image 2026-08-27 at 03.13.04.jpeg";
 
-// ── Gallery items — add more imports + entries here as new photos arrive ──────
+// ── Gallery items — 100% unique photos with 0 duplicate files ─────────────────
 const items = [
-  { src: img1, alt: "Indian Calisthenics School training", tall: true },
-  { src: img2, alt: "Indian Calisthenics School movement", tall: false },
-  {
-    src: img1,
-    alt: "Indian Calisthenics School strength session",
-    tall: false,
-  },
-  { src: img2, alt: "Indian Calisthenics School skills practice", tall: true },
-  { src: img1, alt: "Indian Calisthenics School freestyle", tall: false },
-  { src: img2, alt: "Indian Calisthenics School open gym", tall: false },
+  { src: wa3, alt: "Indian Calisthenics School core movement", tall: true },
+  { src: wa4, alt: "Indian Calisthenics School bar flow", tall: false },
+  { src: wa5, alt: "Indian Calisthenics School freestyle session", tall: false },
+  { src: wa7, alt: "Indian Calisthenics School mobility coaching", tall: true },
+  { src: img1, alt: "Indian Calisthenics School bodyweight athlete", tall: false },
+  { src: wa6, alt: "Indian Calisthenics School personal coaching", tall: false },
+  { src: img3, alt: "Indian Calisthenics School group session", tall: true },
 ];
 
-// ── Styles (unchanged from theme) ─────────────────────────────────────────────
+// ── Styles ────────────────────────────────────────────────────────────────────
 const Section = styled.section`
-  padding: 100px 16px;
+  padding: 40px 16px;
   position: relative;
   overflow: hidden;
   background: #0d0d0d;
@@ -51,17 +53,20 @@ const Section = styled.section`
     bottom: 6%;
   }
 `;
+
 const Wrap = styled.div`
   max-width: 1180px;
   margin: auto;
   position: relative;
   z-index: 1;
 `;
-const Head = styled.div`
+
+const Head = styled(motion.div)`
   text-align: center;
   max-width: 700px;
   margin: 0 auto 36px;
 `;
+
 const Tag = styled.div`
   font-size: 0.72rem;
   font-weight: 900;
@@ -69,6 +74,7 @@ const Tag = styled.div`
   letter-spacing: 0.12em;
   margin-bottom: 13px;
 `;
+
 const H = styled.h2`
   font-size: clamp(3rem, 7vw, 5.5rem);
   font-weight: 900;
@@ -79,10 +85,11 @@ const H = styled.h2`
     color: transparent;
   }
 `;
+
 const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 15px;
+  gap: 16px;
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -93,50 +100,37 @@ const Grid = styled.div`
     }
   }
 `;
+
 const Tile = styled(motion.button)`
   position: relative;
-  min-height: 230px;
+  min-height: 240px;
   overflow: hidden;
   border-radius: ${({ theme }) => theme.radius.md};
   background: #151515;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 42px rgba(0, 0, 0, 0.5);
-  img {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    inset: 0;
-    object-fit: cover;
-    transition: transform 0.55s;
-  }
-  &:hover img {
-    transform: scale(1.07);
-  }
+  cursor: pointer;
   &::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), transparent 60%);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), transparent 60%);
   }
 `;
-const Zoom = styled.span`
+
+const TileImg = styled(motion.img)`
+  width: 100%;
+  height: 100%;
   position: absolute;
-  z-index: 1;
-  top: 14px;
-  right: 14px;
-  width: 35px;
-  height: 35px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.gradients.fire};
-  color: white;
-  opacity: 0;
-  transition: 0.25s;
+  inset: 0;
+  object-fit: cover;
+  object-position: center 20%;
+  transition: transform 0.55s ease;
   ${Tile}:hover & {
-    opacity: 1;
+    transform: scale(1.08) !important;
   }
 `;
+
 const Lightbox = styled(motion.div)`
   position: fixed;
   inset: 0;
@@ -145,13 +139,16 @@ const Lightbox = styled(motion.div)`
   place-items: center;
   background: rgba(0, 0, 0, 0.95);
   padding: 25px;
-  img {
-    max-width: 90vw;
-    max-height: 84vh;
-    border-radius: ${({ theme }) => theme.radius.md};
-    box-shadow: 0 30px 80px #000;
-  }
 `;
+
+const LightboxImg = styled(motion.img)`
+  max-width: 90vw;
+  max-height: 84vh;
+  border-radius: ${({ theme }) => theme.radius.md};
+  box-shadow: 0 30px 80px #000;
+  object-fit: contain;
+`;
+
 const Close = styled.button`
   position: fixed;
   top: 24px;
@@ -172,7 +169,12 @@ export const Gallery = () => {
   return (
     <Section id="gallery">
       <Wrap>
-        <Head>
+        <Head
+          initial={{ opacity: 0, scale: 0.9, y: 25 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <Tag>VISUAL JOURNEY</Tag>
           <H>
             CAPTURED IN <span>MOTION.</span>
@@ -185,16 +187,21 @@ export const Gallery = () => {
               key={i}
               className={item.tall ? "tall" : ""}
               onClick={() => setSelected(item.src)}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
+              initial={{ opacity: 0, scale: 0.88, y: 24 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              whileTap={{ scale: 0.96 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: i * 0.06, ease: "easeOut" }}
               aria-label={`View ${item.alt}`}
             >
-              <img src={item.src} alt={item.alt} />
-              <Zoom>
-                <ZoomIn size={17} />
-              </Zoom>
+              <TileImg
+                src={item.src}
+                alt={item.alt}
+                initial={{ scale: 1.25 }}
+                whileInView={{ scale: 1.02 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.85, delay: i * 0.05, ease: "easeOut" }}
+              />
             </Tile>
           ))}
         </Grid>
@@ -211,7 +218,14 @@ export const Gallery = () => {
             <Close aria-label="Close image" onClick={() => setSelected(null)}>
               <X size={20} />
             </Close>
-            <img src={selected} alt="Gallery image enlarged" />
+            <LightboxImg
+              src={selected}
+              alt="Gallery image enlarged"
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            />
           </Lightbox>
         )}
       </AnimatePresence>

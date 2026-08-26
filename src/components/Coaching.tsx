@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle } from "lucide-react";
-import { business } from "../data/business";
+import { ArrowRight } from "lucide-react";
 
 const Section = styled.section`
-  padding: 95px 16px;
+  padding: 40px 16px;
   background: #0d0d0d;
   position: relative;
   overflow: hidden;
@@ -109,9 +108,9 @@ export const Coaching = () => (
         <Button href="#skills">
           JOIN THE SCHOOL <ArrowRight size={17} />
         </Button>
-        <Button $dark href={`mailto:${business.email}`}>
+        {/* <Button $dark href={`mailto:${business.email}`}>
           <MessageCircle size={17} /> CONTACT US
-        </Button>
+        </Button> */}
       </Buttons>
     </Wrap>
   </Section>

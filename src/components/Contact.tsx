@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Camera, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { business } from "../data/business";
 const Section = styled.section`
-  padding: 85px 16px;
+  padding: 40px 16px;
   background: #050505;
 `;
 const Wrap = styled.div`

@@ -2,10 +2,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
-import { testimonialsData } from "../data/testimonials";
+import { testimonialsData, type Testimonial } from "../data/testimonials";
+import { fetchLiveGoogleReviews, type LiveGooglePlaceData } from "../services/googleReviews";
 
 // ─── How many cards are visible at each breakpoint ───────────────────────────
-// We read this at runtime so the JS and CSS stay in sync.
 function getVisible(): number {
   if (typeof window === "undefined") return 1;
   if (window.innerWidth >= 1024) return 3;
@@ -15,10 +15,10 @@ function getVisible(): number {
 
 const AUTO_DELAY = 4000; // ms between auto-advances
 
-// ─── Styled components (existing card design preserved) ───────────────────────
+// ─── Styled components ───────────────────────────────────────────────────────
 
 const Section = styled.section`
-  padding: 100px 16px;
+  padding: 40px 16px;
   background: #050505;
   overflow: hidden;
 `;
@@ -52,7 +52,6 @@ const H = styled.h2`
   }
 `;
 
-// Outer clip — hides overflow cards; fade edges via pseudo-elements
 const Viewport = styled.div`
   position: relative;
   overflow: hidden;
@@ -76,7 +75,6 @@ const Viewport = styled.div`
   }
 `;
 
-// The sliding track — draggable
 const Track = styled(motion.div)`
   display: flex;
   gap: 20px;
@@ -87,7 +85,6 @@ const Track = styled(motion.div)`
   }
 `;
 
-// Single card — width is set inline to respond to visible count
 const Card = styled.div`
   flex-shrink: 0;
   padding: 34px 25px;
@@ -147,7 +144,6 @@ const Label = styled.div`
   font-size: 0.75rem;
 `;
 
-// Progress dots + arrows
 const Controls = styled.div`
   display: flex;
   align-items: center;
@@ -197,25 +193,30 @@ const Dot = styled.button<{ $active: boolean }>`
 
 export const Testimonials = () => {
   const prefersReduced = useReducedMotion();
-  const total = testimonialsData.length;
+  const [googleData, setGoogleData] = useState<LiveGooglePlaceData | null>(null);
+
+  useEffect(() => {
+    fetchLiveGoogleReviews().then(setGoogleData);
+  }, []);
+
+  const reviewsList: Testimonial[] = googleData?.reviews || testimonialsData;
+  const total = reviewsList.length;
 
   const [visible, setVisible] = useState(getVisible);
-  const [index, setIndex] = useState(0); // first visible card index
+  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
 
-  // Re-measure on resize
   useEffect(() => {
     const onResize = () => setVisible(getVisible());
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // Clamp index when visible count changes
   useEffect(() => {
-    setIndex((i) => Math.min(i, total - visible));
+    setIndex((i) => Math.min(i, Math.max(0, total - visible)));
   }, [visible, total]);
 
   const clamp = useCallback(
@@ -227,20 +228,18 @@ export const Testimonials = () => {
 
   const next = useCallback(() => {
     setIndex((i) => {
-      const next = i + 1;
-      // wrap around
-      return next > total - visible ? 0 : next;
+      const nextIdx = i + 1;
+      return nextIdx > total - visible ? 0 : nextIdx;
     });
   }, [total, visible]);
 
   const prev = useCallback(() => {
     setIndex((i) => {
-      const prev = i - 1;
-      return prev < 0 ? total - visible : prev;
+      const prevIdx = i - 1;
+      return prevIdx < 0 ? Math.max(0, total - visible) : prevIdx;
     });
   }, [total, visible]);
 
-  // Auto-advance
   const resetTimer = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
     if (!paused && !prefersReduced) {
@@ -257,19 +256,10 @@ export const Testimonials = () => {
     };
   }, [index, paused, resetTimer]);
 
-  // Pause/resume helpers
   const pause = useCallback(() => setPaused(true), []);
   const resume = useCallback(() => setPaused(false), []);
 
-  // Card width calculation: full track width shared equally minus gaps
-  // We express it as a percentage so styled-components doesn't need JS
-  const GAP = 20; // px — must match styled-components gap above
-  // translateX offset
-  // Each card occupies (100 / visible)% of viewport width minus gap adjustment
-  // We use a simpler approach: measure the track container at render-time
-  // and drive the translate with Framer Motion's x.
-
-  // Compute pixel offset based on track width
+  const GAP = 20;
   const [cardWidth, setCardWidth] = useState(0);
 
   useEffect(() => {
@@ -290,7 +280,7 @@ export const Testimonials = () => {
     <Section id="testimonials">
       <Wrap>
         <Head>
-          <Tag>MEMBER STORIES</Tag>
+          <Tag>LIVE GOOGLE MAPS REVIEWS</Tag>
           <H>
             RESULTS <span>SPEAK.</span>
           </H>
@@ -322,12 +312,11 @@ export const Testimonials = () => {
               resume();
             }}
           >
-            {testimonialsData.map((t) => (
+            {reviewsList.map((t, idxKey) => (
               <Card
-                key={t.name}
+                key={`${t.name}-${idxKey}`}
                 style={{
                   width: cardWidth > 0 ? cardWidth : undefined,
-                  // fallback before first measure
                   minWidth:
                     cardWidth > 0
                       ? cardWidth
@@ -366,7 +355,7 @@ export const Testimonials = () => {
             <ChevronLeft size={18} />
           </Btn>
           <Dots role="tablist" aria-label="Testimonial navigation">
-            {Array.from({ length: total - visible + 1 }).map((_, idx) => (
+            {Array.from({ length: Math.max(1, total - visible + 1) }).map((_, idx) => (
               <Dot
                 key={idx}
                 $active={idx === index}
