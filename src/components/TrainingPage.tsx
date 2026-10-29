@@ -1,289 +1,328 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { AnimatePresence } from "framer-motion";
-import { ArrowLeft, Calendar, Sparkles } from "lucide-react";
-import { trainingPrograms, type PricingTier } from "../data/trainingData";
+import { ArrowRight, Calendar, Sparkles } from "lucide-react";
+import { trainingPrograms, type PricingTier, type TrainingProgramConfig } from "../data/trainingData";
+import { programPages, type ProgramSlug } from "../data/programPages";
 import { TimingSelector } from "./TimingSelector";
 import { PricingSelector } from "./PricingSelector";
 import { BookingModal, type BookingContext } from "./BookingModal";
-import { Footer } from "./Footer";
-import mainLogo from "../assets/mainLogo.jpeg";
+import { Link } from "../router";
+import {
+  Bullets,
+  Container,
+  ContactActions,
+  FaqList,
+  H2,
+  Img,
+  Lead,
+  PageHeader,
+  PageSection,
+} from "./ui";
 
 interface Props {
-  programId: "calisthenics" | "kids";
-  onNavigateHome: () => void;
+  slug: ProgramSlug;
 }
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
-const PageContainer = styled.div`
-  min-height: 100vh;
-  background: #050505;
-  color: white;
-`;
-
-const HeaderNav = styled.nav`
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 18px 24px;
-  background: rgba(5, 5, 5, 0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const BackButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: white;
-  padding: 8px 16px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  font-size: 0.78rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: rgba(255, 106, 0, 0.2);
-    border-color: rgba(255, 106, 0, 0.4);
-    color: ${({ theme }) => theme.colors.orange};
+const Highlights = styled.div`
+  display: grid;
+  gap: 14px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
-
-const BrandLogo = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.88rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  color: white;
-  span {
-    color: ${({ theme }) => theme.colors.orange};
+const Highlight = styled.div`
+  padding: 22px;
+  border-radius: ${({ theme }) => theme.radius.md};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
   }
+  p {
+    color: ${({ theme }) => theme.colors.muted};
+    line-height: 1.65;
+  }
+`;
+const TwoCol = styled.div`
+  display: grid;
+  gap: 40px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+`;
+const Photos = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
   img {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
-    border: 1px solid rgba(255, 106, 0, 0.5);
+    border-radius: ${({ theme }) => theme.radius.md};
+  }
+  img:first-child:nth-last-child(3) {
+    grid-row: span 2;
   }
 `;
-
-const SectionDivider = styled.div`
-  max-width: 1180px;
-  margin: 0 auto;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 106, 0, 0.3),
-    transparent
-  );
-`;
-
-const ContentSection = styled.section`
-  padding: 36px 24px 50px;
-  max-width: 1180px;
-  margin: 0 auto;
-`;
-
-const SectionHeader = styled.div`
-  margin-bottom: 36px;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 900;
-  color: white;
+const SessionTitle = styled.h3`
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
   margin-bottom: 8px;
   display: flex;
   align-items: center;
   gap: 12px;
-
   svg {
-    color: ${({ theme }) => theme.colors.orange};
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
-
-const SectionSub = styled.p`
-  font-size: 0.9rem;
+const SessionSub = styled.p`
+  font-size: 0.92rem;
   color: ${({ theme }) => theme.colors.muted};
+  margin-bottom: 24px;
 `;
-
+const Divider = styled.hr`
+  border: 0;
+  height: 1px;
+  margin: 48px 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 106, 0, 0.3), transparent);
+`;
 const BookingActionArea = styled.div`
   margin-top: 24px;
   display: flex;
   justify-content: flex-end;
 `;
-
 const ActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 14px 28px;
+  min-height: 48px;
+  padding: 0 28px;
   border-radius: ${({ theme }) => theme.radius.pill};
   background: ${({ theme }) => theme.gradients.fire};
-  color: white;
-  font-size: 0.85rem;
-  font-weight: 900;
-  border: none;
-  cursor: pointer;
-  box-shadow: ${({ theme }) => theme.shadows.glow};
+  color: ${({ theme }) => theme.colors.onAccent};
+  font-size: 0.88rem;
+  font-weight: 700;
   transition: transform 0.2s;
-
   &:hover {
     transform: translateY(-2px);
   }
 `;
+const ReadMore = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.accent};
+`;
+const Note = styled.p`
+  padding: 20px 22px;
+  border-radius: ${({ theme }) => theme.radius.md};
+  border: 1px solid rgba(255, 106, 0, 0.35);
+  background: rgba(255, 106, 0, 0.06);
+  line-height: 1.65;
+`;
 
-// ─── Main Component ───────────────────────────────────────────────────────────
-export const TrainingPage = ({ programId, onNavigateHome }: Props) => {
-  const config = trainingPrograms[programId] || trainingPrograms.calisthenics;
-
-  // Weekday State
+// ─── Weekday / weekend booking blocks (calisthenics + kids) ─────────────────
+const Schedule = ({ config }: { config: TrainingProgramConfig }) => {
   const [weekdayTiming, setWeekdayTiming] = useState<string>(
     config.weekdaySession.morningTimings[0]?.time ||
       config.weekdaySession.eveningTimings[0]?.time ||
-      ""
+      "",
   );
   const [weekdayTier, setWeekdayTier] = useState<PricingTier>(
-    config.weekdaySession.pricing[1] || config.weekdaySession.pricing[0]
+    config.weekdaySession.pricing[1] || config.weekdaySession.pricing[0],
   );
-
-  // Weekend State
   const [weekendTiming, setWeekendTiming] = useState<string>(
-    config.weekendSession.morningTimings[0]?.time || ""
+    config.weekendSession.morningTimings[0]?.time || "",
   );
-  const [weekendTier, setWeekendTier] = useState<PricingTier>(
-    config.weekendSession.pricing[0]
-  );
+  const [weekendTier, setWeekendTier] = useState<PricingTier>(config.weekendSession.pricing[0]);
+  const [bookingContext, setBookingContext] = useState<BookingContext | null>(null);
 
-  // Modal State
-  const [bookingContext, setBookingContext] = useState<BookingContext | null>(
-    null
-  );
-
-  const handleOpenWeekdayBooking = () => {
+  const open = (batch: string, timing: string, tier: PricingTier) =>
     setBookingContext({
       trainingType: config.id,
-      batch: config.weekdaySession.batchName,
-      timing: weekdayTiming,
-      duration: weekdayTier.duration,
-      price: weekdayTier.price,
-      priceDisplay: weekdayTier.displayPrice,
+      batch,
+      timing,
+      duration: tier.duration,
+      price: tier.price,
+      priceDisplay: tier.displayPrice,
     });
-  };
-
-  const handleOpenWeekendBooking = () => {
-    setBookingContext({
-      trainingType: config.id,
-      batch: config.weekendSession.batchName,
-      timing: weekendTiming,
-      duration: weekendTier.duration,
-      price: weekendTier.price,
-      priceDisplay: weekendTier.displayPrice,
-    });
-  };
 
   return (
-    <PageContainer>
-      {/* Top Header */}
-      <HeaderNav>
-        <BackButton onClick={onNavigateHome}>
-          <ArrowLeft size={16} /> BACK TO LAB
-        </BackButton>
-        <BrandLogo>
-          <img src={mainLogo} alt="Indian Calisthenics School Logo" />
-          INDIAN CALISTHENICS <span>SCHOOL</span>
-        </BrandLogo>
-      </HeaderNav>
-
-      {/* Weekdays Group Session */}
-      <ContentSection id="weekday-sessions">
-        <SectionHeader>
-          <SectionTitle>
-            <Calendar size={28} /> WEEKDAYS GROUP SESSION
-          </SectionTitle>
-          <SectionSub>
-            Choose your preferred time slot and duration for weekday coaching.
-          </SectionSub>
-        </SectionHeader>
-
-        {/* Timings */}
+    <>
+      <div id="weekday-sessions">
+        <SessionTitle>
+          <Calendar size={26} aria-hidden="true" /> {config.weekdaySession.batchName}
+        </SessionTitle>
+        <SessionSub>Choose your preferred time slot and plan.</SessionSub>
         <TimingSelector
           morningTimings={config.weekdaySession.morningTimings}
           eveningTimings={config.weekdaySession.eveningTimings}
           selectedTiming={weekdayTiming}
           onSelectTiming={setWeekdayTiming}
         />
-
-        {/* Pricing Tiers */}
         <PricingSelector
           tiers={config.weekdaySession.pricing}
           selectedTierId={weekdayTier.id}
           onSelectTier={setWeekdayTier}
         />
-
         <BookingActionArea>
-          <ActionButton onClick={handleOpenWeekdayBooking}>
+          <ActionButton
+            onClick={() => open(config.weekdaySession.batchName, weekdayTiming, weekdayTier)}
+          >
             BOOK WEEKDAY DEMO <Sparkles size={16} />
           </ActionButton>
         </BookingActionArea>
-      </ContentSection>
+      </div>
 
-      <SectionDivider />
+      <Divider />
 
-      {/* Weekend Group Session */}
-      <ContentSection id="weekend-sessions">
-        <SectionHeader>
-          <SectionTitle>
-            <Calendar size={28} /> WEEKEND GROUP SESSION
-          </SectionTitle>
-          <SectionSub>
-            Focused weekend batches for intense skill progression and strength.
-          </SectionSub>
-        </SectionHeader>
-
-        {/* Timings */}
+      <div id="weekend-sessions">
+        <SessionTitle>
+          <Calendar size={26} aria-hidden="true" /> {config.weekendSession.batchName}
+        </SessionTitle>
+        <SessionSub>Weekend batches for focused skill progression and strength.</SessionSub>
         <TimingSelector
           morningTimings={config.weekendSession.morningTimings}
           eveningTimings={config.weekendSession.eveningTimings}
           selectedTiming={weekendTiming}
           onSelectTiming={setWeekendTiming}
         />
-
-        {/* Pricing Tiers */}
         <PricingSelector
           tiers={config.weekendSession.pricing}
           selectedTierId={weekendTier.id}
           onSelectTier={setWeekendTier}
         />
-
         <BookingActionArea>
-          <ActionButton onClick={handleOpenWeekendBooking}>
+          <ActionButton
+            onClick={() => open(config.weekendSession.batchName, weekendTiming, weekendTier)}
+          >
             BOOK WEEKEND DEMO <Sparkles size={16} />
           </ActionButton>
         </BookingActionArea>
-      </ContentSection>
+      </div>
 
-      {/* Shared Footer */}
-      <Footer />
-
-      {/* Booking Modal */}
       <AnimatePresence>
         {bookingContext && (
+          <BookingModal context={bookingContext} onClose={() => setBookingContext(null)} />
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+export const TrainingPage = ({ slug }: Props) => {
+  const page = programPages[slug];
+  const config = page.schedule ? trainingPrograms[page.schedule] : null;
+  const [ptBooking, setPtBooking] = useState(false);
+
+  return (
+    <>
+      <PageHeader
+        crumbs={[
+          { name: "Home", path: "/" },
+          { name: page.name, path: page.path },
+        ]}
+        eyebrow="Madhapur · Near Mindspace & HITEC City"
+        title={page.h1}
+        intro={page.intro}
+        image={page.image}
+      >
+        <ContactActions whatsappText={page.whatsappText} />
+      </PageHeader>
+
+      <PageSection $alt>
+        <Container>
+          <H2>{page.highlightsTitle}</H2>
+          <Highlights>
+            {page.highlights.map((h) => (
+              <Highlight key={h.title}>
+                <h3>{h.title}</h3>
+                <p>{h.text}</p>
+              </Highlight>
+            ))}
+          </Highlights>
+        </Container>
+      </PageSection>
+
+      <PageSection>
+        <Container>
+          <TwoCol>
+            <div>
+              <H2>Who it's for</H2>
+              <Bullets>
+                {page.forWhom.map((w) => (
+                  <li key={w}>{w}</li>
+                ))}
+              </Bullets>
+              <ReadMore to={page.relatedPost.path}>
+                Read: {page.relatedPost.title} <ArrowRight size={16} />
+              </ReadMore>
+            </div>
+            <Photos>
+              {page.gallery.map((img) => (
+                <Img key={img.src} image={img} sizes="(min-width: 768px) 25vw, 50vw" />
+              ))}
+            </Photos>
+          </TwoCol>
+        </Container>
+      </PageSection>
+
+      <PageSection $alt id="timings">
+        <Container>
+          <H2>{config ? "Timings & fees" : "Fees & booking"}</H2>
+          {config ? (
+            <Schedule config={config} />
+          ) : (
+            <>
+              <Note>{page.pricingNote}</Note>
+              {slug === "personal-training" && (
+                <BookingActionArea style={{ justifyContent: "flex-start" }}>
+                  <ActionButton onClick={() => setPtBooking(true)}>
+                    BOOK A DEMO SESSION <Sparkles size={16} />
+                  </ActionButton>
+                </BookingActionArea>
+              )}
+              <ContactActions whatsappText={page.whatsappText} />
+            </>
+          )}
+        </Container>
+      </PageSection>
+
+      <PageSection>
+        <Container style={{ maxWidth: 820 }}>
+          <H2>Frequently asked questions</H2>
+          <FaqList faqs={page.faqs} />
+          <Lead style={{ marginTop: 28 }}>
+            Still have questions? <Link to="/contact">Contact us</Link> or see our{" "}
+            <Link to="/#faq">general FAQs</Link>.
+          </Lead>
+        </Container>
+      </PageSection>
+
+      <AnimatePresence>
+        {ptBooking && (
           <BookingModal
-            context={bookingContext}
-            onClose={() => setBookingContext(null)}
+            context={{
+              trainingType: "personal-training",
+              batch: "Personal Training",
+              timing: null,
+              duration: null,
+              price: null,
+              priceDisplay: null,
+            }}
+            onClose={() => setPtBooking(false)}
           />
         )}
       </AnimatePresence>
-    </PageContainer>
+    </>
   );
 };

@@ -4,7 +4,7 @@ import { CalendarDays, MapPin, ArrowUpRight } from "lucide-react";
 import hero from "../assets/hero.png";
 const Section = styled.section`
   padding: 100px 16px;
-  background: #050505;
+  background: #0A0A0A;
 `;
 const Wrap = styled.div`
   max-width: 1100px;
@@ -16,14 +16,14 @@ const Head = styled.div`
 `;
 const Tag = styled.div`
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.12em;
   color: ${({ theme }) => theme.colors.orange};
   margin-bottom: 12px;
 `;
 const H = styled.h2`
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
+  font-weight: 800;
   color: white;
   span {
     background: ${({ theme }) => theme.gradients.fire};
@@ -44,7 +44,7 @@ const Grid = styled.div`
 const Card = styled(motion.article)`
   overflow: hidden;
   border-radius: ${({ theme }) => theme.radius.md};
-  background: #151515;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: ${({ theme }) => theme.shadows.card};
   transition: 0.25s;
@@ -77,9 +77,9 @@ const Type = styled.span`
   padding: 7px 9px;
   border-radius: 99px;
   background: ${({ theme }) => theme.gradients.fire};
-  color: #fff;
+  color: ${({ theme }) => theme.colors.onAccent};
   font-size: 0.62rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.08em;
 `;
 const Body = styled.div`
@@ -87,7 +87,7 @@ const Body = styled.div`
 `;
 const Title = styled.h3`
   font-size: 1.25rem;
-  font-weight: 900;
+  font-weight: 800;
   margin-bottom: 12px;
   color: white;
 `;
@@ -98,10 +98,10 @@ const Link = styled.a`
   gap: 5px;
   margin-top: 16px;
   color: ${({ theme }) => theme.colors.orange};
-  font-weight: 900;
+  font-weight: 800;
   font-size: 0.75rem;
   &:hover {
-    color: #ff7a00;
+    color: #FF6A00;
   }
 `;
 const events = [

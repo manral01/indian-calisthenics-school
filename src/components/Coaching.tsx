@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useCharacter } from "./character";
+import { Link } from "../router";
 
 const Section = styled.section`
   padding: 40px 16px;
-  background: #0d0d0d;
+  background: #0F0F0F;
   position: relative;
   overflow: hidden;
   &:before,
@@ -36,14 +38,14 @@ const Wrap = styled(motion.div)`
 `;
 const Tag = styled.div`
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.12em;
   color: ${({ theme }) => theme.colors.orange};
   margin-bottom: 13px;
 `;
 const H = styled.h2`
   font-size: clamp(2.7rem, 7vw, 5.5rem);
-  font-weight: 900;
+  font-weight: 800;
   margin-bottom: 19px;
   color: white;
 `;
@@ -64,7 +66,7 @@ const Buttons = styled.div`
     justify-content: center;
   }
 `;
-const Button = styled.a<{ $dark?: boolean }>`
+const Button = styled(Link)<{ $dark?: boolean }>`
   display: flex;
   gap: 8px;
   align-items: center;
@@ -72,10 +74,10 @@ const Button = styled.a<{ $dark?: boolean }>`
   min-width: 185px;
   padding: 15px 23px;
   border-radius: 99px;
-  font-weight: 900;
+  font-weight: 800;
   font-size: 0.8rem;
   background: ${({ $dark, theme }) => ($dark ? "rgba(255,255,255,.06)" : theme.gradients.fire)};
-  color: white;
+  color: ${({ $dark, theme }) => ($dark ? "white" : theme.colors.onAccent)};
   border: ${({ $dark }) => ($dark ? "1px solid rgba(255,255,255,.2)" : "none")};
   box-shadow: ${({ $dark, theme }) => ($dark ? "none" : theme.shadows.glow)};
   transition: 0.25s;
@@ -84,7 +86,10 @@ const Button = styled.a<{ $dark?: boolean }>`
     ${({ $dark, theme }) => ($dark ? `border-color:${theme.colors.orange};color:${theme.colors.orange};` : "opacity:.9")}
   }
 `;
-export const Coaching = () => (
+export const Coaching = () => {
+  const { setHoverPose, triggerClickPose } = useCharacter();
+
+  return (
   <Section id="coaching">
     <Wrap
       initial={{ opacity: 0, y: 25 }}
@@ -93,11 +98,7 @@ export const Coaching = () => (
     >
       <Tag>PERSONALISED COACHING</Tag>
       <H>
-        READY TO BUILD
-        <br />
-        WHAT YOUR BODY
-        <br />
-        IS CAPABLE OF?
+        Ready to build what your body is <span>capable of?</span>
       </H>
       <Copy>
         Indian Calisthenics School offers structured training for all levels —
@@ -105,13 +106,16 @@ export const Coaching = () => (
         Personal and online training available.
       </Copy>
       <Buttons>
-        <Button href="#skills">
-          JOIN THE SCHOOL <ArrowRight size={17} />
+        <Button
+          to="/contact"
+          onMouseEnter={() => setHoverPose("prepare_pull")}
+          onMouseLeave={() => setHoverPose(null)}
+          onClick={() => triggerClickPose("muscleup")}
+        >
+          BOOK A DEMO <ArrowRight size={17} />
         </Button>
-        {/* <Button $dark href={`mailto:${business.email}`}>
-          <MessageCircle size={17} /> CONTACT US
-        </Button> */}
       </Buttons>
     </Wrap>
   </Section>
-);
+  );
+};

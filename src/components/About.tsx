@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
-import hero from "../assets/WhatsApp Image 2026-08-26 at 15.35.03.jpeg";
+import { images } from "../data/images";
+import { Link } from "../router";
 import { business } from "../data/business";
+import { useCharacter } from "./character";
+import type { PoseName } from "./character";
 const Section = styled.section`
   padding: 10px 12px;
-  background: #0d0d0d;
+  background: #0F0F0F;
 `;
 const Wrap = styled.div`
   max-width: 1100px;
@@ -48,7 +51,7 @@ const Badge = styled.div`
   left: 50px;
   top: 20px;
   color: white;
-  background: rgba(5, 5, 5, 0.75);
+  background: rgba(10, 10, 10, 0.75);
   backdrop-filter: blur(12px);
   padding: 5px 9px;
   border-radius: ${({ theme }) => theme.radius.pill};
@@ -62,7 +65,7 @@ const Tag = styled.div`
   padding: 8px 14px;
   border-radius: ${({ theme }) => theme.radius.pill};
   background: ${({ theme }) => theme.gradients.fire};
-  color: white;
+  color: ${({ theme }) => theme.colors.onAccent};
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -70,7 +73,7 @@ const Tag = styled.div`
 `;
 const Heading = styled.h2`
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
+  font-weight: 800;
   margin-bottom: 18px;
   color: white;
   span {
@@ -96,7 +99,7 @@ const Principle = styled.div`
   gap: 8px;
   padding: 13px;
   border-radius: ${({ theme }) => theme.radius.sm};
-  background: #151515;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 0.75rem;
   font-weight: 800;
@@ -106,7 +109,20 @@ const Principle = styled.div`
     color: ${({ theme }) => theme.colors.orange};
   }
 `;
-export const About = () => (
+/** Pose preview for each discipline tag hover */
+const TAG_POSES: Record<string, PoseName> = {
+  CALISTHENICS: "prepare_push",
+  STRENGTH: "dip",
+  MOBILITY: "prepare_balance",
+  FREESTYLE: "prepare_skill",
+  "KIDS TRAINING": "lsit",
+  "OPEN GYM": "standing",
+};
+
+export const About = () => {
+  const { setHoverPose, triggerClickPose } = useCharacter();
+
+  return (
   <Section id="about">
     <Wrap>
       <ImageBox
@@ -115,8 +131,14 @@ export const About = () => (
         viewport={{ once: true }}
       >
         <motion.img
-          src={hero}
-          alt="Indian Calisthenics School coaching space"
+          src={images.spot.src}
+          srcSet={images.spot.srcSet}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          width={images.spot.width}
+          height={images.spot.height}
+          loading="lazy"
+          decoding="async"
+          alt={images.spot.alt}
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -129,16 +151,20 @@ export const About = () => (
       >
         <Tag>ABOUT INDIAN CALISTHENICS SCHOOL</Tag>
         <Heading>
-          MOVE WITH <span>INTENTION.</span>
+          Move with <span>intention.</span>
         </Heading>
         <Copy>
-          Indian Calisthenics School is a training space in Madhapur, Hyderabad
-          focused on calisthenics, strength, mobility, freestyle and kids
-          training.
+          Indian Calisthenics School is a training space in Madhapur, near
+          Mindspace and HITEC City, Hyderabad, focused on calisthenics,
+          strength, mobility, freestyle and kids training.
         </Copy>
         <Copy>
-          "{business.tagline}" Training is available from beginner to advanced
-          levels.
+          Founded by {business.founder.name}, 3× national calisthenics champion
+          who has represented India 3 times. "{business.tagline}" Training is
+          available from beginner to advanced levels.{" "}
+          <Link to="/about" style={{ color: "#FF6A00", fontWeight: 700 }}>
+            Meet the founder →
+          </Link>
         </Copy>
         <Principles>
           {[
@@ -149,7 +175,16 @@ export const About = () => (
             "KIDS TRAINING",
             "OPEN GYM",
           ].map((p) => (
-            <Principle key={p}>
+            <Principle
+              key={p}
+              onMouseEnter={() => setHoverPose(TAG_POSES[p] ?? null)}
+              onMouseLeave={() => setHoverPose(null)}
+              onClick={() => {
+                const pose = TAG_POSES[p];
+                if (pose) triggerClickPose(pose);
+              }}
+              style={{ cursor: "pointer" }}
+            >
               <Check size={16} />
               {p}
             </Principle>
@@ -158,4 +193,5 @@ export const About = () => (
       </motion.div>
     </Wrap>
   </Section>
-);
+  );
+};

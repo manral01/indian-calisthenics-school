@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/fetch-reviews.mjs && tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prettier": "prettier . --write"
+    "prettier": "prettier . --write",
+    "optimize-images": "./scripts/optimize-images.sh"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

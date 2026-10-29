@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { skillsData } from "../data/skills";
-import hero from "../assets/hero.png";
+import { ArrowRight } from "lucide-react";
+import { programList, type ProgramSlug } from "../data/programPages";
+import { Link } from "../router";
+import { Img } from "./ui";
+import { useCharacter } from "./character";
+import type { PoseName } from "./character";
 
 const Section = styled.section`
-  padding: 40px 16px;
-  background: #050505;
+  padding: 56px 16px;
+  background: #0A0A0A;
 `;
 
 const Wrap = styled.div`
@@ -20,151 +24,207 @@ const Header = styled.div`
 `;
 
 const H = styled.h2`
-  font-size: clamp(2.5rem, 5vw, 4.2rem);
-  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
   color: white;
+  margin-bottom: 14px;
   span {
-    background: ${({ theme }) => theme.gradients.fire};
-    -webkit-background-clip: text;
-    color: transparent;
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
+const Sub = styled.p`
+  color: ${({ theme }) => theme.colors.muted};
+  line-height: 1.7;
+`;
+
+// 2×2 grid of square cards at every screen size
 const Grid = styled.div`
   display: grid;
-  gap: 18px;
-  grid-template-columns: 1fr;
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  max-width: 920px;
+  margin: 0 auto;
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    gap: 18px;
   }
 `;
 
 const Card = styled(motion.article)`
-  overflow: hidden;
-  border-radius: ${({ theme }) => theme.radius.md};
-  background: #151515;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  transition: all 0.3s ease;
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 28px 65px rgba(255, 106, 0, 0.15);
-    border-color: rgba(255, 106, 0, 0.25);
-  }
-`;
-
-const ImageContainer = styled.div`
-  height: 180px;
   position: relative;
   overflow: hidden;
-  background: #080808;
-
-  &:after {
+  border-radius: ${({ theme }) => theme.radius.md};
+  background: #0d0d0d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: ${({ theme }) => theme.shadows.card};
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  &:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 106, 0, 0.45);
+  }
+  a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    aspect-ratio: 1 / 1;
+  }
+  /* Photo fills the card; text sits on top of it */
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  &:hover img {
+    transform: scale(1.06);
+  }
+  a::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
       0deg,
-      rgba(21, 21, 21, 0.95) 0%,
-      rgba(0, 0, 0, 0.2) 60%,
-      transparent 100%
+      rgba(10, 10, 10, 0.88) 0%,
+      rgba(10, 10, 10, 0.55) 35%,
+      rgba(10, 10, 10, 0.12) 65%,
+      rgba(10, 10, 10, 0) 100%
     );
   }
 `;
 
-const CardImg = styled(motion.img)`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.5s ease;
-`;
-
 const Body = styled.div`
-  padding: 18px 20px 22px;
+  position: relative;
+  z-index: 1;
+  padding: 14px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 24px;
+  }
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
 `;
 
-const Level = styled.div`
-  font-size: 0.69rem;
-  color: ${({ theme }) => theme.colors.orange};
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  margin-bottom: 7px;
+const Level = styled.p`
+  display: inline-block;
+  white-space: nowrap;
+  padding: 4px 9px;
+  border-radius: ${({ theme }) => theme.radius.pill};
+  background: rgba(10, 10, 10, 0.7);
+  text-shadow: none;
+  font-size: 0.62rem;
+  color: ${({ theme }) => theme.colors.accent};
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 6px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.7rem;
+  }
 `;
 
 const Title = styled.h3`
-  font-size: 1.4rem;
-  font-weight: 900;
-  margin-bottom: 9px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
   color: white;
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 1.6rem;
+  }
 `;
 
 const Desc = styled.p`
-  font-size: 0.88rem;
-  line-height: 1.55;
-  color: ${({ theme }) => theme.colors.muted};
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 14px;
+  max-width: 34ch;
+  /* Too cramped on small squares: title + link only */
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
 
-interface SkillsProps {
-  onNavigate?: (path: string) => void;
-  onOpenPersonalTraining?: () => void;
-}
+const More = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.accent};
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.88rem;
+  }
+`;
 
-export const Skills = ({ onNavigate, onOpenPersonalTraining }: SkillsProps) => {
-  const list = skillsData;
+const CARD: Record<ProgramSlug, { level: string; summary: string; hover: PoseName; click: PoseName }> = {
+  calisthenics: {
+    level: "ALL LEVELS",
+    summary: "Structured group batches, mornings, evenings and weekends.",
+    hover: "prepare_push",
+    click: "pushup",
+  },
+  kids: {
+    level: "KIDS",
+    summary: "Supervised classes built around movement fundamentals.",
+    hover: "prepare_skill",
+    click: "lsit",
+  },
+  "personal-training": {
+    level: "1-ON-1 · ONLINE",
+    summary: "A dedicated coach and a plan built around your goals.",
+    hover: "prepare_pull",
+    click: "pullup",
+  },
+  "freestyle-parkour": {
+    level: "DYNAMIC SKILLS",
+    summary: "Bar flow, vaults and safe landings, step by step.",
+    hover: "prepare_balance",
+    click: "handstand",
+  },
+};
 
-  const handleCardClick = (skillName: string) => {
-    if (skillName === "Calisthenics") {
-      if (onNavigate) onNavigate("/training/calisthenics");
-      else window.history.pushState({}, "", "/training/calisthenics");
-    } else if (skillName === "Kids Training") {
-      if (onNavigate) onNavigate("/training/kids");
-      else window.history.pushState({}, "", "/training/kids");
-    } else if (skillName.includes("Personal Training")) {
-      if (onOpenPersonalTraining) onOpenPersonalTraining();
-    }
-  };
+export const Skills = () => {
+  const { setHoverPose, triggerClickPose } = useCharacter();
 
   return (
     <Section id="skills">
       <Wrap>
         <Header>
           <H>
-            <span>TRAINING PROGRAMS</span>
+            Training <span>Programs</span>
           </H>
+          <Sub>
+            Every program runs from our space in Madhapur, near Mindspace and
+            HITEC City, Hyderabad.
+          </Sub>
         </Header>
         <Grid>
-          {list.map((skill, i) => (
-            <Card
-              key={skill.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileTap={{ scale: 0.97 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.07 }}
-              onClick={() => handleCardClick(skill.name)}
-              style={{ cursor: "pointer" }}
-            >
-              <ImageContainer>
-                <CardImg
-                  src={skill.image || hero}
-                  alt={`${skill.name} training`}
-                  initial={{ scale: 1.12 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                />
-              </ImageContainer>
-              <Body>
-                <Level>{skill.level}</Level>
-                <Title>{skill.name}</Title>
-                <Desc>{skill.description}</Desc>
-              </Body>
-            </Card>
-          ))}
+          {programList.map((p, i) => {
+            const card = CARD[p.slug];
+            return (
+              <Card
+                key={p.slug}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.07 }}
+                onMouseEnter={() => setHoverPose(card.hover)}
+                onMouseLeave={() => setHoverPose(null)}
+              >
+                <Link to={p.path} onClick={() => triggerClickPose(card.click)}>
+                  <Img image={p.image} sizes="(min-width: 920px) 450px, 50vw" />
+                  <Body>
+                    <Level>{card.level}</Level>
+                    <Title>{p.name}</Title>
+                    <Desc>{card.summary}</Desc>
+                    <More>
+                      Timings &amp; details <ArrowRight size={15} />
+                    </More>
+                  </Body>
+                </Link>
+              </Card>
+            );
+          })}
         </Grid>
       </Wrap>
     </Section>

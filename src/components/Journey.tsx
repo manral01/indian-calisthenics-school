@@ -4,7 +4,7 @@ import { Clock3, CalendarDays } from "lucide-react";
 import { schedule } from "../data/schedule";
 const Section = styled.section`
   padding: 100px 16px;
-  background: #050505;
+  background: #0A0A0A;
 `;
 const Wrap = styled.div`
   max-width: 1040px;
@@ -16,14 +16,14 @@ const Head = styled.div`
 `;
 const Tag = styled.div`
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.12em;
   color: ${({ theme }) => theme.colors.orange};
   margin-bottom: 12px;
 `;
 const H = styled.h2`
   font-size: clamp(2.4rem, 5vw, 4rem);
-  font-weight: 900;
+  font-weight: 800;
   color: white;
   span {
     background: ${({ theme }) => theme.gradients.fire};
@@ -41,14 +41,14 @@ const Grid = styled.div`
 const Card = styled(motion.article)`
   padding: 28px;
   border-radius: ${({ theme }) => theme.radius.lg};
-  background: #151515;
+  background: #141414;
   box-shadow: ${({ theme }) => theme.shadows.card};
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-top: 3px solid ${({ theme }) => theme.colors.orange};
 `;
 const Name = styled.h3`
   font-size: 1.6rem;
-  font-weight: 900;
+  font-weight: 800;
   margin-bottom: 18px;
   color: white;
 `;

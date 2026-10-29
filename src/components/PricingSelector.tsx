@@ -31,7 +31,7 @@ const Card = styled(motion.div)<{ $active: boolean }>`
   padding: 24px;
   border-radius: ${({ theme }) => theme.radius.lg};
   background: ${({ $active }) =>
-    $active ? "rgba(255, 106, 0, 0.08)" : "#151515"};
+    $active ? "rgba(255, 106, 0, 0.08)" : "#141414"};
   border: 2px solid
     ${({ $active, theme }) =>
       $active ? theme.colors.orange : "rgba(255, 255, 255, 0.08)"};
@@ -57,23 +57,23 @@ const Badge = styled.div`
   padding: 4px 10px;
   border-radius: 99px;
   background: ${({ theme }) => theme.gradients.fire};
-  color: white;
+  color: ${({ theme }) => theme.colors.onAccent};
   font-size: 0.65rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.08em;
   box-shadow: 0 4px 12px rgba(255, 106, 0, 0.4);
 `;
 
 const DurationTitle = styled.h4`
   font-size: 1.2rem;
-  font-weight: 900;
+  font-weight: 800;
   color: white;
   margin-bottom: 6px;
 `;
 
 const PriceTag = styled.div`
   font-size: 1.8rem;
-  font-weight: 900;
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.orange};
   margin-bottom: 16px;
 `;

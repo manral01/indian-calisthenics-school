@@ -1,11 +1,10 @@
-import { useState } from "react";
 import styled from "styled-components";
-import { AnimatePresence, motion } from "framer-motion";
-import { Minus, Plus } from "lucide-react";
 import { faqData } from "../data/faq";
+import { FaqList } from "./ui";
+
 const Section = styled.section`
-  padding: 40px 16px;
-  background: #0d0d0d;
+  padding: 56px 16px;
+  background: #0F0F0F;
 `;
 const Wrap = styled.div`
   max-width: 800px;
@@ -13,78 +12,30 @@ const Wrap = styled.div`
 `;
 const Head = styled.div`
   text-align: center;
-  margin-bottom: 33px;
+  margin-bottom: 32px;
 `;
-const Tag = styled.div`
+const Tag = styled.p`
   font-size: 0.72rem;
-  font-weight: 900;
-  color: ${({ theme }) => theme.colors.orange};
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: 0.16em;
   margin-bottom: 12px;
 `;
 const H = styled.h2`
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
-  color: white;
-`;
-const Item = styled.div`
-  background: #151515;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: ${({ theme }) => theme.radius.md};
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  margin-bottom: 11px;
-  overflow: hidden;
-`;
-const Button = styled.button`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  text-align: left;
-  background: #151515;
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 800;
   color: white;
-  svg {
-    color: ${({ theme }) => theme.colors.orange};
-    flex: none;
-  }
 `;
-const Answer = styled(motion.div)`
-  padding: 0 20px 20px;
-  color: ${({ theme }) => theme.colors.muted};
-  line-height: 1.65;
-`;
-export const FAQ = () => {
-  const [open, setOpen] = useState<number | null>(null);
-  return (
-    <Section id="faq">
-      <Wrap>
-        <Head>
-          <Tag>HELPFUL DETAILS</Tag>
-          <H>FAQ</H>
-        </Head>
-        {faqData.map((item, i) => (
-          <Item key={item.question}>
-            <Button onClick={() => setOpen(open === i ? null : i)}>
-              {item.question}
-              {open === i ? <Minus size={18} /> : <Plus size={18} />}
-            </Button>
-            <AnimatePresence>
-              {open === i && (
-                <Answer
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                >
-                  {item.answer}
-                </Answer>
-              )}
-            </AnimatePresence>
-          </Item>
-        ))}
-      </Wrap>
-    </Section>
-  );
-};
+
+// Text must stay identical to the FAQPage schema; both read faqData.
+export const FAQ = () => (
+  <Section id="faq">
+    <Wrap>
+      <Head>
+        <Tag>HELPFUL DETAILS</Tag>
+        <H>Frequently asked questions</H>
+      </Head>
+      <FaqList faqs={faqData} />
+    </Wrap>
+  </Section>
+);

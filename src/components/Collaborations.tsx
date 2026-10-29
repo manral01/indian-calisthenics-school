@@ -4,7 +4,7 @@ import { CheckCircle2 } from "lucide-react";
 import { facilities } from "../data/schedule";
 const Section = styled.section`
   padding: 100px 16px;
-  background: #050505;
+  background: #0A0A0A;
 `;
 const Wrap = styled.div`
   max-width: 1080px;
@@ -17,14 +17,14 @@ const Head = styled.div`
 `;
 const Tag = styled.div`
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.12em;
   color: ${({ theme }) => theme.colors.orange};
   margin-bottom: 12px;
 `;
 const H = styled.h2`
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
+  font-weight: 800;
   color: white;
   span {
     background: ${({ theme }) => theme.gradients.fire};
@@ -46,11 +46,11 @@ const Grid = styled.div`
 const Card = styled(motion.div)`
   padding: 22px 15px;
   border-radius: ${({ theme }) => theme.radius.md};
-  background: #151515;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: ${({ theme }) => theme.shadows.card};
   font-size: 0.8rem;
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.35;
   color: white;
   transition: 0.25s;
