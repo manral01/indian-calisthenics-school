@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { business, whatsappLink } from '../data/business';
 import { X, AlertCircle } from 'lucide-react';
 
 // ─── Booking context shape ────────────────────────────────────────────────────
@@ -30,7 +31,7 @@ const Backdrop = styled(motion.div)`
 const Modal = styled(motion.div)`
   position: relative;
   width: 100%; max-width: 520px;
-  background: #151515;
+  background: #141414;
   border: 1px solid rgba(255,255,255,.10);
   border-radius: ${({ theme }) => theme.radius.lg};
   box-shadow: 0 40px 80px rgba(0,0,0,.7);
@@ -48,11 +49,11 @@ const CloseBtn = styled.button`
   color: white; cursor: pointer;
   display: grid; place-items: center;
   transition: background .2s;
-  &:hover { background: rgba(255,106,0,.2); border-color: rgba(255,106,0,.4); }
+  &:hover { background: rgba(255, 106, 0,.2); border-color: rgba(255, 106, 0,.4); }
 `;
 
 const ModalTitle = styled.h2`
-  font-size: 1.6rem; font-weight: 900; color: white; margin-bottom: 4px;
+  font-size: 1.6rem; font-weight: 800; color: white; margin-bottom: 4px;
 `;
 const ModalSub = styled.p`
   font-size: .8rem; color: ${({ theme }) => theme.colors.muted}; margin-bottom: 28px;
@@ -64,8 +65,8 @@ const ContextRow = styled.div`
 `;
 const Pill = styled.span`
   padding: 5px 12px; border-radius: 99px;
-  background: rgba(255,106,0,.12);
-  border: 1px solid rgba(255,106,0,.25);
+  background: rgba(255, 106, 0,.12);
+  border: 1px solid rgba(255, 106, 0,.25);
   font-size: .7rem; font-weight: 800; color: ${({ theme }) => theme.colors.orange};
   letter-spacing: .06em;
 `;
@@ -79,8 +80,8 @@ const Label = styled.label`
 `;
 const Input = styled.input<{ $error?: boolean }>`
   width: 100%; padding: 13px 16px;
-  background: #0D0D0D;
-  border: 1px solid ${({ $error }) => $error ? '#FF4D00' : 'rgba(255,255,255,.10)'};
+  background: #0F0F0F;
+  border: 1px solid ${({ $error }) => $error ? '#E85D00' : 'rgba(255,255,255,.10)'};
   border-radius: ${({ theme }) => theme.radius.sm};
   color: white; font-size: .9rem; font-family: inherit;
   outline: none; transition: border-color .2s;
@@ -89,25 +90,25 @@ const Input = styled.input<{ $error?: boolean }>`
 `;
 const Select = styled.select<{ $error?: boolean }>`
   width: 100%; padding: 13px 16px;
-  background: #0D0D0D;
-  border: 1px solid ${({ $error }) => $error ? '#FF4D00' : 'rgba(255,255,255,.10)'};
+  background: #0F0F0F;
+  border: 1px solid ${({ $error }) => $error ? '#E85D00' : 'rgba(255,255,255,.10)'};
   border-radius: ${({ theme }) => theme.radius.sm};
   color: white; font-size: .9rem; font-family: inherit;
   outline: none; transition: border-color .2s; cursor: pointer;
-  option { background: #151515; }
+  option { background: #141414; }
   &:focus { border-color: ${({ theme }) => theme.colors.orange}; }
 `;
 const ErrorMsg = styled.span`
   display: flex; align-items: center; gap: 5px;
-  font-size: .72rem; color: #FF4D00; margin-top: 5px;
+  font-size: .72rem; color: #E85D00; margin-top: 5px;
 `;
 
 const SubmitBtn = styled.button<{ $disabled: boolean }>`
   width: 100%; padding: 15px;
   border-radius: ${({ theme }) => theme.radius.pill};
   background: ${({ $disabled, theme }) => $disabled ? 'rgba(255,255,255,.06)' : theme.gradients.fire};
-  color: ${({ $disabled }) => $disabled ? 'rgba(255,255,255,.3)' : 'white'};
-  font-size: .88rem; font-weight: 900; letter-spacing: .05em;
+  color: ${({ $disabled, theme }) => $disabled ? 'rgba(255,255,255,.3)' : theme.colors.onAccent};
+  font-size: .88rem; font-weight: 800; letter-spacing: .05em;
   cursor: ${({ $disabled }) => $disabled ? 'not-allowed' : 'pointer'};
   border: 1px solid ${({ $disabled }) => $disabled ? 'rgba(255,255,255,.08)' : 'transparent'};
   box-shadow: ${({ $disabled, theme }) => $disabled ? 'none' : theme.shadows.glow};
@@ -116,7 +117,6 @@ const SubmitBtn = styled.button<{ $disabled: boolean }>`
   &:hover:not(:disabled) { opacity: .9; transform: translateY(-2px); }
 `;
 
-const WHATSAPP = '918826762234';
 const DURATIONS = ['Monthly', 'Quarterly', 'Half-Yearly', 'Yearly'];
 
 function validateEmail(v: string) {
@@ -158,7 +158,7 @@ export const BookingModal = ({ context, onClose }: Props) => {
       : 'N/A';
 
     const lines = [
-      `NEW BOOKING INQUIRY - CALI LAB`,
+      `NEW BOOKING INQUIRY - INDIAN CALISTHENICS SCHOOL, MADHAPUR`,
       ``,
       `Name: ${name.trim()}`,
       `Email: ${email.trim()}`,
@@ -170,11 +170,13 @@ export const BookingModal = ({ context, onClose }: Props) => {
         `Total Price: ${context.priceDisplay ?? 'N/A'}`,
       ]),
       ``,
-      `I'm interested in joining the lab. Please provide further details.`,
+      `I'm interested in joining Indian Calisthenics School. Please provide further details.`,
     ];
 
-    const msg = encodeURIComponent(lines.join('\n'));
-    window.open(`https://wa.me/${WHATSAPP}?text=${msg}`, '_blank');
+    const text = lines.join('\n');
+    const wa = whatsappLink(text);
+    if (wa) window.open(wa, '_blank');
+    else window.location.href = `mailto:${business.email}?subject=${encodeURIComponent('Demo booking enquiry')}&body=${encodeURIComponent(text)}`;
   };
 
   return (
@@ -193,7 +195,7 @@ export const BookingModal = ({ context, onClose }: Props) => {
         <CloseBtn onClick={onClose} aria-label="Close booking modal"><X size={16}/></CloseBtn>
 
         <ModalTitle>BOOK YOUR DEMO</ModalTitle>
-        <ModalSub>All fields are required to proceed to WhatsApp.</ModalSub>
+        <ModalSub>All fields are required to send your enquiry.</ModalSub>
 
         {/* Context summary */}
         <ContextRow>
@@ -258,7 +260,7 @@ export const BookingModal = ({ context, onClose }: Props) => {
         )}
 
         <SubmitBtn $disabled={!isValid} onClick={handleSubmit} disabled={!isValid}>
-          CONTINUE TO WHATSAPP →
+          {whatsappLink() ? 'CONTINUE TO WHATSAPP →' : 'SEND ENQUIRY BY EMAIL →'}
         </SubmitBtn>
       </Modal>
     </Backdrop>

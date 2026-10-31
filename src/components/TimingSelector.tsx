@@ -23,7 +23,7 @@ const GroupHeader = styled.div`
   align-items: center;
   gap: 8px;
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.1em;
   color: ${({ theme }) => theme.colors.orange};
   margin-bottom: 12px;
@@ -50,7 +50,7 @@ const SlotButton = styled.button<{ $active: boolean }>`
   transition: all 0.2s ease;
   background: ${({ $active, theme }) =>
     $active ? theme.gradients.fire : "rgba(255, 255, 255, 0.05)"};
-  color: ${({ $active }) => ($active ? "#ffffff" : "rgba(255, 255, 255, 0.7)")};
+  color: ${({ $active, theme }) => ($active ? theme.colors.onAccent : "rgba(255, 255, 255, 0.7)")};
   border: 1px solid
     ${({ $active, theme }) =>
       $active ? theme.colors.orange : "rgba(255, 255, 255, 0.10)"};
@@ -61,7 +61,7 @@ const SlotButton = styled.button<{ $active: boolean }>`
     background: ${({ $active, theme }) =>
       $active ? theme.gradients.fire : "rgba(255, 255, 255, 0.1)"};
     border-color: ${({ theme }) => theme.colors.orange};
-    color: #ffffff;
+    color: ${({ $active, theme }) => ($active ? theme.colors.onAccent : "#ffffff")};
     transform: translateY(-2px);
   }
 `;

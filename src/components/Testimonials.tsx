@@ -1,387 +1,160 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { motion, useReducedMotion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
-import { testimonialsData, type Testimonial } from "../data/testimonials";
-import { fetchLiveGoogleReviews, type LiveGooglePlaceData } from "../services/googleReviews";
+import { ExternalLink, Star } from "lucide-react";
+import googleReviews from "../data/googleReviews.json";
+import { business } from "../data/business";
 
-// ─── How many cards are visible at each breakpoint ───────────────────────────
-function getVisible(): number {
-  if (typeof window === "undefined") return 1;
-  if (window.innerWidth >= 1024) return 3;
-  if (window.innerWidth >= 768) return 2;
-  return 1;
+// Real Google reviews only, fetched at build time by scripts/fetch-reviews.mjs.
+// No review/rating schema is emitted (Google ignores self-served review markup).
+
+interface Review {
+  author: string;
+  authorUri: string;
+  rating: number;
+  text: string;
+  relativeTime: string;
 }
 
-const AUTO_DELAY = 4000; // ms between auto-advances
-
-// ─── Styled components ───────────────────────────────────────────────────────
+const reviews = googleReviews.reviews as Review[];
+const reviewsUrl =
+  business.googleBusinessProfile || googleReviews.googleMapsUri || business.maps;
 
 const Section = styled.section`
-  padding: 40px 16px;
-  background: #050505;
-  overflow: hidden;
+  padding: 56px 16px;
+  background: transparent;
 `;
-
 const Wrap = styled.div`
-  max-width: 1200px;
+  max-width: 1180px;
   margin: auto;
 `;
-
 const Head = styled.div`
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 `;
-
-const Tag = styled.div`
+const Tag = styled.p`
   font-size: 0.72rem;
-  font-weight: 900;
-  color: ${({ theme }) => theme.colors.orange};
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: 0.16em;
   margin-bottom: 12px;
 `;
-
 const H = styled.h2`
-  font-size: clamp(2.6rem, 5vw, 4.1rem);
-  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
   color: white;
   span {
-    background: ${({ theme }) => theme.gradients.fire};
-    -webkit-background-clip: text;
-    color: transparent;
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
-
-const Viewport = styled.div`
-  position: relative;
-  overflow: hidden;
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 60px;
-    z-index: 2;
-    pointer-events: none;
-  }
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, #050505, transparent);
-  }
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, #050505, transparent);
-  }
-`;
-
-const Track = styled(motion.div)`
-  display: flex;
-  gap: 20px;
-  will-change: transform;
-  cursor: grab;
-  &:active {
-    cursor: grabbing;
-  }
-`;
-
-const Card = styled.div`
-  flex-shrink: 0;
-  padding: 34px 25px;
-  border-radius: ${({ theme }) => theme.radius.lg};
-  background: #151515;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  text-align: center;
-  user-select: none;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: 40px 32px;
-  }
-`;
-
-const Avatar = styled.div`
+const Grid = styled.div`
   display: grid;
-  place-items: center;
-  width: 66px;
-  height: 66px;
-  margin: 0 auto 18px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.gradients.fire};
-  color: white;
-  font-weight: 900;
-  font-size: 1.3rem;
-  border: 4px solid rgba(255, 106, 0, 0.25);
-  box-shadow: 0 10px 22px rgba(255, 106, 0, 0.22);
+  gap: 16px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
-
+const Card = styled.figure`
+  margin: 0;
+  padding: 24px;
+  border-radius: ${({ theme }) => theme.radius.lg};
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  blockquote {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+  figcaption {
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: ${({ theme }) => theme.colors.muted};
+    a,
+    strong {
+      color: white;
+      font-weight: 700;
+    }
+  }
+`;
 const Stars = styled.div`
   display: flex;
-  justify-content: center;
   gap: 3px;
-  color: ${({ theme }) => theme.colors.orange};
-  margin-bottom: 14px;
+  color: ${({ theme }) => theme.colors.accent};
 `;
-
-const Text = styled.p`
-  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
-  font-weight: 500;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 20px;
-`;
-
-const Name = styled.div`
-  font-size: 0.85rem;
-  font-weight: 900;
-  letter-spacing: 0.07em;
-  color: white;
-`;
-
-const Label = styled.div`
-  margin-top: 4px;
-  color: ${({ theme }) => theme.colors.muted};
-  font-size: 0.75rem;
-`;
-
-const Controls = styled.div`
+const CTA = styled.a`
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-top: 32px;
-`;
-
-const Btn = styled.button`
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: ${({ theme }) => theme.gradients.fire};
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition:
-    opacity 0.2s,
-    transform 0.2s;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  width: fit-content;
+  margin: 28px auto 0;
+  padding: 0 24px;
+  border-radius: ${({ theme }) => theme.radius.pill};
+  border: 1px solid rgba(255, 106, 0, 0.45);
+  color: ${({ theme }) => theme.colors.accent};
+  font-weight: 700;
   &:hover {
-    opacity: 0.85;
-    transform: scale(1.08);
+    background: rgba(255, 106, 0, 0.08);
   }
 `;
-
-const Dots = styled.div`
-  display: flex;
-  gap: 7px;
-  align-items: center;
+const Empty = styled.p`
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.muted};
+  line-height: 1.7;
 `;
 
-const Dot = styled.button<{ $active: boolean }>`
-  width: ${({ $active }) => ($active ? "20px" : "7px")};
-  height: 7px;
-  border-radius: 99px;
-  border: none;
-  cursor: pointer;
-  background: ${({ $active, theme }) => ($active ? theme.colors.orange : "rgba(255,255,255,.2)")};
-  transition:
-    width 0.3s,
-    background 0.3s;
-`;
+export const Testimonials = () => (
+  <Section id="testimonials">
+    <Wrap>
+      <Head>
+        <Tag>GOOGLE REVIEWS</Tag>
+        <H>
+          What our students <span>say</span>
+        </H>
+      </Head>
 
-// ─── Component ────────────────────────────────────────────────────────────────
+      {reviews.length > 0 ? (
+        <Grid>
+          {reviews.map((r) => (
+            <Card key={r.author + r.relativeTime}>
+              <Stars aria-label={`${r.rating} out of 5 stars`}>
+                {Array.from({ length: r.rating }).map((_, i) => (
+                  <Star key={i} size={15} fill="currentColor" aria-hidden="true" />
+                ))}
+              </Stars>
+              <blockquote>{r.text}</blockquote>
+              <figcaption>
+                {r.authorUri ? (
+                  <a href={r.authorUri} target="_blank" rel="noopener noreferrer nofollow">
+                    {r.author}
+                  </a>
+                ) : (
+                  <strong>{r.author}</strong>
+                )}{" "}
+                · Google review{r.relativeTime && ` · ${r.relativeTime}`}
+              </figcaption>
+            </Card>
+          ))}
+        </Grid>
+      ) : (
+        <Empty>
+          Read what students say about {business.name}, Madhapur, in their own
+          words on Google.
+        </Empty>
+      )}
 
-export const Testimonials = () => {
-  const prefersReduced = useReducedMotion();
-  const [googleData, setGoogleData] = useState<LiveGooglePlaceData | null>(null);
-
-  useEffect(() => {
-    fetchLiveGoogleReviews().then(setGoogleData);
-  }, []);
-
-  const reviewsList: Testimonial[] = googleData?.reviews || testimonialsData;
-  const total = reviewsList.length;
-
-  const [visible, setVisible] = useState(getVisible);
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const onResize = () => setVisible(getVisible());
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
-    setIndex((i) => Math.min(i, Math.max(0, total - visible)));
-  }, [visible, total]);
-
-  const clamp = useCallback(
-    (n: number) => Math.max(0, Math.min(n, total - visible)),
-    [total, visible],
-  );
-
-  const goTo = useCallback((n: number) => setIndex(clamp(n)), [clamp]);
-
-  const next = useCallback(() => {
-    setIndex((i) => {
-      const nextIdx = i + 1;
-      return nextIdx > total - visible ? 0 : nextIdx;
-    });
-  }, [total, visible]);
-
-  const prev = useCallback(() => {
-    setIndex((i) => {
-      const prevIdx = i - 1;
-      return prevIdx < 0 ? Math.max(0, total - visible) : prevIdx;
-    });
-  }, [total, visible]);
-
-  const resetTimer = useCallback(() => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    if (!paused && !prefersReduced) {
-      timerRef.current = setTimeout(() => {
-        next();
-      }, AUTO_DELAY);
-    }
-  }, [paused, prefersReduced, next]);
-
-  useEffect(() => {
-    resetTimer();
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [index, paused, resetTimer]);
-
-  const pause = useCallback(() => setPaused(true), []);
-  const resume = useCallback(() => setPaused(false), []);
-
-  const GAP = 20;
-  const [cardWidth, setCardWidth] = useState(0);
-
-  useEffect(() => {
-    const measure = () => {
-      if (trackRef.current) {
-        const trackW = trackRef.current.parentElement?.clientWidth ?? 0;
-        setCardWidth((trackW - GAP * (visible - 1)) / visible);
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [visible]);
-
-  const translateX = -(index * (cardWidth + GAP));
-
-  return (
-    <Section id="testimonials">
-      <Wrap>
-        <Head>
-          <Tag>LIVE GOOGLE MAPS REVIEWS</Tag>
-          <H>
-            RESULTS <span>SPEAK.</span>
-          </H>
-        </Head>
-
-        <Viewport
-          onMouseEnter={pause}
-          onMouseLeave={resume}
-          onFocus={pause}
-          onBlur={resume}
-        >
-          <Track
-            ref={trackRef}
-            animate={{ x: prefersReduced ? 0 : translateX }}
-            transition={{
-              type: "spring",
-              stiffness: 280,
-              damping: 32,
-              mass: 1,
-            }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.08}
-            onDragStart={pause}
-            onDragEnd={(_, info) => {
-              const threshold = 50;
-              if (info.offset.x < -threshold) next();
-              else if (info.offset.x > threshold) prev();
-              resume();
-            }}
-          >
-            {reviewsList.map((t, idxKey) => (
-              <Card
-                key={`${t.name}-${idxKey}`}
-                style={{
-                  width: cardWidth > 0 ? cardWidth : undefined,
-                  minWidth:
-                    cardWidth > 0
-                      ? cardWidth
-                      : `calc(${100 / visible}% - ${GAP}px)`,
-                }}
-              >
-                <Avatar aria-hidden="true">{t.initials}</Avatar>
-                <Stars aria-label={`${t.rating} out of 5 stars`}>
-                  {Array.from({ length: t.rating }).map((_, x) => (
-                    <Star key={x} size={16} fill="currentColor" />
-                  ))}
-                </Stars>
-                <Quote
-                  size={22}
-                  color="#FF6A00"
-                  style={{ margin: "0 auto 12px" }}
-                  aria-hidden="true"
-                />
-                <Text>{t.quote}</Text>
-                <Name>{t.name}</Name>
-                <Label>{t.label}</Label>
-              </Card>
-            ))}
-          </Track>
-        </Viewport>
-
-        <Controls>
-          <Btn
-            onClick={() => {
-              prev();
-              pause();
-              resume();
-            }}
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft size={18} />
-          </Btn>
-          <Dots role="tablist" aria-label="Testimonial navigation">
-            {Array.from({ length: Math.max(1, total - visible + 1) }).map((_, idx) => (
-              <Dot
-                key={idx}
-                $active={idx === index}
-                role="tab"
-                aria-selected={idx === index}
-                aria-label={`Go to slide ${idx + 1}`}
-                onClick={() => {
-                  goTo(idx);
-                  pause();
-                  resume();
-                }}
-              />
-            ))}
-          </Dots>
-          <Btn
-            onClick={() => {
-              next();
-              pause();
-              resume();
-            }}
-            aria-label="Next testimonial"
-          >
-            <ChevronRight size={18} />
-          </Btn>
-        </Controls>
-      </Wrap>
-    </Section>
-  );
-};
+      <CTA href={reviewsUrl} target="_blank" rel="noopener noreferrer">
+        {reviews.length > 0 ? "See all reviews on Google" : "Read our Google reviews"}
+        <ExternalLink size={16} />
+      </CTA>
+    </Wrap>
+  </Section>
+);

@@ -4,31 +4,27 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 
 // ── Truly unique images for gallery ───────────────────────────────────────────
-import img1 from "../assets/imageOne.jpeg";
-import img3 from "../assets/groupThree.jpeg";
-import wa3 from "../assets/WhatsApp Image 2026-08-26 at 22.19.23.jpeg";
-import wa4 from "../assets/WhatsApp Image 2026-08-26 at 22.19.24.jpeg";
-import wa5 from "../assets/WhatsApp Image 2026-08-26 at 22.19.25.jpeg";
-import wa6 from "../assets/WhatsApp Image 2026-08-27 at 03.06.54.jpeg";
-import wa7 from "../assets/WhatsApp Image 2026-08-27 at 03.13.04.jpeg";
+import { images } from "../data/images";
 
-// ── Gallery items — 100% unique photos with 0 duplicate files ─────────────────
+// ── Gallery items (WebP, with descriptive alt text) ───────────────────────────
+// First item is the large featured tile; the other six fill the mosaic exactly
+// (3 columns below 1024px, 5 columns above).
 const items = [
-  { src: wa3, alt: "Indian Calisthenics School core movement", tall: true },
-  { src: wa4, alt: "Indian Calisthenics School bar flow", tall: false },
-  { src: wa5, alt: "Indian Calisthenics School freestyle session", tall: false },
-  { src: wa7, alt: "Indian Calisthenics School mobility coaching", tall: true },
-  { src: img1, alt: "Indian Calisthenics School bodyweight athlete", tall: false },
-  { src: wa6, alt: "Indian Calisthenics School personal coaching", tall: false },
-  { src: img3, alt: "Indian Calisthenics School group session", tall: true },
+  { image: images.straddle, featured: true },
+  { image: images.planche },
+  { image: images.warmUp },
+  { image: images.rig },
+  { image: images.spot },
+  { image: images.workshop },
+  { image: images.community },
 ];
 
 // ── Styles ────────────────────────────────────────────────────────────────────
 const Section = styled.section`
-  padding: 40px 16px;
+  padding: 48px 16px;
   position: relative;
   overflow: hidden;
-  background: #0d0d0d;
+  background: transparent;
   color: white;
   &:before,
   &:after {
@@ -41,14 +37,14 @@ const Section = styled.section`
   &:before {
     width: 300px;
     height: 300px;
-    background: #ff6a00;
+    background: #FF6A00;
     left: -80px;
     top: 25%;
   }
   &:after {
     width: 270px;
     height: 270px;
-    background: #ff4d00;
+    background: #E85D00;
     right: -70px;
     bottom: 6%;
   }
@@ -64,20 +60,20 @@ const Wrap = styled.div`
 const Head = styled(motion.div)`
   text-align: center;
   max-width: 700px;
-  margin: 0 auto 36px;
+  margin: 0 auto 24px;
 `;
 
 const Tag = styled.div`
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.orange};
   letter-spacing: 0.12em;
   margin-bottom: 13px;
 `;
 
 const H = styled.h2`
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
   color: white;
   span {
     background: ${({ theme }) => theme.gradients.fire};
@@ -88,25 +84,29 @@ const H = styled.h2`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: clamp(96px, 28vw, 170px);
+  gap: 8px;
+  .featured {
+    grid-column: span 3;
+    grid-row: span 2;
   }
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(3, 1fr);
-    .tall {
-      grid-row: span 2;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 190px;
+    gap: 12px;
+    .featured {
+      grid-column: span 2;
     }
   }
 `;
 
 const Tile = styled(motion.button)`
   position: relative;
-  min-height: 240px;
+  padding: 0;
   overflow: hidden;
   border-radius: ${({ theme }) => theme.radius.md};
-  background: #151515;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 42px rgba(0, 0, 0, 0.5);
   cursor: pointer;
@@ -164,7 +164,7 @@ const Close = styled.button`
 
 // ── Component ──────────────────────────────────────────────────────────────────
 export const Gallery = () => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<(typeof items)[number]["image"] | null>(null);
 
   return (
     <Section id="gallery">
@@ -177,7 +177,7 @@ export const Gallery = () => {
         >
           <Tag>VISUAL JOURNEY</Tag>
           <H>
-            CAPTURED IN <span>MOTION.</span>
+            Captured in <span>motion.</span>
           </H>
         </Head>
 
@@ -185,18 +185,24 @@ export const Gallery = () => {
           {items.map((item, i) => (
             <Tile
               key={i}
-              className={item.tall ? "tall" : ""}
-              onClick={() => setSelected(item.src)}
+              className={item.featured ? "featured" : ""}
+              onClick={() => setSelected(item.image)}
               initial={{ opacity: 0, scale: 0.88, y: 24 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               whileTap={{ scale: 0.96 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.5, delay: i * 0.06, ease: "easeOut" }}
-              aria-label={`View ${item.alt}`}
+              aria-label={`View photo: ${item.image.alt}`}
             >
               <TileImg
-                src={item.src}
-                alt={item.alt}
+                src={item.image.src}
+                srcSet={item.image.srcSet}
+                sizes={item.featured ? "(min-width: 1024px) 40vw, 100vw" : "(min-width: 1024px) 20vw, 33vw"}
+                width={item.image.width}
+                height={item.image.height}
+                loading="lazy"
+                decoding="async"
+                alt={item.image.alt}
                 initial={{ scale: 1.25 }}
                 whileInView={{ scale: 1.02 }}
                 viewport={{ once: true }}
@@ -219,8 +225,10 @@ export const Gallery = () => {
               <X size={20} />
             </Close>
             <LightboxImg
-              src={selected}
-              alt="Gallery image enlarged"
+              src={selected.src}
+              srcSet={selected.srcSet}
+              sizes="90vw"
+              alt={selected.alt}
               initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}

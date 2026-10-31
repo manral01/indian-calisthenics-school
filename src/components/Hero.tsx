@@ -1,219 +1,194 @@
-import styled from "styled-components";
-import { motion } from "framer-motion";
-import {
-  ChevronDown,
-  Dumbbell,
-  GalleryVerticalEnd,
-  Sparkles,
-  UserRound,
-} from "lucide-react";
-import poster from "../assets/random.jpeg";
-import heroVideo from "../assets/vedio1.MP4";
-import { business } from "../data/business";
+import styled, { keyframes } from "styled-components";
+import { ArrowRight } from "lucide-react";
+import { Link } from "../router";
+import { DemoLink } from "./DemoBooking";
 
 const HeroSection = styled.section`
   position: relative;
   min-height: 100svh;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
   overflow: hidden;
   color: white;
-  background: #050505;
 `;
 
-/* Video fills the section like background-size: cover */
-const VideoBg = styled.video`
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
+// CSS (not JS) entrance animation: content is visible as soon as HTML paints
+const rise = keyframes`
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
 `;
 
-/* Dark gradient + subtle orange tint — sits above video, below content */
-const Overlay = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.82)),
-    linear-gradient(
-      135deg,
-      rgba(255, 106, 0, 0.12),
-      transparent 45%,
-      rgba(255, 77, 0, 0.1)
-    );
-`;
-
-const Orb = styled.div<{ $pos: string; $color: string }>`
-  position: absolute;
-  ${({ $pos }) => $pos};
-  z-index: 1;
-  width: clamp(170px, 28vw, 410px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: ${({ $color }) => $color};
-  filter: blur(65px);
-  opacity: 0.22;
-  animation: float 7s ease-in-out infinite alternate;
-  @keyframes float {
-    to {
-      transform: translateY(-26px) scale(1.12);
+const Content = styled.div`
+  position: relative;
+  z-index: 2;
+  width: min(100% - 32px, 900px);
+  margin: 0 auto;
+  padding: 120px 0 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  > * {
+    animation: ${rise} 0.7s ease-out both;
+  }
+  > *:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  > *:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  > *:nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  > *:nth-child(5) {
+    animation-delay: 0.32s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    > * {
+      animation: none;
     }
   }
 `;
 
-const Content = styled(motion.div)`
-  position: relative;
-  z-index: 2;
-  width: min(100% - 32px, 950px);
-  text-align: center;
-  padding: 124px 0 74px;
-`;
-const Eyebrow = styled(motion.div)`
+/* The SEO H1, styled as a compact location pill above the display headline */
+const Title = styled.h1`
   display: inline-flex;
-  padding: 9px 19px;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
   border-radius: ${({ theme }) => theme.radius.pill};
-  background: ${({ theme }) => theme.gradients.fire};
-  box-shadow: ${({ theme }) => theme.shadows.glow};
-  font-size: 0.73rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(10, 10, 10, 0.45);
+  backdrop-filter: blur(10px);
+  font-family: ${({ theme }) => theme.typography.fontFamily};
+  font-size: clamp(0.78rem, 2.4vw, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 24px;
+  &::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.accent};
+    box-shadow: 0 0 0 4px rgba(255, 106, 0, 0.2);
+  }
+`;
+
+const Display = styled.p`
+  font-family: ${({ theme }) => theme.typography.displayFamily};
+  font-size: clamp(3.4rem, 12vw, 8rem);
   font-weight: 800;
-  letter-spacing: 0.09em;
-  margin-bottom: 25px;
-`;
-const Title = styled(motion.h1)`
-  font-size: clamp(3rem, 12vw, 7.9rem);
-  font-weight: 900;
-  text-transform: uppercase;
-  margin-bottom: 25px;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  margin-bottom: 40px;
   span {
-    background: ${({ theme }) => theme.gradients.fire};
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: clamp(4.5rem, 10vw, 7.9rem);
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
-const Description = styled(motion.p)`
-  max-width: 610px;
-  margin: 0 auto 32px;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: clamp(1rem, 2vw, 1.22rem);
-  line-height: 1.65;
-`;
-const Buttons = styled(motion.div)`
+
+const Buttons = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 13px;
-  margin-bottom: 47px;
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    flex-direction: row;
-    justify-content: center;
+  gap: 18px;
+`;
+const SecondaryLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  text-underline-offset: 5px;
+  transition: color 0.2s;
+  &:hover {
+    color: white;
+    text-decoration-color: ${({ theme }) => theme.colors.accent};
   }
 `;
-const QuickGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  max-width: 650px;
-  margin: auto;
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-`;
-const Quick = styled.a`
-  padding: 17px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: ${({ theme }) => theme.radius.md};
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  transition: 0.25s;
-  color: rgba(255, 255, 255, 0.8);
+const Button = styled(DemoLink)<{ $primary?: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 0 34px;
+  border-radius: ${({ theme }) => theme.radius.pill};
+  font-weight: 700;
+  font-size: 1rem;
+  background: ${({ $primary, theme }) => ($primary ? theme.gradients.fire : "rgba(255,255,255,.06)")};
+  color: ${({ $primary, theme }) => ($primary ? theme.colors.onAccent : "white")};
+  border: 1px solid
+    ${({ $primary }) => ($primary ? "transparent" : "rgba(255,255,255,.22)")};
+  backdrop-filter: blur(10px);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   svg {
-    display: block;
-    margin: 0 auto 8px;
-    color: ${({ theme }) => theme.colors.orange};
+    transition: transform 0.2s;
   }
   &:hover {
-    background: rgba(255, 106, 0, 0.15);
-    border-color: rgba(255, 106, 0, 0.4);
-    color: white;
-    transform: scale(1.04);
+    transform: translateY(-2px);
+    box-shadow: ${({ $primary }) => ($primary ? "0 12px 30px rgba(255,106,0,.35)" : "none")};
   }
+  &:hover svg {
+    transform: translateX(3px);
+  }
+`;
+
+const bob = keyframes`
+  0%, 100% { transform: translateY(0); opacity: .4; }
+  50% { transform: translateY(8px); opacity: 1; }
 `;
 const Scroll = styled.a`
   position: absolute;
   z-index: 2;
-  bottom: 21px;
+  bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.45);
-  animation: bounce 1.6s infinite;
-  @keyframes bounce {
-    50% {
-      transform: translate(-50%, 8px);
-    }
+  display: none;
+  width: 26px;
+  height: 42px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 4px;
+    height: 8px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: ${({ theme }) => theme.colors.accent};
+    animation: ${bob} 1.6s ease-in-out infinite;
+  }
+  @media (min-height: 640px) {
+    display: block;
   }
 `;
 
-const reveal = { hidden: { opacity: 0, y: 26 }, show: { opacity: 1, y: 0 } };
-
 export const Hero = () => (
   <HeroSection id="home">
-    {/* Background video — autoplay, muted, looped, no controls */}
-    <VideoBg autoPlay muted loop playsInline poster={poster} aria-hidden="true">
-      <source src={heroVideo} type="video/mp4" />
-    </VideoBg>
-
-    {/* Dark overlay */}
-    <Overlay aria-hidden="true" />
-
-    {/* Ambient orbs */}
-    <Orb $pos="top:18%;left:8%;" $color="#FF6A00" aria-hidden="true" />
-    <Orb $pos="right:3%;bottom:10%;" $color="#FF4D00" aria-hidden="true" />
-
-    <Content
-      initial="hidden"
-      animate="show"
-      transition={{ staggerChildren: 0.12, delayChildren: 0.18 }}
-    >
-      <Eyebrow variants={reveal}>CALISTHENICS • YOG • PARKOUR</Eyebrow>
-      <Title variants={reveal}>
-        MASTER
-        <br />
-        <span>YOUR</span>
-        <br />
-        BODY
-      </Title>
-      <Description variants={reveal}>"{business.tagline}"</Description>
-      <Buttons variants={reveal}></Buttons>
-      <QuickGrid variants={reveal}>
-        {(
-          [
-            [UserRound, "ABOUT", "#about"],
-            [Dumbbell, "PROGRAMS", "#skills"],
-            [Sparkles, "SCHEDULE", "#schedule"],
-            [GalleryVerticalEnd, "GALLERY", "#gallery"],
-          ] as [typeof UserRound, string, string][]
-        ).map(([Icon, label, href]) => (
-          <Quick href={href} key={label}>
-            <Icon size={20} />
-            {label}
-          </Quick>
-        ))}
-      </QuickGrid>
+    <Content>
+      <Title>Calisthenics Academy in Madhapur, Hyderabad</Title>
+      <Display>
+        Master your <span>body.</span>
+      </Display>
+      <Buttons>
+        <Button $primary>
+          Book a demo <ArrowRight size={18} />
+        </Button>
+        <SecondaryLink to="/#skills">See programs</SecondaryLink>
+      </Buttons>
     </Content>
 
-    <Scroll href="#about" aria-label="Scroll to about">
-      <ChevronDown size={28} />
-    </Scroll>
+    <Scroll href="#skills" aria-label="Scroll to training programs" />
   </HeroSection>
 );

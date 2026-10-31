@@ -1,47 +1,37 @@
-import { useState } from "react";
-import { Navbar } from "../components/Navbar";
 import { Hero } from "../components/Hero";
-import { About } from "../components/About";
 import { Skills } from "../components/Skills";
 import { Gallery } from "../components/Gallery";
 import { Testimonials } from "../components/Testimonials";
-import { Coaching } from "../components/Coaching";
+import { TimingsGlance } from "../components/TimingsGlance";
+import { FounderStrip } from "../components/FounderStrip";
 import { FAQ } from "../components/FAQ";
 import { Contact } from "../components/Contact";
-import { Footer } from "../components/Footer";
-import { PersonalTrainingModal } from "../components/PersonalTrainingModal";
-import { AnimatePresence } from "framer-motion";
+import { CharacterProvider } from "../components/character";
+import { HomeScene } from "../components/HomeScene";
+import styled from "styled-components";
 
-interface HomeProps {
-  onNavigate?: (path: string) => void;
-}
+// Sections sit above the fixed 3D layer
+const Layer = styled.div`
+  position: relative;
+  z-index: 1;
+`;
 
-export const Home = ({ onNavigate }: HomeProps) => {
-  const [showPTModal, setShowPTModal] = useState(false);
+export const Home = () => (
+  <CharacterProvider>
+    {/* 3D calisthenics gym running behind the whole homepage */}
+    <HomeScene />
+    <Layer>
+      <Hero />
+      <Skills />
+      <TimingsGlance />
+      <FounderStrip />
+      <Gallery />
+      <Testimonials />
+      <FAQ />
+      <Contact />
+    </Layer>
 
-  return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Skills
-          onNavigate={onNavigate}
-          onOpenPersonalTraining={() => setShowPTModal(true)}
-        />
-        <Gallery />
-        <Testimonials />
-        <Coaching />
-        <FAQ />
-        <Contact />
-      </main>
-      <Footer />
-
-      <AnimatePresence>
-        {showPTModal && (
-          <PersonalTrainingModal onClose={() => setShowPTModal(false)} />
-        )}
-      </AnimatePresence>
-    </>
-  );
-};
+    {/* The 2D FloatingCharacter is retired on the homepage in favour of the
+        3D scene; add <FloatingCharacter /> back here to restore it. */}
+  </CharacterProvider>
+);

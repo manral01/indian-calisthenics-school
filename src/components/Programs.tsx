@@ -5,15 +5,15 @@ import { Check, ArrowRight } from 'lucide-react';
 import { programsData } from '../data/programs';
 
 // ─── Layout ───────────────────────────────────────────────────────────────────
-const Section = styled.section`padding: 100px 16px; background: #0D0D0D;`;
+const Section = styled.section`padding: 100px 16px; background: #0F0F0F;`;
 const Wrap    = styled.div`max-width: 1100px; margin: auto;`;
 const Intro   = styled.div`text-align: center; max-width: 680px; margin: 0 auto 42px;`;
 const Tag     = styled.div`
   display: inline-block; padding: 8px 15px; border-radius: 99px;
-  background: ${({theme}) => theme.gradients.fire}; color: white;
-  font-size: .7rem; font-weight: 900; letter-spacing: .1em; margin-bottom: 14px;
+  background: ${({theme}) => theme.gradients.fire}; color: ${({theme}) => theme.colors.onAccent};
+  font-size: .7rem; font-weight: 800; letter-spacing: .1em; margin-bottom: 14px;
 `;
-const H = styled.h2`font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; color: white;`;
+const H = styled.h2`font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; color: white;`;
 const Grid = styled.div`
   display: grid; gap: 19px;
   @media(min-width: ${({theme}) => theme.breakpoints.mobile}) { grid-template-columns: repeat(3, 1fr); }
@@ -34,8 +34,8 @@ const Card = styled(motion.article)<{ $featured: boolean }>`
   display: flex; flex-direction: column;
   padding: 28px;
   border-radius: ${({theme}) => theme.radius.lg};
-  background: ${({$featured, theme}) => $featured ? theme.gradients.fire : '#151515'};
-  color: ${({$featured}) => $featured ? 'white' : 'inherit'};
+  background: ${({$featured, theme}) => $featured ? theme.gradients.fire : '#141414'};
+  color: ${({$featured, theme}) => $featured ? theme.colors.onAccent : 'inherit'};
   border: 1px solid ${({$featured}) => $featured ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.08)'};
   box-shadow: ${({$featured, theme}) =>
     $featured ? `${theme.shadows.glow}, ${theme.shadows.card}` : theme.shadows.card};
@@ -58,10 +58,10 @@ const Card = styled(motion.article)<{ $featured: boolean }>`
     background: linear-gradient(
       115deg,
       transparent           0%,
-      rgba(255,140,50,.00)  30%,
-      rgba(255,140,50,.09)  48%,
-      rgba(255,160,60,.12)  52%,
-      rgba(255,140,50,.00)  70%,
+      rgba(255, 106, 0,.00)  30%,
+      rgba(255, 106, 0,.09)  48%,
+      rgba(255, 106, 0,.12)  52%,
+      rgba(255, 106, 0,.00)  70%,
       transparent           100%
     );
     background-size: 200% 100%;
@@ -84,8 +84,8 @@ const Card = styled(motion.article)<{ $featured: boolean }>`
       ${({$featured}) => !$featured && `
         border-color: rgba(255, 106, 0, .55);
         box-shadow:
-          0 0 0 1px rgba(255,106,0,.20),
-          0 12px 32px rgba(255,106,0,.18),
+          0 0 0 1px rgba(255, 106, 0,.20),
+          0 12px 32px rgba(255, 106, 0,.18),
           0 28px 56px rgba(0,0,0,.55);
       `}
 
@@ -94,8 +94,8 @@ const Card = styled(motion.article)<{ $featured: boolean }>`
         border-color: rgba(255,255,255,.30);
         box-shadow:
           0 0 0 1px rgba(255,255,255,.15),
-          0 16px 42px rgba(255,106,0,.55),
-          0 32px 72px rgba(255,77,0,.40);
+          0 16px 42px rgba(255, 106, 0,.55),
+          0 32px 72px rgba(255, 106, 0,.40);
       `}
     }
 
@@ -116,7 +116,7 @@ const Card = styled(motion.article)<{ $featured: boolean }>`
 
 // ─── Price — scales up on card hover ─────────────────────────────────────────
 const Price = styled.div<{ $featured: boolean }>`
-  font-size: 1.7rem; font-weight: 900; margin-bottom: 18px;
+  font-size: 1.7rem; font-weight: 800; margin-bottom: 18px;
   color: ${({$featured, theme}) => $featured ? 'white' : theme.colors.orange};
   display: inline-block;        /* needed so transform doesn't stretch full width */
   transition: transform 300ms cubic-bezier(.25, .1, .25, 1);
@@ -135,8 +135,8 @@ const Price = styled.div<{ $featured: boolean }>`
 const CTA = styled.a<{ $featured: boolean }>`
   display: flex; justify-content: center; align-items: center; gap: 7px;
   padding: 13px; border-radius: 99px;
-  font-size: .78rem; font-weight: 900;
-  background: ${({$featured}) => $featured ? 'rgba(255,255,255,.95)' : 'rgba(255,106,0,1)'};
+  font-size: .78rem; font-weight: 800;
+  background: ${({$featured}) => $featured ? 'rgba(255,255,255,.95)' : 'rgba(255, 106, 0,1)'};
   color: ${({$featured}) => $featured ? '#D94F00' : 'white'};
   transition: transform 280ms ease, filter 280ms ease;
 
@@ -161,8 +161,8 @@ const CTA = styled.a<{ $featured: boolean }>`
 `;
 
 // ─── Remaining card internals (unchanged) ────────────────────────────────────
-const Level    = styled.div`font-size:.7rem;font-weight:900;letter-spacing:.1em;color:${({theme})=>theme.colors.muted};margin-bottom:12px;`;
-const Title    = styled.h3`font-size:1.85rem;font-weight:900;margin-bottom:8px;color:white;`;
+const Level    = styled.div`font-size:.7rem;font-weight: 800;letter-spacing:.1em;color:${({theme})=>theme.colors.muted};margin-bottom:12px;`;
+const Title    = styled.h3`font-size:1.85rem;font-weight: 800;margin-bottom:8px;color:white;`;
 const Duration = styled.div`font-size:.8rem;font-weight:800;margin-bottom:17px;color:${({theme})=>theme.colors.muted};`;
 const Copy     = styled.p`font-size:.88rem;line-height:1.6;margin-bottom:20px;color:${({theme})=>theme.colors.muted};`;
 const Features = styled.ul`

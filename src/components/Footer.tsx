@@ -1,12 +1,18 @@
 import styled from "styled-components";
-import { Mail, MapPin } from "lucide-react";
-import { business } from "../data/business";
-import mainLogo from "../assets/mainLogo.jpeg";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import {
+  business,
+  fullAddress,
+  phoneDisplay,
+} from "../data/business";
+import { images } from "../data/images";
+import { Link } from "../router";
+import { NAV_LINKS } from "./Navbar";
 
 const Foot = styled.footer`
-  padding: 40px 16px 20px;
+  padding: 56px 16px 24px;
   color: white;
-  background: #050505;
+  background: #0A0A0A;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 `;
 const Wrap = styled.div`
@@ -15,118 +21,130 @@ const Wrap = styled.div`
 `;
 const Top = styled.div`
   display: grid;
-  gap: 38px;
-  padding-bottom: 42px;
+  gap: 36px;
+  padding-bottom: 40px;
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1.25fr repeat(3, 1fr);
+    grid-template-columns: 1.4fr 1fr 1.2fr;
   }
 `;
-const Brand = styled.div`
+const Brand = styled.p`
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 1.8rem;
-  font-weight: 900;
-  letter-spacing: -0.05em;
+  font-size: 1.25rem;
+  font-weight: 700;
   margin-bottom: 14px;
-  span {
-    background: ${({ theme }) => theme.gradients.fire};
-    -webkit-background-clip: text;
-    color: transparent;
-  }
   img {
     width: 44px;
     height: 44px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid ${({ theme }) => theme.colors.orange};
+    border: 1px solid ${({ theme }) => theme.colors.accent};
   }
 `;
-const Tagline = styled.p`
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1.55;
-`;
-const Heading = styled.h3`
-  color: ${({ theme }) => theme.colors.orange};
-  font-size: 0.7rem;
-  letter-spacing: 0.13em;
-  margin-bottom: 15px;
+const Heading = styled.p`
+  color: ${({ theme }) => theme.colors.accent};
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
 `;
 const Col = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
   a,
-  p {
-    color: rgba(255, 255, 255, 0.45);
-    font-size: 0.87rem;
-    line-height: 1.5;
+  p,
+  address {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    font-style: normal;
+    line-height: 1.6;
+  }
+  a {
+    padding: 6px 0;
   }
   a:hover {
-    color: ${({ theme }) => theme.colors.orange};
+    color: ${({ theme }) => theme.colors.accent};
+  }
+`;
+const Line = styled.p`
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 0;
+  svg {
+    flex: none;
+    margin-top: 4px;
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 const Bottom = styled.div`
   padding-top: 22px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 0.73rem;
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.78rem;
 `;
+
 export const Footer = () => (
   <Foot>
     <Wrap>
       <Top>
-        <div>
-          <Brand>
-            <img src={mainLogo} alt="Indian Calisthenics School Logo" />
-            <div>
-              Indian <span>Calisthenics</span> School
-            </div>
-          </Brand>
-          <Tagline>
-            Strength.
-            <br />
-            Control.
-            <br />
-            Movement.
-          </Tagline>
-        </div>
         <Col>
-          <Heading>QUICK LINKS</Heading>
-          <a href="#about">About</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#faq">FAQ</a>
-          <a href="#contact">Contact</a>
+          <Brand>
+            <img src={images.logo.src} width={images.logo.width} height={images.logo.height} alt="" />
+            {business.name}
+          </Brand>
+          <address>
+            <Line as="span">
+              <MapPin size={15} aria-hidden="true" />
+              <a href={business.maps} target="_blank" rel="noopener noreferrer">
+                {fullAddress}
+              </a>
+            </Line>
+            {business.phone && (
+              <Line as="span">
+                <Phone size={15} aria-hidden="true" />
+                <a href={`tel:${business.phone}`}>{phoneDisplay}</a>
+              </Line>
+            )}
+            <Line as="span">
+              <Mail size={15} aria-hidden="true" />
+              <a href={`mailto:${business.email}`}>{business.email}</a>
+            </Line>
+          </address>
         </Col>
         <Col>
-          <Heading>SOCIAL</Heading>
+          <Heading>Explore</Heading>
+          <Link to="/">Home</Link>
+          {NAV_LINKS.map(([label, to]) => (
+            <Link key={to} to={to}>
+              {label}
+            </Link>
+          ))}
+        </Col>
+        <Col>
+          <Heading>Timings</Heading>
+          {business.hours.map((h) => (
+            <Line key={h.label + h.opens}>
+              <Clock size={15} aria-hidden="true" />
+              <span>
+                {h.label}: {h.display}
+              </span>
+            </Line>
+          ))}
+          <Heading style={{ marginTop: 18 }}>Follow</Heading>
           <a href={business.instagram} target="_blank" rel="noopener noreferrer">
             Instagram
           </a>
-        </Col>
-        <Col>
-          <Heading>CONTACT</Heading>
-          <a href={`mailto:${business.email}`}>
-            <Mail size={14} style={{ verticalAlign: "-2px" }} /> {business.email}
+          <a href={business.hyderabadCalisthenicsInstagram} target="_blank" rel="noopener noreferrer">
+            Hyderabad Calisthenics
           </a>
-          <p>
-            <MapPin size={14} style={{ verticalAlign: "-2px" }} /> {business.location}
-          </p>
         </Col>
       </Top>
       <Bottom>
-        <span>
-          © {new Date().getFullYear()} Indian Calisthenics School. All rights
-          reserved.
-        </span>
-        <span>Privacy Policy · Terms of Service</span>
+        © {new Date().getFullYear()} {business.name}, Madhapur, Hyderabad. All rights reserved.
       </Bottom>
     </Wrap>
   </Foot>

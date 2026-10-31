@@ -4,7 +4,7 @@ import { ArrowRight, Clock3 } from "lucide-react";
 import hero from "../assets/hero.png";
 const Section = styled.section`
   padding: 100px 16px;
-  background: #0d0d0d;
+  background: #0F0F0F;
 `;
 const Wrap = styled.div`
   max-width: 1180px;
@@ -23,22 +23,22 @@ const Head = styled.div`
 `;
 const Tag = styled.div`
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.orange};
   letter-spacing: 0.12em;
   margin-bottom: 10px;
 `;
 const H = styled.h2`
   font-size: clamp(2.7rem, 5vw, 4.2rem);
-  font-weight: 900;
+  font-weight: 800;
   color: white;
 `;
 const All = styled.a`
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.orange};
   &:hover {
-    color: #ff7a00;
+    color: #FF6A00;
   }
 `;
 const Grid = styled.div`
@@ -55,7 +55,7 @@ const Card = styled(motion.article)`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #151515;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: ${({ theme }) => theme.radius.md};
   box-shadow: ${({ theme }) => theme.shadows.card};
@@ -103,7 +103,7 @@ const Meta = styled.div`
 `;
 const Title = styled.h3`
   font-size: 1.18rem;
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.17;
   flex: 1;
   margin-bottom: 14px;
@@ -111,13 +111,13 @@ const Title = styled.h3`
 `;
 const Read = styled.a`
   font-size: 0.73rem;
-  font-weight: 900;
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.orange};
   display: flex;
   align-items: center;
   gap: 5px;
   &:hover {
-    color: #ff7a00;
+    color: #FF6A00;
   }
 `;
 const articles = [

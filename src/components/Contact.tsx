@@ -1,135 +1,92 @@
 import styled from "styled-components";
-import { Camera, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { business } from "../data/business";
+import { Clock, MapPin } from "lucide-react";
+import { business, fullAddress } from "../data/business";
+import { Link } from "../router";
+import { ContactActions } from "./ui";
+
 const Section = styled.section`
-  padding: 40px 16px;
-  background: #050505;
+  padding: 56px 16px;
+  background: transparent;
 `;
 const Wrap = styled.div`
   max-width: 1000px;
   margin: auto;
-  display: grid;
-  gap: 18px;
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1.1fr 0.9fr;
-  }
-`;
-const Intro = styled.div`
   padding: 32px;
   border-radius: ${({ theme }) => theme.radius.lg};
-  background: #151515;
+  background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: ${({ theme }) => theme.shadows.card};
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 24px 20px;
+  }
 `;
-const Tag = styled.div`
+const Tag = styled.p`
   font-size: 0.72rem;
-  font-weight: 900;
-  color: ${({ theme }) => theme.colors.orange};
-  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: 0.16em;
   margin-bottom: 11px;
 `;
 const H = styled.h2`
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight: 900;
-  margin-bottom: 15px;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  margin-bottom: 20px;
   color: white;
 `;
-const Copy = styled.p`
+const Grid = styled.div`
+  display: grid;
+  gap: 18px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+const Info = styled.div`
+  display: flex;
+  gap: 12px;
   color: ${({ theme }) => theme.colors.muted};
   line-height: 1.65;
-  margin-bottom: 20px;
-`;
-const Address = styled.a`
-  display: flex;
-  gap: 9px;
-  align-items: flex-start;
-  color: ${({ theme }) => theme.colors.muted};
-  font-size: 0.85rem;
-  font-weight: 800;
-  line-height: 1.5;
   svg {
-    color: ${({ theme }) => theme.colors.orange};
     flex: none;
+    margin-top: 4px;
+    color: ${({ theme }) => theme.colors.accent};
+  }
+  strong {
+    display: block;
+    color: white;
+  }
+  a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 `;
-const Links = styled.div`
-  display: grid;
-  gap: 12px;
-`;
-const Link = styled.a`
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 19px;
-  border-radius: ${({ theme }) => theme.radius.md};
-  background: ${({ theme }) => theme.gradients.fire};
-  color: white;
-  box-shadow: ${({ theme }) => theme.shadows.card};
-  font-size: 0.84rem;
-  font-weight: 900;
-  transition: 0.25s;
-  border: 1px solid transparent;
-  &:nth-child(2) {
-    background: #151515;
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  &:nth-child(3) {
-    background: #0d0d0d;
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  &:nth-child(4) {
-    background: #151515;
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  &:nth-child(5) {
-    background: #0d0d0d;
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  &:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 106, 0, 0.5);
-  }
-`;
+
 export const Contact = () => (
   <Section id="contact">
     <Wrap>
-      <Intro>
-        <Tag>CONTACT & LOCATION</Tag>
-        <H>
-          JOIN THE
-          <br />
-          SCHOOL.
-        </H>
-        <Copy>
-          Indian Calisthenics School welcomes beginner to advanced training in
-          Madhapur, Hyderabad.
-        </Copy>
-        <Address href={business.maps} target="_blank" rel="noreferrer">
-          <MapPin size={18} />
-          {business.address.join(", ")}
-        </Address>
-      </Intro>
-      <Links>
-        <Link
-          href={`https://wa.me/${business.whatsapp}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <MessageCircle /> WHATSAPP <span>→</span>
-        </Link>
-        <Link href={`tel:${business.phone}`}>
-          <Phone /> CALL {business.phone}
-        </Link>
-        <Link href={`mailto:${business.email}`}>
-          <Mail /> EMAIL US
-        </Link>
-        <Link href={business.instagram} target="_blank" rel="noreferrer">
-          <Camera /> INSTAGRAM
-        </Link>
-        <Link href={business.maps} target="_blank" rel="noreferrer">
-          <MapPin /> GET DIRECTIONS
-        </Link>
-      </Links>
+      <Tag>CONTACT & LOCATION</Tag>
+      <H>Join the school</H>
+      <Grid>
+        <Info>
+          <MapPin size={18} aria-hidden="true" />
+          <div>
+            <strong>{business.name}</strong>
+            {fullAddress}
+            <br />
+            <Link to="/contact">Map & directions</Link>
+          </div>
+        </Info>
+        <Info>
+          <Clock size={18} aria-hidden="true" />
+          <div>
+            {business.hours.map((h) => (
+              <span key={h.label + h.opens} style={{ display: "block" }}>
+                <strong style={{ display: "inline" }}>{h.label}:</strong> {h.display}
+              </span>
+            ))}
+          </div>
+        </Info>
+      </Grid>
+      <ContactActions whatsappText="Hi, I'd like to know more about training at Indian Calisthenics School, Madhapur." />
     </Wrap>
   </Section>
 );
