@@ -11,6 +11,7 @@ import {
 import type { SiteImage } from "../data/images";
 import type { FAQItem } from "../data/faq";
 import type { Crumb } from "../seo/routes";
+import { trackEvent } from "../analytics";
 
 // ─── Layout ──────────────────────────────────────────────────────────────────
 export const Container = styled.div`
@@ -236,16 +237,26 @@ export const ContactActions = ({ whatsappText }: { whatsappText?: string }) => {
   return (
     <Actions>
       {wa && (
-        <ButtonLink $primary href={wa} target="_blank" rel="noopener noreferrer">
+        <ButtonLink
+          $primary
+          href={wa}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent("whatsapp_click", { from: "page" })}
+        >
           <MessageCircle size={18} /> WhatsApp us
         </ButtonLink>
       )}
       {business.phone && (
-        <ButtonLink href={`tel:${business.phone}`}>
+        <ButtonLink href={`tel:${business.phone}`} onClick={() => trackEvent("call_click", { from: "page" })}>
           <Phone size={18} /> Call {phoneDisplay}
         </ButtonLink>
       )}
-      <ButtonLink $primary={!wa} href={`mailto:${business.email}`}>
+      <ButtonLink
+        $primary={!wa}
+        href={`mailto:${business.email}`}
+        onClick={() => trackEvent("email_click", { from: "page" })}
+      >
         <Mail size={18} /> Email us
       </ButtonLink>
     </Actions>

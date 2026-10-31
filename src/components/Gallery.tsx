@@ -24,7 +24,7 @@ const Section = styled.section`
   padding: 48px 16px;
   position: relative;
   overflow: hidden;
-  background: #0F0F0F;
+  background: transparent;
   color: white;
   &:before,
   &:after {

@@ -3,7 +3,7 @@
 import { programList } from "../data/programPages";
 import { blogPosts } from "../data/blogPosts";
 import { faqData } from "../data/faq";
-import { images, OG_IMAGE, type SiteImage } from "../data/images";
+import { OG_IMAGE, type SiteImage } from "../data/images";
 import {
   articleSchema,
   breadcrumbSchema,
@@ -57,7 +57,6 @@ export const routes: RouteMeta[] = [
       "Calisthenics academy in Madhapur near Mindspace & HITEC City, Hyderabad. Beginner to advanced batches, kids training, personal training, parkour.",
     page: { kind: "home" },
     schema: [localBusinessSchema(), faqSchema(faqData)],
-    preloadImage: images.warmUp,
     lastmod: SITE_UPDATED,
   },
   ...programList.map((p): RouteMeta => {

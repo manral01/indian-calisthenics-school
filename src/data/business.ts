@@ -76,6 +76,8 @@ export const business = {
 
   founder: {
     name: "Aman Bisht",
+    // [CONFIRM] path to a photo of Aman (e.g. an import from src/assets/img); shown in the homepage founder strip
+    photo: null as import("./images").SiteImage | null,
     credentials: [
       "3× national calisthenics champion",
       "Represented India 3 times",

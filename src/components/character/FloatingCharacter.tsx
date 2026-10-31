@@ -34,9 +34,13 @@ const pulseRing = keyframes`
 `;
 
 /** Outer wrapper — hidden below 1024 px */
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $hidden: boolean }>`
   /* hidden on mobile / tablet */
   display: none;
+  /* faded out over the 3D hero so it doesn't collide with the rings */
+  opacity: ${({ $hidden }) => ($hidden ? 0 : 1)};
+  pointer-events: ${({ $hidden }) => ($hidden ? "none" : "auto")};
+  transition: opacity 0.5s ease;
 
   @media (min-width: 1024px) {
     display: flex;
@@ -210,7 +214,7 @@ export const FloatingCharacter = () => {
   const poseBody = POSES[activePose];
 
   return (
-    <Wrapper>
+    <Wrapper $hidden={section === "home"}>
       <TrackLine />
 
       {/* Scroll progress dot */}

@@ -4,7 +4,7 @@ import { FaqList } from "./ui";
 
 const Section = styled.section`
   padding: 56px 16px;
-  background: #0F0F0F;
+  background: transparent;
 `;
 const Wrap = styled.div`
   max-width: 800px;

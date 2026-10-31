@@ -15,6 +15,8 @@ import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { BlogPage, BlogPostPage } from "./pages/BlogPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { DemoProvider } from "./components/DemoBooking";
+import { MobileActionBar, MobileActionBarSpacer } from "./components/MobileActionBar";
 
 const Page = () => {
   const { path } = useRouter();
@@ -56,11 +58,15 @@ function App({ initialPath }: { initialPath: string }) {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <RouterProvider initialPath={initialPath}>
-        <Navbar />
-        <main>
-          <Page />
-        </main>
-        <Footer />
+        <DemoProvider>
+          <Navbar />
+          <main>
+            <Page />
+          </main>
+          <Footer />
+          <MobileActionBarSpacer />
+          <MobileActionBar />
+        </DemoProvider>
       </RouterProvider>
       <Analytics />
     </ThemeProvider>

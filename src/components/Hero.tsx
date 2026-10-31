@@ -1,10 +1,7 @@
-import { useSyncExternalStore } from "react";
 import styled, { keyframes } from "styled-components";
 import { ArrowRight } from "lucide-react";
-import heroVideo from "../assets/vedio1.MP4";
-import { images } from "../data/images";
 import { Link } from "../router";
-import { Img } from "./ui";
+import { DemoLink } from "./DemoBooking";
 
 const HeroSection = styled.section`
   position: relative;
@@ -13,37 +10,6 @@ const HeroSection = styled.section`
   align-items: center;
   overflow: hidden;
   color: white;
-  background: #0a0a0a;
-`;
-
-/* Poster image is always rendered (fast LCP); video layers on top on desktop */
-const Media = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  img,
-  video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  video {
-    pointer-events: none;
-  }
-`;
-
-/* Even tint + soft vignette keeps the centred text readable on any frame;
-   the bottom fades into the page below */
-const Overlay = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(0deg, #0a0a0a 0%, rgba(10, 10, 10, 0) 30%),
-    radial-gradient(ellipse at center, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.85) 75%),
-    rgba(10, 10, 10, 0.25);
 `;
 
 // CSS (not JS) entrance animation: content is visible as soon as HTML paints
@@ -65,12 +31,22 @@ const Content = styled.div`
   > * {
     animation: ${rise} 0.7s ease-out both;
   }
-  > *:nth-child(2) { animation-delay: 0.08s; }
-  > *:nth-child(3) { animation-delay: 0.16s; }
-  > *:nth-child(4) { animation-delay: 0.24s; }
-  > *:nth-child(5) { animation-delay: 0.32s; }
+  > *:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  > *:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  > *:nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  > *:nth-child(5) {
+    animation-delay: 0.32s;
+  }
   @media (prefers-reduced-motion: reduce) {
-    > * { animation: none; }
+    > * {
+      animation: none;
+    }
   }
 `;
 
@@ -137,7 +113,7 @@ const SecondaryLink = styled(Link)`
     text-decoration-color: ${({ theme }) => theme.colors.accent};
   }
 `;
-const Button = styled(Link)<{ $primary?: boolean }>`
+const Button = styled(DemoLink)<{ $primary?: boolean }>`
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -148,9 +124,12 @@ const Button = styled(Link)<{ $primary?: boolean }>`
   font-size: 1rem;
   background: ${({ $primary, theme }) => ($primary ? theme.gradients.fire : "rgba(255,255,255,.06)")};
   color: ${({ $primary, theme }) => ($primary ? theme.colors.onAccent : "white")};
-  border: 1px solid ${({ $primary }) => ($primary ? "transparent" : "rgba(255,255,255,.22)")};
+  border: 1px solid
+    ${({ $primary }) => ($primary ? "transparent" : "rgba(255,255,255,.22)")};
   backdrop-filter: blur(10px);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   svg {
     transition: transform 0.2s;
   }
@@ -195,47 +174,21 @@ const Scroll = styled.a`
   }
 `;
 
-// Load the 3 MB background video only on larger screens with motion allowed
-const VIDEO_QUERY = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
-const subscribe = (cb: () => void) => {
-  const mq = window.matchMedia(VIDEO_QUERY);
-  mq.addEventListener("change", cb);
-  return () => mq.removeEventListener("change", cb);
-};
+export const Hero = () => (
+  <HeroSection id="home">
+    <Content>
+      <Title>Calisthenics Academy in Madhapur, Hyderabad</Title>
+      <Display>
+        Master your <span>body.</span>
+      </Display>
+      <Buttons>
+        <Button $primary>
+          Book a demo <ArrowRight size={18} />
+        </Button>
+        <SecondaryLink to="/#skills">See programs</SecondaryLink>
+      </Buttons>
+    </Content>
 
-export const Hero = () => {
-  const showVideo = useSyncExternalStore(
-    subscribe,
-    () => window.matchMedia(VIDEO_QUERY).matches,
-    () => false, // prerender + hydration: poster only
-  );
-
-  return (
-    <HeroSection id="home">
-      <Media aria-hidden="true">
-        <Img image={images.warmUp} priority alt="" />
-        {showVideo && (
-          <video autoPlay muted loop playsInline preload="metadata">
-            <source src={heroVideo} type="video/mp4" />
-          </video>
-        )}
-      </Media>
-      <Overlay aria-hidden="true" />
-
-      <Content>
-        <Title>Calisthenics Academy in Madhapur, Hyderabad</Title>
-        <Display>
-          Master your <span>body.</span>
-        </Display>
-        <Buttons>
-          <Button $primary to="/contact">
-            Book a demo <ArrowRight size={18} />
-          </Button>
-          <SecondaryLink to="/#skills">See programs</SecondaryLink>
-        </Buttons>
-      </Content>
-
-      <Scroll href="#skills" aria-label="Scroll to training programs" />
-    </HeroSection>
-  );
-};
+    <Scroll href="#skills" aria-label="Scroll to training programs" />
+  </HeroSection>
+);

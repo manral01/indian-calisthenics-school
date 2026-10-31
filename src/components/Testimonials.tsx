@@ -20,7 +20,7 @@ const reviewsUrl =
 
 const Section = styled.section`
   padding: 56px 16px;
-  background: #0A0A0A;
+  background: transparent;
 `;
 const Wrap = styled.div`
   max-width: 1180px;

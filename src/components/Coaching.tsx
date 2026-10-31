@@ -6,7 +6,7 @@ import { Link } from "../router";
 
 const Section = styled.section`
   padding: 40px 16px;
-  background: #0F0F0F;
+  background: transparent;
   position: relative;
   overflow: hidden;
   &:before,

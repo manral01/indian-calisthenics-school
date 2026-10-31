@@ -9,7 +9,7 @@ import type { PoseName } from "./character";
 
 const Section = styled.section`
   padding: 56px 16px;
-  background: #0A0A0A;
+  background: transparent;
 `;
 
 const Wrap = styled.div`
@@ -144,6 +144,19 @@ const Desc = styled.p`
   }
 `;
 
+const Price = styled.p`
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: white;
+  margin: -2px 0 10px;
+  strong {
+    color: ${({ theme }) => theme.colors.accent};
+  }
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: 0.95rem;
+  }
+`;
+
 const More = styled.span`
   display: inline-flex;
   align-items: center;
@@ -156,22 +169,29 @@ const More = styled.span`
   }
 `;
 
-const CARD: Record<ProgramSlug, { level: string; summary: string; hover: PoseName; click: PoseName }> = {
+// Prices are the lowest published monthly fee (trainingData.ts / programPages.ts)
+const CARD: Record<
+  ProgramSlug,
+  { level: string; summary: string; price?: [string, string]; hover: PoseName; click: PoseName }
+> = {
   calisthenics: {
     level: "ALL LEVELS",
     summary: "Structured group batches, mornings, evenings and weekends.",
+    price: ["From ", "₹4,444/mo"],
     hover: "prepare_push",
     click: "pushup",
   },
   kids: {
     level: "KIDS",
     summary: "Supervised classes built around movement fundamentals.",
+    price: ["From ", "₹3,333/mo"],
     hover: "prepare_skill",
     click: "lsit",
   },
   "personal-training": {
     level: "1-ON-1 · ONLINE",
     summary: "A dedicated coach and a plan built around your goals.",
+    price: ["", "On consultation"],
     hover: "prepare_pull",
     click: "pullup",
   },
@@ -216,6 +236,12 @@ export const Skills = () => {
                   <Body>
                     <Level>{card.level}</Level>
                     <Title>{p.name}</Title>
+                    {card.price && (
+                      <Price>
+                        {card.price[0]}
+                        <strong>{card.price[1]}</strong>
+                      </Price>
+                    )}
                     <Desc>{card.summary}</Desc>
                     <More>
                       Timings &amp; details <ArrowRight size={15} />

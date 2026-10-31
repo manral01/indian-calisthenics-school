@@ -24,6 +24,7 @@
 | `styled-components` | ^6.5.2 | All styling — zero Tailwind, zero CSS modules |
 | `lucide-react` | ^1.31.0 | Icon set used throughout |
 | `@vercel/analytics` | ^2.0.1 | Analytics injected in `App.tsx` |
+| `three` | ^0.170.0 | 3D homepage background (`homeScene3d.ts`), code-split and lazy-loaded |
 
 ### Dev
 Vite 8.2, TypeScript 6.0, ESLint 10, Prettier 3.9
@@ -116,18 +117,21 @@ Adding a page: add content/data → add a `RouteMeta` in `routes.ts` → add a `
 
 ## 6. Page Composition (`src/pages/Home.tsx`)
 
-Navbar and Footer are rendered by `App.tsx` on every page. Home sections in order: `Hero` (`#home`, H1 + intro; video only ≥768px, WebP poster otherwise), `Skills` (`#skills`, links to the 4 program pages), `Gallery` (`#gallery`), `Testimonials` (`#testimonials`, real Google reviews only), `Coaching` (`#coaching`), `FAQ` (`#faq`), `Contact` (`#contact`), plus `FloatingCharacter` inside `CharacterProvider`.
+Navbar, Footer, `DemoProvider` (one-step demo form) and the phone-only `MobileActionBar` are rendered by `App.tsx` on every page. Home sections in order: `Hero` (`#home`), `Skills` (`#skills`, 2×2 photo cards with "from ₹X/mo"), `TimingsGlance` (`#timings`), `FounderStrip` (`#coach`; shows a photo once `business.founder.photo` is set), `Gallery` (`#gallery`), `Testimonials` (`#testimonials`), `FAQ` (`#faq`), `Contact` (`#contact`), all above the fixed `HomeScene` 3D layer.
 
 The About section was removed from Home; the founder/story lives on `/about` (linked from the nav and footer).
 
-Unused components (not rendered anywhere): `About`, `Programs`, `Journey`, `Videos`, `Blog`, `Collaborations`.
+Unused components (not rendered anywhere): `About`, `Coaching`, `Programs`, `Journey`, `Videos`, `Blog`, `Collaborations`.
 
 ---
 
 ## 7. Component Reference
 
 - **`ui.tsx`**: `Container`, `PageSection`, `Eyebrow`, `H2`, `Lead`, `Img` (srcset/width/height/lazy), `RichText`, `Breadcrumbs`, `PageHeader`, `ButtonLink`, `ContactActions` (WhatsApp/Call hidden until `business.phone` is set), `FaqList` (native `<details>`, so answers are in the HTML), `Bullets`.
-- **`Navbar.tsx`**: exports `NAV_LINKS`; desktop pill nav ≥1100px, menu button + panel below.
+- **`Navbar.tsx`**: exports `NAV_LINKS`. From 768px: "Programs ▾" dropdown (the 4 `/training/*` links) + About/Blog/Contact, plus a "Book a demo" button from 1024px. Below 768px: menu button with Programs / More groups.
+- **`DemoBooking.tsx`**: `DemoProvider`, `useDemo().open(program?)`, and `<DemoLink>` (an `<a href="/contact">` that opens the form). The form sends to WhatsApp, or by email until `business.phone` is set.
+- **`MobileActionBar.tsx`**: fixed bottom bar below 768px. WhatsApp + Call once a phone is set, plus Book demo (and Email while there's no phone).
+- **`analytics.ts`**: `trackEvent()` → Vercel Analytics events `demo_open`, `demo_submit`, `whatsapp_click`, `call_click`, `email_click`.
 - **`Footer.tsx`**: name, full address, phone (when set), email, hours, all page links, socials, on every page.
 - **`TrainingPage.tsx`**: header, highlights, who-it's-for + photos, timings/fees (`Schedule` with `TimingSelector`/`PricingSelector`/`BookingModal` for calisthenics & kids; pricing note for PT/parkour), FAQs.
 - **`BookingModal.tsx`**: validates the form, then opens WhatsApp to `business.phone`; falls back to a pre-filled email while no number is set.
@@ -258,7 +262,7 @@ npm run lint / prettier
 1. **Go-live facts missing**: `streetAddress`, `geo`, `phone`, `googleBusinessProfile` in `business.ts` (build prints them).
 2. **Homepage title is 72 chars**: the requested title is kept as specified; Google may truncate the brand.
 3. **Photo branding**: several source photos show "CALI" branding (shirt/wall). The OG image uses an unbranded shot; review the rest.
-4. **Hero video** (`vedio1.MP4`, about 3 MB) is not re-encoded; it loads only on desktop.
+4. **3D homepage background** (`HomeScene.tsx` + `homeScene3d.ts`): a fixed full-viewport three.js layer behind every homepage section (sections use `background: transparent`; content sits in a `z-index: 1` layer). The camera travels down a vertical "gym" as the page scrolls: hero rings → pull-up bar → parallettes → dip bars → stall bars → rings, with side equipment pushed back (`SIDE_DEPTH`) into the gutters, plus chalk-dust particles. It is dynamically imported after first paint (~122 KB gzip). Phones (<768px) and reduced-motion users get a static render that redraws only on scroll, and data-saver or ≤2 GB devices get no 3D at all, and leaves a CSS glow without WebGL. `vedio1.MP4` is unused, and the 2D `FloatingCharacter` is no longer rendered on Home (re-add it in `Home.tsx` to restore it).
 5. **`NavigationContext`** and **`App.css`** are orphaned legacy files.
 6. **Character system is desktop-only** (hidden below 1024px).
 7. Any `h1`/`h2` gets the Inter Tight display font via GlobalStyles; use `p`/`h3` for small labels.
