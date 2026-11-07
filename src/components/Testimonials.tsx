@@ -143,7 +143,7 @@ export const Testimonials = () => (
 
       {reviews.length > 0 ? (
         <Viewport>
-          <Track $seconds={reviews.length * 6}>
+          <Track $seconds={reviews.length * 3}>
             {[...reviews, ...reviews].map((r, i) => (
               <Card key={`${r.author}-${i}`} aria-hidden={i >= reviews.length || undefined}>
                 <Stars aria-label={`${r.rating} out of 5 stars`}>
