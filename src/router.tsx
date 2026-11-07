@@ -2,6 +2,7 @@
 // navigate client-side via the History API when JS is running.
 import {
   createContext,
+  startTransition,
   forwardRef,
   useCallback,
   useContext,
@@ -12,6 +13,7 @@ import {
   type ReactNode,
 } from "react";
 import { normalizePath } from "./seo/routes";
+import { preloadPage } from "./pages/registry";
 
 interface Location {
   path: string;
@@ -50,7 +52,7 @@ export const RouterProvider = ({
 
   useEffect(() => {
     const onPop = () =>
-      setLoc(parse(window.location.pathname + window.location.hash));
+      startTransition(() => setLoc(parse(window.location.pathname + window.location.hash)));
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
@@ -58,11 +60,14 @@ export const RouterProvider = ({
   const navigate = useCallback((to: string) => {
     const next = parse(to.startsWith("#") ? window.location.pathname + to : to);
     window.history.pushState({}, "", next.path + (next.hash ? `#${next.hash}` : ""));
-    setLoc((prev) => {
-      // Same page: just scroll; otherwise scroll after the new page renders
-      if (prev.path === next.path) scrollToHash(next.hash);
-      return next;
-    });
+    // Transition: keep the current page on screen until the next page's code is ready
+    startTransition(() =>
+      setLoc((prev) => {
+        // Same page: just scroll; otherwise scroll after the new page renders
+        if (prev.path === next.path) scrollToHash(next.hash);
+        return next;
+      }),
+    );
   }, []);
 
   useEffect(() => {
@@ -85,7 +90,11 @@ type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & { to: string };
 
 /** Internal link. External / new-tab / modified clicks fall through to the browser. */
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ to, onClick, ...rest }, ref) => {
+  ({ to, onClick, onTouchStart, onMouseEnter, ...rest }, ref) => {
+    // Start downloading the target page's code as soon as the finger lands
+    const warm = () => {
+      if (!to.startsWith("#")) void preloadPage(to);
+    };
     const { navigate } = useRouter();
     const handle = (e: MouseEvent<HTMLAnchorElement>) => {
       onClick?.(e);
@@ -102,7 +111,22 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       e.preventDefault();
       navigate(to);
     };
-    return <a ref={ref} href={to} onClick={handle} {...rest} />;
+    return (
+      <a
+        ref={ref}
+        href={to}
+        onClick={handle}
+        onTouchStart={(e) => {
+          onTouchStart?.(e);
+          warm();
+        }}
+        onMouseEnter={(e) => {
+          onMouseEnter?.(e);
+          warm();
+        }}
+        {...rest}
+      />
+    );
   },
 );
 Link.displayName = "Link";
