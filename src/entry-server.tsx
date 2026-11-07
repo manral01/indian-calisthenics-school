@@ -5,11 +5,13 @@ import { ServerStyleSheet } from "styled-components";
 import App from "./App";
 import { findRoute } from "./seo/routes";
 import { renderHead } from "./seo/head";
+import { preloadPage } from "./pages/registry";
 
 export { routes, notFoundRoute } from "./seo/routes";
 export { missingFacts, SITE_URL } from "./data/business";
 
-export function render(path: string) {
+export async function render(path: string) {
+  await preloadPage(path);
   const sheet = new ServerStyleSheet();
   try {
     const html = renderToString(sheet.collectStyles(<App initialPath={path} />));

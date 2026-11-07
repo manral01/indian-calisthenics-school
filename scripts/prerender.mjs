@@ -14,8 +14,8 @@ const { render, routes, notFoundRoute, missingFacts, SITE_URL } = await import(
 );
 const template = readFileSync(join(dist, "index.html"), "utf8");
 
-const page = (path) => {
-  const { html, styles, head } = render(path);
+const page = async (path) => {
+  const { html, styles, head } = await render(path);
   return template
     .replace("<!--app-head-->", `${head}\n    ${styles}`)
     .replace("<!--app-html-->", html);
@@ -27,14 +27,14 @@ for (const route of routes) {
   const file = route.path === "/" ? "index.html" : `${route.path.slice(1)}.html`;
   const out = join(dist, file);
   mkdirSync(dirname(out), { recursive: true });
-  writeFileSync(out, page(route.path));
+  writeFileSync(out, await page(route.path));
   if (route.title.length > 60) warnings.push(`title > 60 chars (${route.title.length}): ${route.path}`);
   if (route.description.length > 160)
     warnings.push(`description > 160 chars (${route.description.length}): ${route.path}`);
   console.log(`[prerender] ${route.path} → dist/${file}`);
 }
 
-writeFileSync(join(dist, "404.html"), page(notFoundRoute.path));
+writeFileSync(join(dist, "404.html"), await page(notFoundRoute.path));
 console.log("[prerender] 404 → dist/404.html");
 
 const urls = routes

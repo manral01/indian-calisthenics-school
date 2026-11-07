@@ -170,10 +170,6 @@ export const Gallery = () => {
     <Section id="gallery">
       <Wrap>
         <Head
-          initial={{ opacity: 0, scale: 0.9, y: 25 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <Tag>VISUAL JOURNEY</Tag>
           <H>
@@ -187,11 +183,7 @@ export const Gallery = () => {
               key={i}
               className={item.featured ? "featured" : ""}
               onClick={() => setSelected(item.image)}
-              initial={{ opacity: 0, scale: 0.88, y: 24 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
               whileTap={{ scale: 0.96 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.06, ease: "easeOut" }}
               aria-label={`View photo: ${item.image.alt}`}
             >
               <TileImg

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
+import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { Analytics } from "@vercel/analytics/react";
 import { GlobalStyles } from "./styles/GlobalStyles";
@@ -9,14 +10,23 @@ import { applyHead } from "./seo/head";
 import { blogPosts } from "./data/blogPosts";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
-import { Home } from "./pages/Home";
-import { TrainingPage } from "./components/TrainingPage";
-import { AboutPage } from "./pages/AboutPage";
-import { ContactPage } from "./pages/ContactPage";
-import { BlogPage, BlogPostPage } from "./pages/BlogPage";
-import { NotFoundPage } from "./pages/NotFoundPage";
+import {
+  AboutPage,
+  BlogPage,
+  BlogPostPage,
+  ContactPage,
+  Home,
+  NotFoundPage,
+  TrainingPage,
+} from "./pages/registry";
 import { DemoProvider } from "./components/DemoBooking";
 import { MobileActionBar, MobileActionBarSpacer } from "./components/MobileActionBar";
+
+// Shown only if a page's code is still downloading after a tap (rare: links
+// start loading on touch, and navigation keeps the old page up meanwhile).
+const PageLoading = styled.div`
+  min-height: 70vh;
+`;
 
 const Page = () => {
   const { path } = useRouter();
@@ -61,7 +71,9 @@ function App({ initialPath }: { initialPath: string }) {
         <DemoProvider>
           <Navbar />
           <main>
-            <Page />
+            <Suspense fallback={<PageLoading aria-busy="true" />}>
+              <Page />
+            </Suspense>
           </main>
           <Footer />
           <MobileActionBarSpacer />

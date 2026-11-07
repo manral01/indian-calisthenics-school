@@ -5,7 +5,6 @@ import { Testimonials } from "../components/Testimonials";
 import { TimingsGlance } from "../components/TimingsGlance";
 import { FAQ } from "../components/FAQ";
 import { Contact } from "../components/Contact";
-import { CharacterProvider } from "../components/character";
 import { HomeScene } from "../components/HomeScene";
 import styled from "styled-components";
 
@@ -16,7 +15,7 @@ const Layer = styled.div`
 `;
 
 export const Home = () => (
-  <CharacterProvider>
+  <>
     {/* 3D calisthenics gym running behind the whole homepage */}
     <HomeScene />
     <Layer>
@@ -28,8 +27,5 @@ export const Home = () => (
       <FAQ />
       <Contact />
     </Layer>
-
-    {/* The 2D FloatingCharacter is retired on the homepage in favour of the
-        3D scene; add <FloatingCharacter /> back here to restore it. */}
-  </CharacterProvider>
+  </>
 );

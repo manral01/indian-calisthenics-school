@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { programList, type ProgramSlug } from "../data/programPages";
 import { Link } from "../router";
 import { Img } from "./ui";
-import { useCharacter } from "./character";
-import type { PoseName } from "./character";
 
 const Section = styled.section`
   padding: 56px 16px;
@@ -50,7 +47,7 @@ const Grid = styled.div`
   }
 `;
 
-const Card = styled(motion.article)`
+const Card = styled.article`
   position: relative;
   overflow: hidden;
   border-radius: ${({ theme }) => theme.radius.md};
@@ -172,40 +169,30 @@ const More = styled.span`
 // Prices are the lowest published monthly fee (trainingData.ts / programPages.ts)
 const CARD: Record<
   ProgramSlug,
-  { level: string; summary: string; price?: [string, string]; hover: PoseName; click: PoseName }
+  { level: string; summary: string; price?: [string, string] }
 > = {
   calisthenics: {
     level: "ALL LEVELS",
     summary: "Structured group batches, mornings, evenings and weekends.",
     price: ["From ", "₹4,444/mo"],
-    hover: "prepare_push",
-    click: "pushup",
   },
   kids: {
     level: "KIDS",
     summary: "The Mighty Tribe: calisthenics, gymnastics & parkour for ages 3–15.",
     price: ["From ", "₹3,333/mo"],
-    hover: "prepare_skill",
-    click: "lsit",
   },
   "personal-training": {
     level: "1-ON-1 · ONLINE",
     summary: "A dedicated coach and a plan built around your goals.",
     price: ["", "On consultation"],
-    hover: "prepare_pull",
-    click: "pullup",
   },
   "freestyle-parkour": {
     level: "DYNAMIC SKILLS",
     summary: "Bar flow, vaults and safe landings, step by step.",
-    hover: "prepare_balance",
-    click: "handstand",
   },
 };
 
 export const Skills = () => {
-  const { setHoverPose, triggerClickPose } = useCharacter();
-
   return (
     <Section id="skills">
       <Wrap>
@@ -219,19 +206,13 @@ export const Skills = () => {
           </Sub>
         </Header>
         <Grid>
-          {programList.map((p, i) => {
+          {programList.map((p) => {
             const card = CARD[p.slug];
             return (
               <Card
                 key={p.slug}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: i * 0.07 }}
-                onMouseEnter={() => setHoverPose(card.hover)}
-                onMouseLeave={() => setHoverPose(null)}
               >
-                <Link to={p.path} onClick={() => triggerClickPose(card.click)}>
+                <Link to={p.path}>
                   <Img image={p.image} sizes="(min-width: 920px) 450px, 50vw" />
                   <Body>
                     <Level>{card.level}</Level>
