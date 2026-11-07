@@ -174,10 +174,13 @@ export const PageHeader = ({
   title,
   intro,
   image,
+  logo,
   children,
 }: {
   crumbs: Crumb[];
   eyebrow?: string;
+  /** Optional brand logo shown above the heading (e.g. The Mighty Tribe). */
+  logo?: { src: string; alt: string; size: number };
   title: string;
   intro: string[];
   image?: SiteImage;
@@ -187,6 +190,15 @@ export const PageHeader = ({
     <HeaderGrid>
       <div>
         <Breadcrumbs crumbs={crumbs} />
+        {logo && (
+          <img
+            src={logo.src}
+            alt={logo.alt}
+            width={logo.size}
+            height={logo.size}
+            style={{ width: 96, height: 96, margin: "8px 0 16px", display: "block" }}
+          />
+        )}
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <H1>{title}</H1>
         {intro.map((p) => (

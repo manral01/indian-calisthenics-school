@@ -10,6 +10,7 @@ import { BookingModal, type BookingContext } from "./BookingModal";
 import { Link } from "../router";
 import {
   Bullets,
+  ButtonLink,
   Container,
   ContactActions,
   FaqList,
@@ -129,6 +130,47 @@ const Note = styled.p`
   line-height: 1.65;
 `;
 
+const Levels = styled.div`
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+const LevelCard = styled.div`
+  padding: 22px;
+  border-radius: ${({ theme }) => theme.radius.md};
+  background: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.colors.accent};
+  }
+  h3 {
+    font-size: 1.4rem;
+    margin: 6px 0 8px;
+  }
+  p {
+    color: ${({ theme }) => theme.colors.muted};
+    line-height: 1.6;
+  }
+  ul {
+    margin-top: 12px;
+    padding-left: 18px;
+    line-height: 1.7;
+  }
+`;
+const DmActions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+`;
+
 // ─── Weekday / weekend booking blocks (calisthenics + kids) ─────────────────
 const Schedule = ({ config }: { config: TrainingProgramConfig }) => {
   const [weekdayTiming, setWeekdayTiming] = useState<string>(
@@ -231,12 +273,25 @@ export const TrainingPage = ({ slug }: Props) => {
           { name: "Home", path: "/" },
           { name: page.name, path: page.path },
         ]}
-        eyebrow="Madhapur · Near Mindspace & HITEC City"
+        eyebrow={page.eyebrow ?? "Madhapur · Near Mindspace & HITEC City"}
+        logo={page.logo}
         title={page.h1}
         intro={page.intro}
         image={page.image}
       >
-        <ContactActions whatsappText={page.whatsappText} />
+        {page.instagramDm ? (
+          <DmActions>
+            <ButtonLink $primary href={page.instagramDm.url} target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg> DM us on Instagram {page.instagramDm.handle}
+            </ButtonLink>
+          </DmActions>
+        ) : (
+          <ContactActions whatsappText={page.whatsappText} />
+        )}
       </PageHeader>
 
       <PageSection $alt>
@@ -253,7 +308,31 @@ export const TrainingPage = ({ slug }: Props) => {
         </Container>
       </PageSection>
 
-      <PageSection>
+      {page.levels && (
+        <PageSection>
+          <Container>
+            <H2>{page.levels.title}</H2>
+            <Lead>{page.levels.intro}</Lead>
+            <Levels>
+              {page.levels.items.map((l) => (
+                <LevelCard key={l.level}>
+                  <span className="tag">{l.level}</span>
+                  <h3>{l.name}</h3>
+                  <p>{l.goal}</p>
+                  <ul>
+                    {l.skills.map((sk) => (
+                      <li key={sk}>{sk}</li>
+                    ))}
+                  </ul>
+                </LevelCard>
+              ))}
+            </Levels>
+            {page.levels.note && <Note style={{ marginTop: 20 }}>{page.levels.note}</Note>}
+          </Container>
+        </PageSection>
+      )}
+
+      <PageSection $alt={!!page.levels}>
         <Container>
           <TwoCol>
             <div>
@@ -276,7 +355,7 @@ export const TrainingPage = ({ slug }: Props) => {
         </Container>
       </PageSection>
 
-      <PageSection $alt id="timings">
+      <PageSection $alt={!page.levels} id="timings">
         <Container>
           <H2>{config ? "Timings & fees" : "Fees & booking"}</H2>
           {config ? (
@@ -297,7 +376,7 @@ export const TrainingPage = ({ slug }: Props) => {
         </Container>
       </PageSection>
 
-      <PageSection>
+      <PageSection $alt={!!page.levels}>
         <Container style={{ maxWidth: 820 }}>
           <H2>Frequently asked questions</H2>
           <FaqList faqs={page.faqs} />
