@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ExternalLink, Star } from "lucide-react";
 import googleReviews from "../data/googleReviews.json";
 import { business } from "../data/business";
@@ -46,30 +46,49 @@ const H = styled.h2`
     color: ${({ theme }) => theme.colors.accent};
   }
 `;
-const Grid = styled.div`
-  display: grid;
+// Auto-scrolling strip: the list is rendered twice and slides right-to-left,
+// so it loops without a jump. Pauses on hover/touch; still for reduced motion.
+const scroll = keyframes`
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+`;
+const Viewport = styled.div`
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+`;
+const Track = styled.div<{ $seconds: number }>`
+  display: flex;
   gap: 16px;
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(2, 1fr);
+  width: max-content;
+  animation: ${scroll} ${({ $seconds }) => $seconds}s linear infinite;
+  ${Viewport}:hover &,
+  ${Viewport}:active & {
+    animation-play-state: paused;
   }
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 `;
 const Card = styled.figure`
   margin: 0;
-  padding: 24px;
+  flex: 0 0 300px;
+  padding: 20px;
   border-radius: ${({ theme }) => theme.radius.lg};
   background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   blockquote {
     margin: 0;
     color: rgba(255, 255, 255, 0.78);
-    line-height: 1.7;
-    font-size: 0.95rem;
+    line-height: 1.6;
+    font-size: 0.92rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   figcaption {
     margin-top: auto;
@@ -123,28 +142,30 @@ export const Testimonials = () => (
       </Head>
 
       {reviews.length > 0 ? (
-        <Grid>
-          {reviews.map((r) => (
-            <Card key={r.author + r.relativeTime}>
-              <Stars aria-label={`${r.rating} out of 5 stars`}>
-                {Array.from({ length: r.rating }).map((_, i) => (
-                  <Star key={i} size={15} fill="currentColor" aria-hidden="true" />
-                ))}
-              </Stars>
-              <blockquote>{r.text}</blockquote>
-              <figcaption>
-                {r.authorUri ? (
-                  <a href={r.authorUri} target="_blank" rel="noopener noreferrer nofollow">
-                    {r.author}
-                  </a>
-                ) : (
-                  <strong>{r.author}</strong>
-                )}{" "}
-                · Google review{r.relativeTime && ` · ${r.relativeTime}`}
-              </figcaption>
-            </Card>
-          ))}
-        </Grid>
+        <Viewport>
+          <Track $seconds={reviews.length * 6}>
+            {[...reviews, ...reviews].map((r, i) => (
+              <Card key={`${r.author}-${i}`} aria-hidden={i >= reviews.length || undefined}>
+                <Stars aria-label={`${r.rating} out of 5 stars`}>
+                  {Array.from({ length: r.rating }).map((_, j) => (
+                    <Star key={j} size={15} fill="currentColor" aria-hidden="true" />
+                  ))}
+                </Stars>
+                <blockquote>{r.text}</blockquote>
+                <figcaption>
+                  {r.authorUri ? (
+                    <a href={r.authorUri} target="_blank" rel="noopener noreferrer nofollow">
+                      {r.author}
+                    </a>
+                  ) : (
+                    <strong>{r.author}</strong>
+                  )}{" "}
+                  · Google review{r.relativeTime && ` · ${r.relativeTime}`}
+                </figcaption>
+              </Card>
+            ))}
+          </Track>
+        </Viewport>
       ) : (
         <Empty>
           Read what students say about {business.name}, Madhapur, in their own
