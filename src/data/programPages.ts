@@ -19,6 +19,19 @@ export interface ProgramPageContent {
   title: string;
   description: string;
   h1: string;
+  /** Overrides the default location eyebrow above the heading */
+  eyebrow?: string;
+  /** Brand logo shown above the heading */
+  logo?: { src: string; alt: string; size: number };
+  /** Optional level-by-level progression section */
+  levels?: {
+    title: string;
+    intro: string;
+    items: { level: string; name: string; goal: string; skills: string[] }[];
+    note?: string;
+  };
+  /** Primary enquiry button (shown instead of WhatsApp) */
+  instagramDm?: { url: string; handle: string };
   intro: string[];
   image: SiteImage;
   highlightsTitle: string;
@@ -108,43 +121,83 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
     slug: "kids",
     path: "/training/kids",
     name: "Kids Training",
-    title: "Kids Calisthenics Classes in Madhapur, Hyderabad",
+    title: "The Mighty Tribe: Kids Calisthenics in Madhapur, Hyderabad",
     description:
-      "Supervised kids calisthenics classes in Madhapur, Hyderabad: strength, coordination and confidence. Weekday evening & weekend batches, fees inside.",
-    h1: "Kids Calisthenics Classes in Madhapur, Hyderabad",
+      "The Mighty Tribe kids program in Madhapur, Hyderabad: calisthenics, gymnastics & parkour for ages 3–15 in three levels. Weekday & weekend batches.",
+    h1: "The Mighty Tribe",
+    eyebrow: "Kids Calisthenics, Gymnastics & Parkour · Madhapur",
+    logo: { src: "/the-mighty-tribe-logo.webp", alt: "The Mighty Tribe logo", size: 480 },
+    instagramDm: { url: "https://ig.me/m/the.mighty.tribe", handle: "@the.mighty.tribe" },
     intro: [
-      "Kids training at Indian Calisthenics School in Madhapur, Hyderabad is built around movement fundamentals: balance, coordination, strength and body control, taught in a structured and supervised class.",
-      "Children learn to climb, hang, jump, roll and hold their own bodyweight through age-appropriate drills and games, progressing step by step.",
+      "The Mighty Tribe is the kids program at Indian Calisthenics School in Madhapur, Hyderabad. It combines calisthenics, gymnastics and parkour in one subscription for kids aged 3 to 15, taught in three clear levels.",
+      "Every class is about 40% calisthenics, 40% gymnastics and 20% parkour, so kids build strength, balance, body control and the confidence to move freely.",
     ],
     image: images.kidsHandstand,
     highlightsTitle: "What kids learn",
     highlights: [
       {
-        title: "Movement fundamentals",
-        text: "Running, jumping, landing, crawling and balancing: the base for every sport.",
+        title: "Calisthenics (40%)",
+        text: "Hangs, holds, push-ups, chin-ups and core work that build real bodyweight strength, scaled to each child.",
       },
       {
-        title: "Bodyweight strength",
-        text: "Hanging, supported holds and simple pushing and pulling movements, scaled to each child.",
+        title: "Gymnastics (40%)",
+        text: "Rolls, cartwheels, bridges and handstands that build flexibility, body awareness and control.",
       },
       {
-        title: "Coordination & confidence",
-        text: "Handstand drills, rolls and skill games that build body awareness and confidence.",
+        title: "Parkour (20%)",
+        text: "Jumping, landing, vaulting and moving over obstacles safely, with confidence.",
       },
       {
-        title: "Discipline & habits",
-        text: "Regular, structured sessions that build focus, patience and a habit of moving every day.",
+        title: "Discipline & confidence",
+        text: "Clear levels and goals build focus, patience and the courage to try new skills.",
       },
     ],
+    levels: {
+      title: "Three levels, one clear path",
+      intro:
+        "Kids move up when they pass their level's skills checklist, not because of their age. Skills are tested every 3 months, parents get a progress card, and every level passed earns a certificate.",
+      items: [
+        {
+          level: "Level 1",
+          name: "Foundation",
+          goal: "Body control, coordination, safe falling and basic strength. Usually 3–6 months.",
+          skills: ["Animal movements and body shapes", "Forward rolls and soft landings", "Dead hangs, planks and balance"],
+        },
+        {
+          level: "Level 2",
+          name: "Builder",
+          goal: "Real strength and the first calisthenics and gymnastics skills. Usually 6–12 months.",
+          skills: ["First chin-ups and full push-ups", "Wall handstands and tuck L-sits", "Cartwheels, bridges and backward rolls"],
+        },
+        {
+          level: "Level 3",
+          name: "Advanced",
+          goal: "Master advanced skills, link them into routines and get ready to compete. 12+ months.",
+          skills: ["Pull-up sets, dips and tuck front lever", "Freestanding handstand and full L-sit", "Round-off, walkovers and a full routine"],
+        },
+      ],
+      note: "Competition track: kids who pass Level 3, or show strong talent in Level 2, can be selected for inter-academy, state and national kids' events, with coach recommendation and parent consent.",
+    },
     forWhom: [
+      "Kids aged 3 to 15: little ones (3–5) learn Level 1 through games and obstacle courses",
       "Children who are new to structured exercise",
-      "Active kids who want to learn skills like handstands",
+      "Active kids who want to learn skills like handstands, flips and vaults",
       "Young athletes who want a strength and coordination base for other sports",
     ],
     schedule: "kids",
     faqs: [
       {
-        question: "When are the kids calisthenics batches?",
+        question: "What age group is The Mighty Tribe for?",
+        answer:
+          "Kids aged 3 to 15. Little ones (3–5) learn through games and obstacle courses; older kids move on to real skills and strength work.",
+      },
+      {
+        question: "How do kids move up a level?",
+        answer:
+          "Each level has a skills checklist, tested every 3 months. Parents get a progress card, and every level passed earns a certificate. Kids who pass Level 3, or show strong talent in Level 2, can be selected for competitions.",
+      },
+      {
+        question: "When are the kids batches?",
         answer:
           "Weekday kids batches run Monday to Friday from 4:00 to 5:00 PM and 5:00 to 6:00 PM. The weekend batch runs Saturday and Sunday from 9:00 to 10:00 AM.",
       },
@@ -154,9 +207,13 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
           "The weekday kids batch is ₹5,555 per month or ₹15,151 per quarter. The weekend kids batch is ₹3,333 per month.",
       },
       {
-        question: "Is calisthenics safe for children?",
+        question: "Is it safe for children?",
         answer:
-          "Sessions are supervised by coaches, use age-appropriate progressions and focus on control and good technique before anything advanced.",
+          "Sessions are supervised by coaches. Ages 3–5 train through play; ages 6–9 get coach spotting for all upside-down and flipping skills; ages 10–15 build more strength with careful load on growing joints and no heavy weights.",
+      },
+      {
+        question: "How do I enrol my child?",
+        answer: "Send us a DM on Instagram at @the.mighty.tribe and we'll help you pick a batch.",
       },
     ],
     gallery: [images.spotKids, images.warmUp],
@@ -164,7 +221,7 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       path: "/blog/calisthenics-for-kids-benefits-and-safety",
       title: "Calisthenics for kids: benefits and safety",
     },
-    whatsappText: "Hi, I'd like to know more about kids calisthenics training at Indian Calisthenics School, Madhapur.",
+    whatsappText: "Hi, I'd like to know more about The Mighty Tribe kids program at Indian Calisthenics School, Madhapur.",
   },
 
   "personal-training": {
