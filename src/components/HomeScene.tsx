@@ -36,8 +36,9 @@ export const HomeScene = () => {
     };
     if (nav.connection?.saveData || (nav.deviceMemory && nav.deviceMemory <= 2)) return;
 
-    // Phones get a static render that only redraws on scroll (no idle animation)
-    const animate = window.matchMedia("(min-width: 768px)").matches;
+    // Phones and small tablets keep the CSS glow only; 3D loads on laptops/desktops
+    if (!window.matchMedia("(min-width: 1024px)").matches) return;
+    const animate = true;
 
     import("./homeScene3d").then(({ startHomeScene }) => {
       if (cancelled) return;

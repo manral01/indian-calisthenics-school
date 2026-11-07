@@ -3,8 +3,8 @@
 // can never drift apart. Empty strings / null mean "not provided yet": the UI
 // and schema skip those fields, and `npm run build` prints a warning listing them.
 //
-// NOTE: +91 88267 62234 belongs to Calisthenics Lab India (Kondapur).
-// Do not use it here.
+// NOTE: +91 88267 62234 is shared with Calisthenics Lab India; Aman confirmed
+// it is also the ICS phone/WhatsApp number (Nov 2026).
 
 export const SITE_URL = "https://www.indiancalisthenicsschool.com";
 
@@ -21,8 +21,7 @@ export const business = {
   name: "Indian Calisthenics School",
   tagline: "Learn about your body instead of machines",
 
-  // [PASTE] building / street, e.g. "Plot 12, 3rd Floor, XYZ Building, Road No. 2"
-  streetAddress: "",
+  streetAddress: "Image Hospital Rd, adjacent to Fresh Living Apartment, Vittal Rao Nagar",
   locality: "Madhapur",
   landmark: "Near Mindspace",
   city: "Hyderabad",
@@ -34,18 +33,17 @@ export const business = {
   // [PASTE] from the Google Maps pin, e.g. { lat: 17.4435, lng: 78.3772 }
   geo: null as { lat: number; lng: number } | null,
 
-  // [PASTE] ICS's own number in E.164 format, e.g. "+919876543210"
-  phone: "",
+  phone: "+918826762234",
 
   email: "indian.calisthenics.school@gmail.com",
 
   // [CONFIRM] this is ICS's Instagram (it was already on the site)
   instagram: "https://www.instagram.com/indian.calisthenics.school/",
-  // [PASTE] ICS Google Business Profile URL (used in sameAs + reviews link)
-  googleBusinessProfile: "",
+  // Google Business Profile (place ID ChIJ9V5o5yqRyzsRzw_I9UMY7mY)
+  googleBusinessProfile: "https://www.google.com/maps/place/?q=place_id:ChIJ9V5o5yqRyzsRzw_I9UMY7mY",
   hyderabadCalisthenicsInstagram: "https://www.instagram.com/hyderabad.calisthenics/",
   // Directions link (already on the site)
-  maps: "https://maps.app.goo.gl/it3mNZcUG9SoHZJMA?g_st=ic",
+  maps: "https://www.google.com/maps/place/?q=place_id:ChIJ9V5o5yqRyzsRzw_I9UMY7mY",
 
   hours: [
     {
@@ -67,7 +65,7 @@ export const business = {
       label: "Sat – Sun",
       opens: "08:00",
       closes: "10:00",
-      display: "8:00 – 10:00 AM",
+      display: "8:00 – 10:00 AM (kids 9–10 AM)",
     },
   ] as OpeningHours[],
 
@@ -76,8 +74,12 @@ export const business = {
 
   founder: {
     name: "Aman Bisht",
-    // [CONFIRM] path to a photo of Aman (e.g. an import from src/assets/img); shown in the homepage founder strip
-    photo: null as import("./images").SiteImage | null,
+    photo: {
+      src: "/founder/aman-square.webp",
+      width: 440,
+      height: 440,
+      alt: "Aman Bisht, founder and head coach of Indian Calisthenics School",
+    } as import("./images").SiteImage | null,
     credentials: [
       "3× national calisthenics champion",
       "Represented India 3 times",
