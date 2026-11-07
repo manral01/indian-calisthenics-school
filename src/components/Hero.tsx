@@ -12,6 +12,31 @@ const HeroSection = styled.section`
   color: white;
 `;
 
+// Community photo under the ICS neon sign; separate portrait crop for phones.
+const Backdrop = styled.picture`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.35) 0%,
+      rgba(10, 10, 10, 0.6) 40%,
+      rgba(10, 10, 10, 0.78) 75%,
+      ${({ theme }) => theme.colors.background} 100%
+    );
+  }
+`;
+
 // CSS (not JS) entrance animation: content is visible as soon as HTML paints
 const rise = keyframes`
   from { opacity: 0; transform: translateY(18px); }
@@ -176,6 +201,17 @@ const Scroll = styled.a`
 
 export const Hero = () => (
   <HeroSection id="home">
+    <Backdrop>
+      <source media="(max-width: 767px)" srcSet="/hero-community-mobile.webp" width={844} height={1126} />
+      <img
+        src="/hero-community.webp"
+        width={2000}
+        height={1126}
+        alt="Indian Calisthenics School community group photo under the neon sign in Madhapur"
+        fetchPriority="high"
+        decoding="async"
+      />
+    </Backdrop>
     <Content>
       <Title>Calisthenics Academy in Madhapur, Hyderabad</Title>
       <Display>
