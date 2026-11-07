@@ -43,7 +43,7 @@ export const business = {
   googleBusinessProfile: "https://www.google.com/maps/place/?q=place_id:ChIJ9V5o5yqRyzsRzw_I9UMY7mY",
   hyderabadCalisthenicsInstagram: "https://www.instagram.com/hyderabad.calisthenics/",
   // Directions link (already on the site)
-  maps: "https://www.google.com/maps/place/?q=place_id:ChIJ9V5o5yqRyzsRzw_I9UMY7mY",
+  maps: "https://maps.app.goo.gl/ZEwukzANxnf3iGZx9",
 
   hours: [
     {
