@@ -31,7 +31,7 @@ export const business = {
   countryName: "India",
 
   // [PASTE] from the Google Maps pin, e.g. { lat: 17.4435, lng: 78.3772 }
-  geo: null as { lat: number; lng: number } | null,
+  geo: { lat: 17.4405126, lng: 78.3846436 } as { lat: number; lng: number } | null,
 
   phone: "+918826762234",
 
