@@ -21,7 +21,7 @@ export const localBusinessSchema = () => {
     "@id": ORG_ID,
     name: business.name,
     url: absoluteUrl("/"),
-    logo: absoluteUrl("/mainLogo.jpeg"),
+    logo: absoluteUrl("/logo-512.png"),
     image: [absoluteUrl(OG_IMAGE)],
     description:
       "Calisthenics, strength, mobility, freestyle and parkour, personal training and kids training in Madhapur, near Mindspace and HITEC City, Hyderabad.",
@@ -92,6 +92,6 @@ export const articleSchema = (post: BlogPost) => ({
   publisher: {
     "@type": "Organization",
     name: business.name,
-    logo: { "@type": "ImageObject", url: absoluteUrl("/mainLogo.jpeg") },
+    logo: { "@type": "ImageObject", url: absoluteUrl("/logo-512.png") },
   },
 });

@@ -24,7 +24,7 @@ export const faqData: FAQItem[] = [
   {
     question: "What are the training timings?",
     answer:
-      "Weekday adult batches run from 6:30 AM to 9:30 AM and 6:00 PM to 9:00 PM. Kids batches run on weekdays from 4:00 PM to 6:00 PM. Weekend sessions run from 8:00 AM to 10:00 AM.",
+      "Weekday adult batches run from 6:30 AM to 9:30 AM and 6:00 PM to 9:00 PM. Kids batches run on weekdays from 4:00 PM to 6:00 PM. Weekend adult sessions run from 8:00 AM to 10:00 AM, and the weekend kids batch runs from 9:00 to 10:00 AM.",
   },
   {
     question: "Where is Indian Calisthenics School located?",

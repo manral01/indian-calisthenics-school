@@ -1,7 +1,80 @@
 {
   "rating": null,
   "userRatingCount": null,
-  "googleMapsUri": "",
-  "fetchedAt": "",
-  "reviews": []
+  "googleMapsUri": "https://www.google.com/maps/place/?q=place_id:ChIJ9V5o5yqRyzsRzw_I9UMY7mY",
+  "fetchedAt": "2026-11-07T00:00:00.000Z",
+  "reviews": [
+    {
+      "author": "Melinda Michael",
+      "authorUri": "",
+      "rating": 5,
+      "text": "I’ve been training at the Indian Calisthenics School, and the experience has been amazing.\n\nThe training format covers all muscle groups throughout the week, with a balanced focus on static and dynamic calisthenics skills for everyone, whether you're a complete beginner or advanced. The trainers are experienced and guide you through every single session—proper warm-up, intense workout, and a solid cool-down so your muscles are properly conditioned and stretched.\n\nCoaches Aman, Shiva and Ansh have been great to train with- they make the sessions fun, so showing up everyday becomes easy.\n\nI’ve done other types of workouts in the past, but the shift I’ve seen since switching to calisthenics is next level—especially in strength, picking up new skills, and overall satisfaction of watching yourself improve. The best part is that there’s always something new to learn. Moves that feel completely impossible on day one start feeling doable and natural over time. It builds real physical strength, but even better, it builds the mental discipline to stick with hard things. Plus, the community at ICS is incredible—just a super supportive group of people who bring out the best in each other.\n\nIf you’re thinking about getting into calisthenics, ICS is the place to be. Highly recommended!",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "sanjana gogte",
+      "authorUri": "",
+      "rating": 5,
+      "text": "I’ve been training at ICS for almost two years now, and the progress has been incredible. When I started, I had barely any upper-body strength and couldn’t do a single pull-up. Now, I’m doing weighted pull-ups and have learned skills like Skin the Cat, Back Lever, L-sits, and so much more. I’ve become significantly stronger overall, and the training has also helped me a lot with managing my PCOD.\n\nA huge part of my journey has been my trainer, Aman. He’s extremely professional and dedicated, while still making every session genuinely fun. Being a national champion himself, his knowledge and experience really show in the way he trains and pushes you to progress.",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "kamini singh chauhan",
+      "authorUri": "",
+      "rating": 5,
+      "text": "Being a girl looking for academy’s not easy in unknown city.... but found this Indian Calisthenics academy ... High professional atmosphere ✅",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "C•A•E• Mathura",
+      "authorUri": "",
+      "rating": 5,
+      "text": "Cant get a better Academy than this if u want to go beyond human limitations... Splendid Trainers ... Thankgod got this Academy at right time 😅😅",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "Hemanth Raj",
+      "authorUri": "",
+      "rating": 5,
+      "text": "Great place for calisthenics training! The workouts are challenging, effective, and well-structured.",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "Manas Vaidya",
+      "authorUri": "",
+      "rating": 5,
+      "text": "Great place to workout + v good guidance. Love the open air space.",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "Chanikya Reddy",
+      "authorUri": "",
+      "rating": 5,
+      "text": "Great place to work out highly recommend and there is friendly and experienced seniors",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "Achileshwar Singh",
+      "authorUri": "",
+      "rating": 5,
+      "text": "Highly recommended folks.. Next level training.. best in Hyderabad",
+      "relativeTime": "",
+      "publishTime": ""
+    },
+    {
+      "author": "Apoorv Gupta",
+      "authorUri": "",
+      "rating": 5,
+      "text": "Best calisthenics academy in hyderabad",
+      "relativeTime": "",
+      "publishTime": ""
+    }
+  ]
 }

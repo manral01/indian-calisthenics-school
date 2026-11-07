@@ -182,7 +182,10 @@ const DemoModal = ({ program, onClose }: { program: string; onClose: () => void 
           <X size={18} />
         </Close>
         <h2 id="demo-title">Book a demo</h2>
-        <p>Tell us a little about you and we'll set up a session in Madhapur.</p>
+        <p>
+          Your demo is free on any weekday (Mon–Fri). A weekend demo is ₹800, adjusted in your package when you
+          join. Tell us a little about you and we'll confirm on WhatsApp.
+        </p>
 
         <Field>
           <span>Your name</span>

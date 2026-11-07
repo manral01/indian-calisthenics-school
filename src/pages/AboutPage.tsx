@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Award } from "lucide-react";
 import { business } from "../data/business";
 import { images } from "../data/images";
@@ -42,6 +42,54 @@ const Creds = styled.ul`
     color: ${({ theme }) => theme.colors.accent};
   }
 `;
+// Founder photos cross-fade one at a time, 3 seconds each.
+const FOUNDER_SLIDE_SECONDS = 3;
+const FOUNDER_PHOTOS = [
+  { src: "/founder/aman-beach.webp", w: 1021, h: 1400, pos: "center", alt: "Aman Bisht, founder and owner of Indian Calisthenics School" },
+  { src: "/founder/aman-start-flag.webp", w: 1600, h: 2000, pos: "center 40%", alt: "Aman Bisht flagging off a community run in Hyderabad" },
+  { src: "/founder/aman-stage-talk.webp", w: 1800, h: 1200, pos: "46% center", alt: "Aman Bisht speaking on stage at a calisthenics event" },
+  { src: "/founder/aman-judging.webp", w: 1598, h: 1066, pos: "51% center", alt: "Aman Bisht judging a calisthenics competition" },
+  { src: "/founder/aman-namaste.webp", w: 1598, h: 1066, pos: "42% center", alt: "Aman Bisht greeting the crowd at a calisthenics competition" },
+];
+const fade = keyframes`
+  0% { opacity: 0; }
+  5% { opacity: 1; }
+  20% { opacity: 1; }
+  25% { opacity: 0; }
+  100% { opacity: 0; }
+`;
+const Slides = styled.div`
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: ${({ theme }) => theme.radius.md};
+  overflow: hidden;
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: ${fade} ${FOUNDER_PHOTOS.length * FOUNDER_SLIDE_SECONDS}s linear infinite both;
+  }
+  img:first-child {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    img {
+      animation: none;
+    }
+  }
+`;
+const FounderGrid = styled.div`
+  display: grid;
+  gap: 28px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+  }
+`;
+
 const Role = styled.p`
   color: ${({ theme }) => theme.colors.accent};
   font-weight: 600;
@@ -77,9 +125,23 @@ export const AboutPage = () => (
       <Container style={{ maxWidth: 900 }}>
         <H2>The founder</H2>
         <FounderCard>
+          <FounderGrid>
+          <Slides>
+            {FOUNDER_PHOTOS.map((p, i) => (
+              <img
+                key={p.src}
+                src={p.src}
+                alt={p.alt}
+                width={p.w}
+                height={p.h}
+                loading={i === 0 ? "eager" : "lazy"}
+                style={{ objectPosition: p.pos, animationDelay: `${i * FOUNDER_SLIDE_SECONDS - FOUNDER_SLIDE_SECONDS / 4}s` }}
+              />
+            ))}
+          </Slides>
           <div>
             <h3>{business.founder.name}</h3>
-            <Role>Founder &amp; head coach</Role>
+            <Role>Founder &amp; owner</Role>
             <Creds>
               {business.founder.credentials.map((c) => (
                 <li key={c}>
@@ -102,7 +164,12 @@ export const AboutPage = () => (
                 </li>
               ))}
             </Creds>
+            <Lead style={{ marginTop: 18 }}>
+              Aman founded and runs Indian Calisthenics School. Our group batches are led by our coaching team, and
+              Aman works with personal training clients.
+            </Lead>
           </div>
+          </FounderGrid>
         </FounderCard>
       </Container>
     </PageSection>

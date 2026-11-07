@@ -3,7 +3,6 @@ import { Skills } from "../components/Skills";
 import { Gallery } from "../components/Gallery";
 import { Testimonials } from "../components/Testimonials";
 import { TimingsGlance } from "../components/TimingsGlance";
-import { FounderStrip } from "../components/FounderStrip";
 import { FAQ } from "../components/FAQ";
 import { Contact } from "../components/Contact";
 import { CharacterProvider } from "../components/character";
@@ -24,7 +23,6 @@ export const Home = () => (
       <Hero />
       <Skills />
       <TimingsGlance />
-      <FounderStrip />
       <Gallery />
       <Testimonials />
       <FAQ />

@@ -3,7 +3,8 @@ import { ExternalLink, Star } from "lucide-react";
 import googleReviews from "../data/googleReviews.json";
 import { business } from "../data/business";
 
-// Real Google reviews only, fetched at build time by scripts/fetch-reviews.mjs.
+// Real Google reviews only: copied from the ICS Google listing (Nov 2026), or fetched
+// at build time by scripts/fetch-reviews.mjs once the Places API key is set.
 // No review/rating schema is emitted (Google ignores self-served review markup).
 
 interface Review {
