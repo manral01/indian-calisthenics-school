@@ -279,19 +279,7 @@ export const TrainingPage = ({ slug }: Props) => {
         intro={page.intro}
         image={page.image}
       >
-        {page.instagramDm ? (
-          <DmActions>
-            <ButtonLink $primary href={page.instagramDm.url} target="_blank" rel="noopener noreferrer">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <rect x="2" y="2" width="20" height="20" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-              </svg> DM us on Instagram {page.instagramDm.handle}
-            </ButtonLink>
-          </DmActions>
-        ) : (
-          <ContactActions whatsappText={page.whatsappText} />
-        )}
+        {!page.instagramDm && <ContactActions whatsappText={page.whatsappText} />}
       </PageHeader>
 
       <PageSection $alt>
@@ -386,6 +374,25 @@ export const TrainingPage = ({ slug }: Props) => {
           </Lead>
         </Container>
       </PageSection>
+
+      {page.instagramDm && (
+        <PageSection $alt={!page.levels}>
+          <Container style={{ maxWidth: 820, textAlign: "center" }}>
+            <H2>Book your child's spot</H2>
+            <Lead>Send us a DM on Instagram and we'll help you pick the right batch.</Lead>
+            <DmActions style={{ justifyContent: "center" }}>
+              <ButtonLink $primary href={page.instagramDm.url} target="_blank" rel="noopener noreferrer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+                DM us on Instagram {page.instagramDm.handle}
+              </ButtonLink>
+            </DmActions>
+          </Container>
+        </PageSection>
+      )}
 
       <AnimatePresence>
         {ptBooking && (

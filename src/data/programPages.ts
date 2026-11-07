@@ -132,7 +132,12 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       "The Mighty Tribe is the kids program at Indian Calisthenics School in Madhapur, Hyderabad. It combines calisthenics, gymnastics and parkour in one subscription for kids aged 3 to 15, taught in three clear levels.",
       "Every class is about 40% calisthenics, 40% gymnastics and 20% parkour, so kids build strength, balance, body control and the confidence to move freely.",
     ],
-    image: images.kidsHandstand,
+    image: {
+      src: "/tmt-handstand-coaching.webp",
+      width: 1000,
+      height: 1500,
+      alt: "Coach Aman spotting a handstand while two kids watch at The Mighty Tribe",
+    },
     highlightsTitle: "What kids learn",
     highlights: [
       {
