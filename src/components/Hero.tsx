@@ -5,11 +5,50 @@ import { DemoLink } from "./DemoBooking";
 
 const HeroSection = styled.section`
   position: relative;
-  min-height: 100svh;
+  min-height: calc(100svh - 72px - env(safe-area-inset-bottom));
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   overflow: hidden;
   color: white;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    min-height: 100svh;
+    align-items: center;
+  }
+`;
+
+// Community photo under the ICS neon sign; separate portrait crop for phones.
+const Backdrop = styled.picture`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 10, 10, 0.25) 0%,
+      rgba(10, 10, 10, 0.05) 22%,
+      rgba(10, 10, 10, 0.55) 48%,
+      rgba(10, 10, 10, 0.92) 70%,
+      ${({ theme }) => theme.colors.background} 100%
+    );
+    @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+      background: linear-gradient(
+        180deg,
+        rgba(10, 10, 10, 0.35) 0%,
+        rgba(10, 10, 10, 0.6) 40%,
+        rgba(10, 10, 10, 0.78) 75%,
+        ${({ theme }) => theme.colors.background} 100%
+      );
+    }
+  }
 `;
 
 // CSS (not JS) entrance animation: content is visible as soon as HTML paints
@@ -23,7 +62,7 @@ const Content = styled.div`
   z-index: 2;
   width: min(100% - 32px, 900px);
   margin: 0 auto;
-  padding: 120px 0 96px;
+  padding: 96px 0 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,6 +81,9 @@ const Content = styled.div`
   }
   > *:nth-child(5) {
     animation-delay: 0.32s;
+  }
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: 120px 0 96px;
   }
   @media (prefers-reduced-motion: reduce) {
     > * {
@@ -66,7 +108,10 @@ const Title = styled.h1`
   letter-spacing: 0.02em;
   line-height: 1.4;
   color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 24px;
+  margin-bottom: 14px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    margin-bottom: 24px;
+  }
   &::before {
     content: "";
     flex: none;
@@ -80,21 +125,64 @@ const Title = styled.h1`
 
 const Display = styled.p`
   font-family: ${({ theme }) => theme.typography.displayFamily};
-  font-size: clamp(3.4rem, 12vw, 8rem);
+  font-size: clamp(3.2rem, 14vw, 8rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.045em;
-  margin-bottom: 40px;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
   span {
     color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
+const Sub = styled.p`
+  max-width: 34ch;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 16px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1.15rem;
+    margin-bottom: 22px;
+  }
+`;
+const Chips = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 22px;
+  li {
+    padding: 6px 11px;
+    border-radius: ${({ theme }) => theme.radius.pill};
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    margin-bottom: 36px;
+  }
+`;
 const Buttons = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 10px;
+  width: 100%;
+  > a:first-child {
+    width: 100%;
+    max-width: 360px;
+    justify-content: center;
+  }
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    gap: 18px;
+    > a:first-child {
+      width: auto;
+    }
+  }
 `;
 const SecondaryLink = styled(Link)`
   display: inline-flex;
@@ -169,18 +257,35 @@ const Scroll = styled.a`
     background: ${({ theme }) => theme.colors.accent};
     animation: ${bob} 1.6s ease-in-out infinite;
   }
-  @media (min-height: 640px) {
+  @media (min-height: 640px) and (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     display: block;
   }
 `;
 
 export const Hero = () => (
   <HeroSection id="home">
+    <Backdrop>
+      <source media="(max-width: 767px)" srcSet="/hero-community-mobile.webp" width={844} height={1126} />
+      <img
+        src="/hero-community.webp"
+        width={2000}
+        height={1126}
+        alt="Indian Calisthenics School community group photo under the neon sign in Madhapur"
+        fetchPriority="high"
+        decoding="async"
+      />
+    </Backdrop>
     <Content>
       <Title>Calisthenics Academy in Madhapur, Hyderabad</Title>
       <Display>
         Master your <span>body.</span>
       </Display>
+      <Sub>Calisthenics, kids training and personal coaching for every level, near Mindspace.</Sub>
+      <Chips aria-label="Highlights">
+        <li>★ 5-star Google reviews</li>
+        <li>Beginner to advanced</li>
+        <li>Free weekday demo</li>
+      </Chips>
       <Buttons>
         <Button $primary>
           Book a demo <ArrowRight size={18} />

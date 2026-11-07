@@ -184,7 +184,7 @@ const CARD: Record<
   kids: {
     level: "KIDS",
     summary: "The Mighty Tribe: calisthenics, gymnastics & parkour for ages 3–15.",
-    price: ["Weekend ₹3,333 · Weekday ", "₹5,555/mo"],
+    price: ["From ", "₹3,333/mo"],
     hover: "prepare_skill",
     click: "lsit",
   },
