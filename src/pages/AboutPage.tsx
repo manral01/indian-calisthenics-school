@@ -45,7 +45,7 @@ const Creds = styled.ul`
 // Founder photos cross-fade one at a time, 3 seconds each.
 const FOUNDER_SLIDE_SECONDS = 3;
 const FOUNDER_PHOTOS = [
-  { src: "/founder/aman-beach.webp", w: 1021, h: 1400, pos: "center", alt: "Aman Bisht, founder and head coach of Indian Calisthenics School" },
+  { src: "/founder/aman-beach.webp", w: 1021, h: 1400, pos: "center", alt: "Aman Bisht, founder and owner of Indian Calisthenics School" },
   { src: "/founder/aman-start-flag.webp", w: 1600, h: 2000, pos: "center 40%", alt: "Aman Bisht flagging off a community run in Hyderabad" },
   { src: "/founder/aman-stage-talk.webp", w: 1800, h: 1200, pos: "46% center", alt: "Aman Bisht speaking on stage at a calisthenics event" },
   { src: "/founder/aman-judging.webp", w: 1598, h: 1066, pos: "51% center", alt: "Aman Bisht judging a calisthenics competition" },
@@ -141,7 +141,7 @@ export const AboutPage = () => (
           </Slides>
           <div>
             <h3>{business.founder.name}</h3>
-            <Role>Founder &amp; head coach</Role>
+            <Role>Founder &amp; owner</Role>
             <Creds>
               {business.founder.credentials.map((c) => (
                 <li key={c}>
@@ -164,6 +164,10 @@ export const AboutPage = () => (
                 </li>
               ))}
             </Creds>
+            <Lead style={{ marginTop: 18 }}>
+              Aman founded and runs Indian Calisthenics School. Our group batches are led by our coaching team, and
+              Aman works with personal training clients.
+            </Lead>
           </div>
           </FounderGrid>
         </FounderCard>

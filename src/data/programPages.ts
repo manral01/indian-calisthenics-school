@@ -136,7 +136,7 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       src: "/tmt-handstand-coaching.webp",
       width: 1400,
       height: 2100,
-      alt: "Coach Aman spotting a handstand while two kids watch at The Mighty Tribe",
+      alt: "A coach spotting a handstand while two kids watch at The Mighty Tribe",
     },
     highlightsTitle: "What kids learn",
     highlights: [

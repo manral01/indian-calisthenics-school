@@ -78,7 +78,7 @@ export const business = {
       src: "/founder/aman-square.webp",
       width: 440,
       height: 440,
-      alt: "Aman Bisht, founder and head coach of Indian Calisthenics School",
+      alt: "Aman Bisht, founder and owner of Indian Calisthenics School",
     } as import("./images").SiteImage | null,
     credentials: [
       "3× national calisthenics champion",
