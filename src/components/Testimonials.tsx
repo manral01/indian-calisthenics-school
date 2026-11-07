@@ -72,7 +72,7 @@ const Track = styled.div<{ $seconds: number }>`
 `;
 const Card = styled.figure`
   margin: 0;
-  flex: 0 0 300px;
+  flex: 0 0 min(280px, 78vw);
   padding: 20px;
   border-radius: ${({ theme }) => theme.radius.lg};
   background: #141414;
