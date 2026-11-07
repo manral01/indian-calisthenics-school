@@ -32,5 +32,10 @@ export const GlobalStyles = createGlobalStyle`
   p { text-wrap: pretty; }
 
   :focus-visible { outline: 2px solid ${({ theme }) => theme.colors.accent}; outline-offset: 3px; border-radius: 4px; }
+  /* Phones: frosted-glass blur is costly while scrolling; bars are already near-opaque */
+  @media (max-width: 767px) {
+    *, *::before, *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  }
+
   ::selection { background: ${({ theme }) => theme.colors.accent}; color: ${({ theme }) => theme.colors.onAccent}; }
 `;

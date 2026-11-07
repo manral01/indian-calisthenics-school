@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { ExternalLink, Star } from "lucide-react";
 import googleReviews from "../data/googleReviews.json";
@@ -57,11 +58,13 @@ const Viewport = styled.div`
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 `;
-const Track = styled.div<{ $seconds: number }>`
+const Track = styled.div<{ $seconds: number; $running: boolean }>`
   display: flex;
   gap: 16px;
   width: max-content;
   animation: ${scroll} ${({ $seconds }) => $seconds}s linear infinite;
+  animation-play-state: ${({ $running }) => ($running ? "running" : "paused")};
+  will-change: transform;
   ${Viewport}:hover &,
   ${Viewport}:active & {
     animation-play-state: paused;
@@ -131,7 +134,19 @@ const Empty = styled.p`
   line-height: 1.7;
 `;
 
-export const Testimonials = () => (
+export const Testimonials = () => {
+  // Only animate while the strip is on screen (saves battery and keeps scrolling smooth)
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [onScreen, setOnScreen] = useState(false);
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el || !("IntersectionObserver" in window)) return setOnScreen(true);
+    const io = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting), { rootMargin: "100px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
   <Section id="testimonials">
     <Wrap>
       <Head>
@@ -142,8 +157,8 @@ export const Testimonials = () => (
       </Head>
 
       {reviews.length > 0 ? (
-        <Viewport>
-          <Track $seconds={reviews.length * 3}>
+        <Viewport ref={viewportRef}>
+          <Track $seconds={reviews.length * 3} $running={onScreen}>
             {[...reviews, ...reviews].map((r, i) => (
               <Card key={`${r.author}-${i}`} aria-hidden={i >= reviews.length || undefined}>
                 <Stars aria-label={`${r.rating} out of 5 stars`}>
@@ -180,3 +195,4 @@ export const Testimonials = () => (
     </Wrap>
   </Section>
 );
+};
