@@ -19,7 +19,7 @@ export const founderSchema = () => ({
   name: business.founder.name,
   jobTitle: "Calisthenics athlete, coach and founder",
   description:
-    "Indian calisthenics athlete and coach from Dehradun, based in Hyderabad. 3× national calisthenics champion who has represented India three times. Founder of Indian Calisthenics School (Madhapur), Calisthenics Lab India (Kondapur) and the Hyderabad Calisthenics community.",
+    "Indian calisthenics athlete and coach from Dehradun, based in Hyderabad. 3× national calisthenics champion who has represented India three times, and a competition judge. Founder of Indian Calisthenics School (Madhapur), Calisthenics Lab India (Kondapur) and the Hyderabad Calisthenics community.",
   url: absoluteUrl("/aman-bisht"),
   mainEntityOfPage: absoluteUrl("/aman-bisht"),
   image: absoluteUrl("/founder/aman-square.webp"),
@@ -27,11 +27,11 @@ export const founderSchema = () => ({
   homeLocation: { "@type": "City", name: "Hyderabad" },
   knowsAbout: ["Calisthenics", "Street workout", "Freestyle calisthenics", "Calisthenics coaching"],
   award: [
-    "Third place in Asia and second among Indian athletes, Asian Championship of Freestyle",
+    "Third place in Asia and second among Indian athletes, Asian Championship of Freestyle (Mumbai, 2024)",
     "3× national calisthenics champion",
   ],
   // The same person's profile on the sister academy's site
-  sameAs: [CLI_FOUNDER_PAGE],
+  sameAs: ["https://www.instagram.com/gravity_antagonist_sw", CLI_FOUNDER_PAGE],
   worksFor: [
     { "@id": ORG_ID },
     {

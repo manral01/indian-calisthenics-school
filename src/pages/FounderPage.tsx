@@ -7,6 +7,7 @@ import { Container, ContactActions, H2, Lead, PageHeader, PageSection } from "..
 // Aman's profile, told as a timeline. The longer story lives on the
 // Calisthenics Lab India site; this page links to it instead of repeating it.
 // Only add facts Aman has confirmed.
+const INSTAGRAM = "https://www.instagram.com/gravity_antagonist_sw";
 const FULL_STORY = "https://www.calisthenicslabindia.club/aman-bisht";
 
 const MILESTONES = [
@@ -31,14 +32,14 @@ const MILESTONES = [
     text: "A second international appearance for India.",
   },
   {
-    when: "Asian Championship",
+    when: "2024 · Mumbai",
     title: "Third in Asia",
-    text: "At the Asian Championship of Freestyle, held in India, he finishes second among Indian athletes and third in Asia.",
+    text: "At the Asian Championship of Freestyle, held at All India Strength Wars 5.0 in Mumbai, he finishes second among Indian athletes and third in Asia.",
   },
   {
     when: "Today",
     title: "Two academies and hundreds of workshops",
-    text: "He runs Indian Calisthenics School in Madhapur and Calisthenics Lab India in Kondapur, and has taught hundreds of workshops in schools, colleges and corporate offices.",
+    text: "He runs Indian Calisthenics School in Madhapur and Calisthenics Lab India in Kondapur, has taught hundreds of workshops in schools, colleges and corporate offices, and judges calisthenics competitions all over India.",
   },
 ];
 
@@ -157,7 +158,8 @@ export const FounderPage = () => (
         </Lead>
         <Lead>
           At {business.name} he is the founder and owner. Group batches are led by the coaching team, and Aman takes
-          personal training clients. <Link to="/about" style={{ textDecoration: "underline" }}>More about the school</Link>.
+          personal training clients. <Link to="/about" style={{ textDecoration: "underline" }}>More about the school</Link>. Follow Aman on{" "}
+          <a href={INSTAGRAM} target="_blank" rel="noopener me" style={{ textDecoration: "underline" }}>Instagram</a>.
         </Lead>
         <Photos>
           <img src="/founder/aman-judging.webp" alt="Aman Bisht on the judging panel at a calisthenics competition" width={1598} height={1066} loading="lazy" />
