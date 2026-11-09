@@ -141,6 +141,10 @@ export const Footer = () => (
           <a href={business.hyderabadCalisthenicsInstagram} target="_blank" rel="noopener noreferrer">
             Hyderabad Calisthenics
           </a>
+          <Heading style={{ marginTop: 18 }}>Our other academy</Heading>
+          <a href="https://www.calisthenicslabindia.club/" target="_blank" rel="noopener">
+            Calisthenics Lab India, Kondapur
+          </a>
         </Col>
       </Top>
       <Bottom>

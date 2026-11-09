@@ -81,9 +81,15 @@ export const RichText = ({ text }: { text: string }) => {
       {parts.map((part, i) => {
         const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         return m ? (
-          <Link key={i} to={m[2]}>
-            {m[1]}
-          </Link>
+          m[2].startsWith("http") ? (
+            <a key={i} href={m[2]} target="_blank" rel="noopener">
+              {m[1]}
+            </a>
+          ) : (
+            <Link key={i} to={m[2]}>
+              {m[1]}
+            </Link>
+          )
         ) : (
           <Fragment key={i}>{part}</Fragment>
         );

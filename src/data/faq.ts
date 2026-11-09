@@ -29,6 +29,31 @@ export const faqData: FAQItem[] = [
   {
     question: "Where is Indian Calisthenics School located?",
     answer:
-      "We are in Madhapur, near Mindspace and HITEC City, Hyderabad, Telangana 500081. See the Contact page for the map and directions.",
+      "Image Hospital Road, adjacent to Fresh Living Apartment, Vittal Rao Nagar, Madhapur, Hyderabad, Telangana 500081, near Mindspace and HITEC City. See the Contact page for the map and directions.",
+  },
+  {
+    question: "How much does calisthenics training cost at Indian Calisthenics School?",
+    answer:
+      "Weekday adult batches are ₹7,777 a month (₹22,222 quarterly, ₹44,444 half-yearly, ₹77,777 yearly). The weekend adult batch is ₹4,444 a month. Kids batches are ₹5,555 a month on weekdays and ₹3,333 a month on weekends. Online personal training is ₹15,000; in-person personal training is priced after a consultation.",
+  },
+  {
+    question: "Can I try a class before joining?",
+    answer:
+      "Yes. A demo session is free on any weekday (Monday to Friday). A weekend demo is ₹800, adjusted in your package when you join.",
+  },
+  {
+    question: "Do you have calisthenics classes for kids?",
+    answer:
+      "Yes. The Mighty Tribe is our kids program for ages 3 to 15: calisthenics, gymnastics and parkour in one subscription, taught in three levels (Foundation, Builder and Advanced).",
+  },
+  {
+    question: "Is calisthenics good for women?",
+    answer:
+      "Yes. Calisthenics suits anyone, at any fitness level. Every exercise is scaled to your current strength, so you build up to skills like pull-ups, handstands and L-sits step by step.",
+  },
+  {
+    question: "How do I book or ask a question?",
+    answer:
+      "WhatsApp or call +91 88267 62234, or tap Book a demo on any page.",
   },
 ];

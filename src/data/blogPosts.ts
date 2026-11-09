@@ -22,6 +22,117 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "calisthenics-in-hyderabad-fees-timings",
+    path: "/blog/calisthenics-in-hyderabad-fees-timings",
+    title: "Calisthenics in Hyderabad: Fees, Timings and What to Expect",
+    seoTitle: "Calisthenics in Hyderabad: Fees, Timings & What to Expect",
+    description:
+      "What calisthenics classes in Hyderabad cost, when batches run and what your first session looks like, with Indian Calisthenics School's fees and timings.",
+    datePublished: "2026-11-10",
+    dateModified: "2026-11-10",
+    image: images.trainingSpaceGroup,
+    program: { path: "/training/calisthenics", name: "Calisthenics training" },
+    body: [
+      {
+        p: "Calisthenics has grown fast in Hyderabad, especially around HITEC City, Madhapur, Kondapur and Gachibowli. If you're thinking of starting, this guide covers what classes cost, when batches run, what happens in your first session and what to look for in an academy.",
+      },
+      { h2: "What is calisthenics?" },
+      {
+        p: "Calisthenics is strength training with your own bodyweight: push-ups, pull-ups, dips, squats and core work, building up to skills like handstands, L-sits, levers and muscle-ups. Every exercise can be made easier or harder, so complete beginners and advanced athletes can train in the same class.",
+      },
+      { h2: "How much do calisthenics classes cost in Hyderabad?" },
+      {
+        p: "Group batches are usually paid monthly, with discounts for longer plans. At Indian Calisthenics School in Madhapur:",
+      },
+      {
+        ul: [
+          "Weekday adult batch: ₹7,777 a month, ₹22,222 quarterly, ₹44,444 half-yearly or ₹77,777 yearly",
+          "Weekend adult batch: ₹4,444 a month",
+          "Kids (The Mighty Tribe, ages 3–15): ₹5,555 a month on weekdays, ₹3,333 a month on weekends",
+          "Online personal training: ₹15,000; in-person personal training is priced after a consultation",
+        ],
+      },
+      {
+        p: "A demo session is free on any weekday. A weekend demo is ₹800, adjusted in your package when you join.",
+      },
+      { h2: "When do batches run?" },
+      {
+        p: "Most people in Hyderabad train before or after office hours, so academies run early-morning and evening batches. Ours run Monday to Friday from 6:30 to 9:30 AM and 6 to 9 PM in one-hour slots, with kids batches from 4 to 6 PM. Weekend batches run from 8 to 10 AM (kids 9 to 10 AM). See [all timings and fees](/training/calisthenics#timings).",
+      },
+      { h2: "What happens in your first session?" },
+      {
+        ul: [
+          "A warm-up to get joints and muscles ready",
+          "A quick look at where you are: push-ups, hangs, squats and mobility",
+          "Strength and skill work at your level, with easier versions of anything you can't do yet",
+          "A cool-down and stretch",
+        ],
+      },
+      {
+        p: "You don't need to be strong or flexible to start. Strength comes from the training itself. Read our guide on [how to start calisthenics as a beginner](/blog/how-to-start-calisthenics-as-a-beginner).",
+      },
+      { h2: "How to choose a calisthenics academy" },
+      {
+        ul: [
+          "Coaches who correct your form and give you easier progressions, not just a workout",
+          "Batch timings that fit your day, so you can train consistently",
+          "A real training space: pull-up bars, parallel bars, rings and mats",
+          "A supportive community, which is what keeps most people coming back",
+          "Honest reviews from people at your level",
+        ],
+      },
+      { h2: "Where to train" },
+      {
+        p: "Indian Calisthenics School is in Madhapur, near Mindspace and HITEC City. If you live or work around Kondapur, our sister academy [Calisthenics Lab India](https://www.calisthenicslabindia.club/) runs batches there. Both are part of the Hyderabad Calisthenics community.",
+      },
+    ],
+  },
+  {
+    slug: "calisthenics-near-hitec-city-mindspace",
+    path: "/blog/calisthenics-near-hitec-city-mindspace",
+    title: "Calisthenics Near HITEC City and Mindspace: A Guide for Working Professionals",
+    seoTitle: "Calisthenics Near HITEC City & Mindspace, Hyderabad",
+    description:
+      "Training calisthenics around a HITEC City or Mindspace work day: batches before and after office, weekend options, fees and how to start in Madhapur.",
+    datePublished: "2026-11-10",
+    dateModified: "2026-11-10",
+    image: images.rig,
+    program: { path: "/training/calisthenics", name: "Calisthenics training" },
+    body: [
+      {
+        p: "If you work in HITEC City or Mindspace, long days at a desk can leave your back, shoulders and hips stiff. Calisthenics builds strength and mobility together, and an hour a few times a week is enough to feel the difference.",
+      },
+      { h2: "Fitting training around office hours" },
+      {
+        ul: [
+          "Before work: weekday batches at 6:30, 7:30 and 8:30 AM",
+          "After work: weekday batches at 6, 7 and 8 PM",
+          "Weekends only: batches at 8 and 9 AM on Saturday and Sunday",
+        ],
+      },
+      {
+        p: "Each batch is one hour. Pick the slot you can keep every week: consistency matters more than how hard any single session is.",
+      },
+      { h2: "Why calisthenics suits desk workers" },
+      {
+        ul: [
+          "Pulling work (hangs, rows, pull-ups) strengthens the upper back that slouching weakens",
+          "Core holds and mobility work help with stiffness from long hours sitting",
+          "No machines to queue for: the training uses bars, rings and your own bodyweight",
+          "Skills like handstands and L-sits give you clear goals to work towards",
+        ],
+      },
+      { h2: "Fees" },
+      {
+        p: "Weekday batches are ₹7,777 a month (₹22,222 quarterly). The weekend batch is ₹4,444 a month. A demo session is free on any weekday, so you can try a class before deciding. See [all plans](/training/calisthenics#timings).",
+      },
+      { h2: "Where we are" },
+      {
+        p: "Indian Calisthenics School is on Image Hospital Road, adjacent to Fresh Living Apartment, Vittal Rao Nagar, Madhapur, near Mindspace and HITEC City. [Get directions](/contact) or WhatsApp +91 88267 62234 to book a demo.",
+      },
+    ],
+  },
+  {
     slug: "how-to-start-calisthenics-as-a-beginner",
     path: "/blog/how-to-start-calisthenics-as-a-beginner",
     title: "How to Start Calisthenics as a Beginner",

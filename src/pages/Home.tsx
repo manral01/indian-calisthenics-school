@@ -4,6 +4,7 @@ import { Gallery } from "../components/Gallery";
 import { Testimonials } from "../components/Testimonials";
 import { TimingsGlance } from "../components/TimingsGlance";
 import { FAQ } from "../components/FAQ";
+import { QuickFacts } from "../components/QuickFacts";
 import { Contact } from "../components/Contact";
 import { HomeScene } from "../components/HomeScene";
 import styled from "styled-components";
@@ -24,6 +25,7 @@ export const Home = () => (
       <TimingsGlance />
       <Gallery />
       <Testimonials />
+      <QuickFacts />
       <FAQ />
       <Contact />
     </Layer>
