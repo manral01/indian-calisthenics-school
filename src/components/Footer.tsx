@@ -123,6 +123,7 @@ export const Footer = () => (
               {label}
             </Link>
           ))}
+          <Link to="/aman-bisht">Founder: Aman Bisht</Link>
         </Col>
         <Col>
           <Heading>Timings</Heading>

@@ -168,6 +168,11 @@ export const AboutPage = () => (
               Aman founded and runs Indian Calisthenics School. Our group batches are led by our coaching team, and
               Aman works with personal training clients.
             </Lead>
+            <Lead>
+              <Link to="/aman-bisht" style={{ textDecoration: "underline", color: "#FF6A00", fontWeight: 700 }}>
+                Read Aman's story
+              </Link>
+            </Lead>
           </div>
           </FounderGrid>
         </FounderCard>

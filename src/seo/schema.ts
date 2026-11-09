@@ -9,16 +9,29 @@ export const absoluteUrl = (path: string) =>
 const ORG_ID = `${SITE_URL}/#organization`;
 const FOUNDER_ID = `${SITE_URL}/about#aman-bisht`;
 
+const CLI_FOUNDER_PAGE = "https://www.calisthenicslabindia.club/aman-bisht";
+
 /** Aman Bisht, founder of both academies and the Hyderabad Calisthenics community. */
 export const founderSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Person",
   "@id": FOUNDER_ID,
   name: business.founder.name,
-  jobTitle: "Founder",
+  jobTitle: "Calisthenics athlete, coach and founder",
   description:
-    "Founder of Indian Calisthenics School (Madhapur) and Calisthenics Lab India (Kondapur), and of the Hyderabad Calisthenics community. National calisthenics champion who has represented India.",
-  url: absoluteUrl("/about"),
+    "Indian calisthenics athlete and coach from Dehradun, based in Hyderabad. 3× national calisthenics champion who has represented India three times. Founder of Indian Calisthenics School (Madhapur), Calisthenics Lab India (Kondapur) and the Hyderabad Calisthenics community.",
+  url: absoluteUrl("/aman-bisht"),
+  mainEntityOfPage: absoluteUrl("/aman-bisht"),
+  image: absoluteUrl("/founder/aman-square.webp"),
+  nationality: { "@type": "Country", name: "India" },
+  homeLocation: { "@type": "City", name: "Hyderabad" },
+  knowsAbout: ["Calisthenics", "Street workout", "Freestyle calisthenics", "Calisthenics coaching"],
+  award: [
+    "Third place in Asia and second among Indian athletes, Asian Championship of Freestyle",
+    "3× national calisthenics champion",
+  ],
+  // The same person's profile on the sister academy's site
+  sameAs: [CLI_FOUNDER_PAGE],
   worksFor: [
     { "@id": ORG_ID },
     {
@@ -32,6 +45,14 @@ export const founderSchema = () => ({
     name: "Hyderabad Calisthenics",
     sameAs: [business.hyderabadCalisthenicsInstagram],
   },
+});
+
+/** The founder page is a profile of one person; this tells Google who it is about. */
+export const founderProfileSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  dateModified: "2026-11-10",
+  mainEntity: founderSchema(),
 });
 
 export const localBusinessSchema = () => {

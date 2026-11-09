@@ -15,6 +15,7 @@ import {
   BlogPage,
   BlogPostPage,
   ContactPage,
+  FounderPage,
   Home,
   NotFoundPage,
   TrainingPage,
@@ -52,6 +53,8 @@ const Page = () => {
       return <TrainingPage key={page.slug} slug={page.slug} />;
     case "about":
       return <AboutPage />;
+    case "founder":
+      return <FounderPage />;
     case "contact":
       return <ContactPage />;
     case "blog":

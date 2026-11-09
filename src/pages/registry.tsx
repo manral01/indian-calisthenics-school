@@ -28,6 +28,7 @@ export const TrainingPage = lazyPage(() =>
   import("../components/TrainingPage").then((m) => m.TrainingPage),
 );
 export const AboutPage = lazyPage(() => import("./AboutPage").then((m) => m.AboutPage));
+export const FounderPage = lazyPage(() => import("./FounderPage").then((m) => m.FounderPage));
 export const ContactPage = lazyPage(() => import("./ContactPage").then((m) => m.ContactPage));
 export const BlogPage = lazyPage(() => import("./BlogPage").then((m) => m.BlogPage));
 export const BlogPostPage = lazyPage(() => import("./BlogPage").then((m) => m.BlogPostPage));
@@ -43,6 +44,8 @@ export function preloadPage(path: string): Promise<void> {
         ? TrainingPage
         : kind === "about"
           ? AboutPage
+          : kind === "founder"
+            ? FounderPage
           : kind === "contact"
             ? ContactPage
             : kind === "blog"
