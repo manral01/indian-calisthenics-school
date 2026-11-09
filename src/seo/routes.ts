@@ -8,6 +8,7 @@ import {
   articleSchema,
   breadcrumbSchema,
   faqSchema,
+  founderProfileSchema,
   founderSchema,
   localBusinessSchema,
 } from "./schema";
@@ -16,6 +17,7 @@ export type PageKind =
   | { kind: "home" }
   | { kind: "program"; slug: (typeof programList)[number]["slug"] }
   | { kind: "about" }
+  | { kind: "founder" }
   | { kind: "contact" }
   | { kind: "blog" }
   | { kind: "post"; slug: string }
@@ -81,6 +83,19 @@ export const routes: RouteMeta[] = [
     page: { kind: "about" },
     breadcrumbs: [home, { name: "About", path: "/about" }],
     schema: [founderSchema(), breadcrumbSchema([home, { name: "About", path: "/about" }])],
+    lastmod: SITE_UPDATED,
+  },
+  {
+    path: "/aman-bisht",
+    title: "Aman Bisht | Founder, Indian Calisthenics School",
+    description:
+      "Aman Bisht: 3× national calisthenics champion who has represented India three times. Founder of Indian Calisthenics School and Hyderabad Calisthenics.",
+    page: { kind: "founder" },
+    breadcrumbs: [home, { name: "About", path: "/about" }, { name: "Aman Bisht", path: "/aman-bisht" }],
+    schema: withCrumbs(
+      [home, { name: "About", path: "/about" }, { name: "Aman Bisht", path: "/aman-bisht" }],
+      [founderProfileSchema()],
+    ),
     lastmod: SITE_UPDATED,
   },
   {
