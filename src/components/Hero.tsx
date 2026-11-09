@@ -16,16 +16,47 @@ const HeroSection = styled.section`
   }
 `;
 
-// Community photo under the ICS neon sign; separate portrait crop for phones.
-const Backdrop = styled.picture`
+// Community photos that cross-fade one at a time (3s each), pure CSS so it runs
+// from the first paint without waiting for JavaScript. Enhanced, phone-sized files.
+const SLIDE_SECONDS = 3;
+const SLIDES = [
+  { src: "/hero/ics-sign-community.webp", w: 1080, h: 608, pos: "50% 30%", alt: "Indian Calisthenics School community under the neon sign in Madhapur" },
+  { src: "/hero/halloween.webp", w: 1080, h: 1440, pos: "50% 55%", alt: "Halloween party with the community at Indian Calisthenics School" },
+  { src: "/hero/street-community.webp", w: 1080, h: 830, pos: "45% 50%", alt: "Community group after an outdoor training session in Hyderabad" },
+  { src: "/hero/workshop.webp", w: 1080, h: 721, pos: "50% 50%", alt: "Calisthenics workshop with a large group" },
+  { src: "/hero/night-session.webp", w: 907, h: 1440, pos: "50% 55%", alt: "Night calisthenics meetup with the Hyderabad community" },
+  { src: "/hero/warm-up.webp", w: 1080, h: 715, pos: "50% 50%", alt: "Group warm-up and stretching session" },
+  { src: "/hero/courtyard-meetup.webp", w: 1080, h: 754, pos: "50% 45%", alt: "Large calisthenics community meetup group photo" },
+  { src: "/hero/pull-up-rig.webp", w: 960, h: 1440, pos: "50% 45%", alt: "Members training together on the pull-up rig" },
+];
+const slideFade = keyframes`
+  0% { opacity: 0; transform: scale(1.04); }
+  3% { opacity: 1; }
+  12.5% { opacity: 1; }
+  15.5% { opacity: 0; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.1); }
+`;
+const Backdrop = styled.div`
   position: absolute;
   inset: 0;
   z-index: 1;
+  overflow: hidden;
   img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    opacity: 0;
+    animation: ${slideFade} ${SLIDES.length * SLIDE_SECONDS}s linear infinite both;
+  }
+  img:first-child {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    img {
+      animation: none;
+    }
   }
   &::after {
     content: "";
@@ -265,15 +296,22 @@ const Scroll = styled.a`
 export const Hero = () => (
   <HeroSection id="home">
     <Backdrop>
-      <source media="(max-width: 767px)" srcSet="/hero-community-mobile.webp" width={844} height={1126} />
-      <img
-        src="/hero-community.webp"
-        width={2000}
-        height={1126}
-        alt="Indian Calisthenics School community group photo under the neon sign in Madhapur"
-        fetchPriority="high"
-        decoding="async"
-      />
+      {SLIDES.map((s, i) => (
+        <img
+          key={s.src}
+          src={s.src}
+          width={s.w}
+          height={s.h}
+          alt={i === 0 ? s.alt : ""}
+          aria-hidden={i === 0 ? undefined : true}
+          decoding="async"
+          fetchPriority={i === 0 ? "high" : "low"}
+          style={{
+            objectPosition: s.pos,
+            animationDelay: `${i * SLIDE_SECONDS - SLIDE_SECONDS / 4}s`,
+          }}
+        />
+      ))}
     </Backdrop>
     <Content>
       <Title>Calisthenics Academy in Madhapur, Hyderabad</Title>
@@ -284,6 +322,7 @@ export const Hero = () => (
       <Chips aria-label="Highlights">
         <li>★ 5-star Google reviews</li>
         <li>Beginner to advanced</li>
+        <li>Weekday & weekend batches</li>
         <li>Free weekday demo</li>
       </Chips>
       <Buttons>

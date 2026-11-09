@@ -27,6 +27,10 @@ const Header = styled.header`
   align-items: center;
   gap: 12px;
   pointer-events: none;
+  @media (max-width: 767px) {
+    justify-content: flex-end;
+    min-height: 48px;
+  }
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     top: 16px;
     left: 16px;
@@ -43,6 +47,14 @@ const Pill = styled.div`
 `;
 const Brand = styled(Link)`
   pointer-events: auto;
+  /* Phones: logo + name centred at the top, menu button stays on the right */
+  @media (max-width: 767px) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: calc(100% - 128px);
+  }
   display: flex;
   align-items: center;
   gap: 10px;
