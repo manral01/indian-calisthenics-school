@@ -7,13 +7,35 @@ export const absoluteUrl = (path: string) =>
   path.startsWith("http") ? path : `${SITE_URL}${path === "/" ? "/" : path}`;
 
 const ORG_ID = `${SITE_URL}/#organization`;
+const FOUNDER_ID = `${SITE_URL}/about#aman-bisht`;
+
+/** Aman Bisht, founder of both academies and the Hyderabad Calisthenics community. */
+export const founderSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": FOUNDER_ID,
+  name: business.founder.name,
+  jobTitle: "Founder",
+  description:
+    "Founder of Indian Calisthenics School (Madhapur) and Calisthenics Lab India (Kondapur), and of the Hyderabad Calisthenics community. National calisthenics champion who has represented India.",
+  url: absoluteUrl("/about"),
+  worksFor: [
+    { "@id": ORG_ID },
+    {
+      "@type": "SportsActivityLocation",
+      name: "Calisthenics Lab India",
+      url: "https://www.calisthenicslabindia.club/",
+    },
+  ],
+  memberOf: {
+    "@type": "Organization",
+    name: "Hyderabad Calisthenics",
+    sameAs: [business.hyderabadCalisthenicsInstagram],
+  },
+});
 
 export const localBusinessSchema = () => {
-  const sameAs = [
-    business.instagram,
-    business.googleBusinessProfile,
-    business.hyderabadCalisthenicsInstagram,
-  ].filter(Boolean);
+  const sameAs = [business.instagram, business.googleBusinessProfile].filter(Boolean);
 
   return {
     "@context": "https://schema.org",
@@ -52,7 +74,7 @@ export const localBusinessSchema = () => {
       closes: h.closes,
     })),
     areaServed: business.areaServed.map((name) => ({ "@type": "Place", name })),
-    founder: { "@type": "Person", name: business.founder.name },
+    founder: { "@id": FOUNDER_ID },
     priceRange: "₹3,333 – ₹77,777",
     ...(sameAs.length && { sameAs }),
   };
@@ -88,7 +110,7 @@ export const articleSchema = (post: BlogPost) => ({
   datePublished: post.datePublished,
   dateModified: post.dateModified,
   mainEntityOfPage: absoluteUrl(post.path),
-  author: { "@type": "Organization", name: business.name, url: absoluteUrl("/") },
+  author: { "@type": "Person", "@id": FOUNDER_ID, name: business.founder.name, url: absoluteUrl("/about") },
   publisher: {
     "@type": "Organization",
     name: business.name,

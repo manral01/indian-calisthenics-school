@@ -8,6 +8,7 @@ import {
   articleSchema,
   breadcrumbSchema,
   faqSchema,
+  founderSchema,
   localBusinessSchema,
 } from "./schema";
 
@@ -47,7 +48,7 @@ const withCrumbs = (crumbs: Crumb[], schema: object[]) => [
   breadcrumbSchema(crumbs),
 ];
 
-const SITE_UPDATED = "2026-10-29";
+const SITE_UPDATED = "2026-11-10";
 
 export const routes: RouteMeta[] = [
   {
@@ -79,7 +80,7 @@ export const routes: RouteMeta[] = [
       "Indian Calisthenics School in Madhapur, Hyderabad was founded by Aman Bisht, 3× national calisthenics champion who has represented India 3 times.",
     page: { kind: "about" },
     breadcrumbs: [home, { name: "About", path: "/about" }],
-    schema: [breadcrumbSchema([home, { name: "About", path: "/about" }])],
+    schema: [founderSchema(), breadcrumbSchema([home, { name: "About", path: "/about" }])],
     lastmod: SITE_UPDATED,
   },
   {
