@@ -62,7 +62,8 @@ export const founderSchema = () => ({
 export const founderProfileSchema = () => ({
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  dateModified: "2026-11-10",
+  dateCreated: "2026-11-10T00:00:00+05:30",
+  dateModified: "2026-11-11T00:00:00+05:30",
   mainEntity: founderSchema(),
 });
 
@@ -146,8 +147,8 @@ export const articleSchema = (post: BlogPost) => ({
   headline: post.title,
   description: post.description,
   image: [absoluteUrl(OG_IMAGE)],
-  datePublished: post.datePublished,
-  dateModified: post.dateModified,
+  datePublished: `${post.datePublished}T09:00:00+05:30`,
+  dateModified: `${post.dateModified}T09:00:00+05:30`,
   mainEntityOfPage: absoluteUrl(post.path),
   author: { "@type": "Person", "@id": FOUNDER_ID, name: business.founder.name, url: absoluteUrl("/about") },
   publisher: orgRef(),
