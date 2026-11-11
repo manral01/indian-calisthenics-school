@@ -11,6 +11,8 @@ import {
   founderProfileSchema,
   founderSchema,
   localBusinessSchema,
+  serviceSchema,
+  websiteSchema,
 } from "./schema";
 
 export type PageKind =
@@ -59,7 +61,7 @@ export const routes: RouteMeta[] = [
     description:
       "Calisthenics academy in Madhapur near Mindspace & HITEC City, Hyderabad. Beginner to advanced batches, kids training, personal training, parkour.",
     page: { kind: "home" },
-    schema: [localBusinessSchema(), faqSchema(faqData)],
+    schema: [localBusinessSchema(), websiteSchema(), faqSchema(faqData)],
     lastmod: SITE_UPDATED,
   },
   ...programList.map((p): RouteMeta => {
@@ -70,7 +72,7 @@ export const routes: RouteMeta[] = [
       description: p.description,
       page: { kind: "program", slug: p.slug },
       breadcrumbs: crumbs,
-      schema: withCrumbs(crumbs, [faqSchema(p.faqs)]),
+      schema: withCrumbs(crumbs, [serviceSchema(p), faqSchema(p.faqs)]),
       preloadImage: p.image,
       lastmod: SITE_UPDATED,
     };
