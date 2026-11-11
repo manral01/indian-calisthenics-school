@@ -2,12 +2,23 @@ import { business, SITE_URL } from "../data/business";
 import { OG_IMAGE } from "../data/images";
 import type { FAQItem } from "../data/faq";
 import type { BlogPost } from "../data/blogPosts";
+import type { ProgramPageContent } from "../data/programPages";
+import { trainingPrograms } from "../data/trainingData";
 
 export const absoluteUrl = (path: string) =>
   path.startsWith("http") ? path : `${SITE_URL}${path === "/" ? "/" : path}`;
 
 const ORG_ID = `${SITE_URL}/#organization`;
 const FOUNDER_ID = `${SITE_URL}/about#aman-bisht`;
+
+/** Points at the academy; name, url and logo are repeated so it also reads on pages without the full block. */
+const orgRef = () => ({
+  "@type": "HealthClub",
+  "@id": ORG_ID,
+  name: business.name,
+  url: absoluteUrl("/"),
+  logo: { "@type": "ImageObject", url: absoluteUrl("/logo-512.png") },
+});
 
 const CLI_FOUNDER_PAGE = "https://www.calisthenicslabindia.club/aman-bisht";
 
@@ -60,7 +71,9 @@ export const localBusinessSchema = () => {
 
   return {
     "@context": "https://schema.org",
-    "@type": "SportsActivityLocation",
+    // HealthClub is a LocalBusiness (and an Organization), so this one block
+    // carries both the local-business and the organization details.
+    "@type": "HealthClub",
     "@id": ORG_ID,
     name: business.name,
     url: absoluteUrl("/"),
@@ -97,7 +110,12 @@ export const localBusinessSchema = () => {
     areaServed: business.areaServed.map((name) => ({ "@type": "Place", name })),
     founder: { "@id": FOUNDER_ID },
     priceRange: "₹3,333 – ₹77,777",
+    currenciesAccepted: "INR",
     ...(sameAs.length && { sameAs }),
+    makesOffer: PROGRAM_SLUGS.map((slug) => ({
+      "@type": "Offer",
+      itemOffered: { "@id": serviceId(`/training/${slug}`) },
+    })),
   };
 };
 
@@ -132,9 +150,72 @@ export const articleSchema = (post: BlogPost) => ({
   dateModified: post.dateModified,
   mainEntityOfPage: absoluteUrl(post.path),
   author: { "@type": "Person", "@id": FOUNDER_ID, name: business.founder.name, url: absoluteUrl("/about") },
-  publisher: {
-    "@type": "Organization",
-    name: business.name,
-    logo: { "@type": "ImageObject", url: absoluteUrl("/logo-512.png") },
+  publisher: orgRef(),
+});
+
+export const websiteSchema = () => ({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: business.name,
+  alternateName: "ICS Hyderabad",
+  url: absoluteUrl("/"),
+  inLanguage: "en-IN",
+  publisher: { "@id": ORG_ID },
+});
+
+const PROGRAM_SLUGS = ["calisthenics", "kids", "personal-training", "freestyle-parkour"] as const;
+const serviceId = (path: string) => `${absoluteUrl(path)}#service`;
+
+const monthlyOffer = (name: string, price: number) => ({
+  "@type": "Offer",
+  name,
+  price: String(price),
+  priceCurrency: "INR",
+  priceSpecification: {
+    "@type": "UnitPriceSpecification",
+    price: String(price),
+    priceCurrency: "INR",
+    unitText: "month",
   },
 });
+
+const monthly = (program: "calisthenics" | "kids", session: "weekdaySession" | "weekendSession") => {
+  const s = trainingPrograms[program][session];
+  const tier = s.pricing.find((t) => /month/i.test(t.id)) ?? s.pricing[0];
+  return monthlyOffer(`${s.batchName}, monthly`, tier.price);
+};
+
+/** Separate service per program page (group classes, kids, personal coaching, freestyle). */
+const SERVICE_DETAILS: Record<(typeof PROGRAM_SLUGS)[number], { serviceType: string; offers?: () => object[] }> = {
+  calisthenics: {
+    serviceType: "Group calisthenics classes",
+    offers: () => [monthly("calisthenics", "weekdaySession"), monthly("calisthenics", "weekendSession")],
+  },
+  kids: {
+    serviceType: "Kids fitness classes",
+    offers: () => [monthly("kids", "weekdaySession"), monthly("kids", "weekendSession")],
+  },
+  "personal-training": {
+    serviceType: "Personal training",
+    // In-person is priced on consultation; only the online price is published.
+    offers: () => [{ "@type": "Offer", name: "Online personal training", price: "15000", priceCurrency: "INR" }],
+  },
+  "freestyle-parkour": { serviceType: "Freestyle calisthenics and parkour classes" },
+};
+
+export const serviceSchema = (program: ProgramPageContent) => {
+  const details = SERVICE_DETAILS[program.slug];
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": serviceId(program.path),
+    name: `${program.name} at ${business.name}`,
+    serviceType: details.serviceType,
+    description: program.description,
+    url: absoluteUrl(program.path),
+    provider: orgRef(),
+    areaServed: { "@type": "City", name: "Hyderabad" },
+    ...(details.offers && { offers: details.offers() }),
+  };
+};
