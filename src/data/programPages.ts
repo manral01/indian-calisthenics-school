@@ -235,10 +235,11 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
     name: "Personal Training",
     title: "Personal Calisthenics Training in Madhapur, Hyderabad",
     description:
-      "One-on-one calisthenics personal training in Madhapur, Hyderabad, plus online personal training. A coach and a plan built around your goals.",
+      "One-on-one calisthenics personal training in Madhapur, Hyderabad, available 24/7 by appointment, plus online coaching. A plan built around your goals.",
     h1: "Personal Training in Madhapur, Hyderabad",
     intro: [
       "Personal training at Indian Calisthenics School in Madhapur, Hyderabad gives you a coach who works with you one-on-one for the whole session, with a plan built around your goals and current ability.",
+      "Personal sessions are available 24/7, booked by appointment at a time that suits you. Only the group batches run at fixed timings.",
       "Can't train in person? Online personal training is also available.",
     ],
     image: images.spot,
@@ -247,6 +248,10 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       {
         title: "1-hour dedicated coach",
         text: "Your coach works with you alone for the full 60 minutes.",
+      },
+      {
+        title: "Any time, 24/7",
+        text: "Book your session at the hour that suits you, including early mornings, late nights and weekends.",
       },
       {
         title: "Custom workouts",
@@ -273,6 +278,11 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
         question: "How much does personal training cost?",
         answer:
           "In-person personal training is priced on consultation, based on your goals and schedule. Online personal training is ₹15,000.",
+      },
+      {
+        question: "When can I do personal training?",
+        answer:
+          "Any time, 24/7. Personal sessions are booked by appointment at a time that suits you. Only the group batches run at fixed timings.",
       },
       {
         question: "How long is a personal training session?",

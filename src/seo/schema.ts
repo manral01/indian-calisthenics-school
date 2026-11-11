@@ -188,7 +188,7 @@ const monthly = (program: "calisthenics" | "kids", session: "weekdaySession" | "
 };
 
 /** Separate service per program page (group classes, kids, personal coaching, freestyle). */
-const SERVICE_DETAILS: Record<(typeof PROGRAM_SLUGS)[number], { serviceType: string; offers?: () => object[] }> = {
+const SERVICE_DETAILS: Record<(typeof PROGRAM_SLUGS)[number], { serviceType: string; offers?: () => object[]; hoursAvailable?: object }> = {
   calisthenics: {
     serviceType: "Group calisthenics classes",
     offers: () => [monthly("calisthenics", "weekdaySession"), monthly("calisthenics", "weekendSession")],
@@ -199,6 +199,12 @@ const SERVICE_DETAILS: Record<(typeof PROGRAM_SLUGS)[number], { serviceType: str
   },
   "personal-training": {
     serviceType: "Personal training",
+    hoursAvailable: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "00:00",
+      closes: "23:59",
+    },
     // In-person is priced on consultation; only the online price is published.
     offers: () => [{ "@type": "Offer", name: "Online personal training", price: "15000", priceCurrency: "INR" }],
   },
@@ -218,5 +224,6 @@ export const serviceSchema = (program: ProgramPageContent) => {
     provider: orgRef(),
     areaServed: { "@type": "City", name: "Hyderabad" },
     ...(details.offers && { offers: details.offers() }),
+    ...(details.hoursAvailable && { hoursAvailable: details.hoursAvailable }),
   };
 };
