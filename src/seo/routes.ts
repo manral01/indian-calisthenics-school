@@ -57,7 +57,7 @@ const SITE_UPDATED = "2026-11-18";
 export const routes: RouteMeta[] = [
   {
     path: "/",
-    title: "Calisthenics Academy in Madhapur, Hyderabad | Indian Calisthenics School",
+    title: "Calisthenics in Hyderabad | Indian Calisthenics School",
     description:
       "Calisthenics academy in Madhapur near Mindspace & HITEC City, Hyderabad. Beginner to advanced batches, kids training, personal training, parkour.",
     page: { kind: "home" },
