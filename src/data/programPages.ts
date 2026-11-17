@@ -1,5 +1,6 @@
 import { images, type SiteImage } from "./images";
 import type { FAQItem } from "./faq";
+import { business, phoneDisplay } from "./business";
 
 // Content for the /training/* pages. Only facts already published by the
 // school (timings, prices, programs) are stated; everything else is a
@@ -41,6 +42,8 @@ export interface ProgramPageContent {
   schedule?: "calisthenics" | "kids";
   /** Free-text pricing note when there is no schedule block */
   pricingNote?: string;
+  /** Short "at a glance" facts AI assistants and Google can quote */
+  glance?: [string, string][];
   faqs: FAQItem[];
   gallery: SiteImage[];
   relatedPost: { path: string; title: string };
@@ -189,6 +192,14 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       "Active kids who want to learn skills like handstands, flips and vaults",
       "Young athletes who want a strength and coordination base for other sports",
     ],
+    glance: [
+      ["Ages", "3 to 15 years"],
+      ["What kids learn", "Calisthenics (40%), gymnastics (40%) and parkour (20%), in three levels with skills tests every 3 months"],
+      ["Where", `${business.streetAddress}, Madhapur, Hyderabad ${business.postalCode}, near Mindspace and HITEC City. Also at Calisthenics Lab India, Kondapur`],
+      ["Timings", "Mon–Fri 5–6 PM and 6–7 PM · Sat–Sun 9–10 AM"],
+      ["Fees", "Weekdays ₹5,555/month (₹15,151 quarterly) · Weekends ₹3,333/month"],
+      ["How to join", "DM @the.mighty.tribe on Instagram to book a demo class"],
+    ],
     schedule: "kids",
     faqs: [
       {
@@ -215,6 +226,21 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
         question: "Is it safe for children?",
         answer:
           "Sessions are supervised by coaches. Ages 3–5 train through play; ages 6–9 get coach spotting for all upside-down and flipping skills; ages 10–15 build more strength with careful load on growing joints and no heavy weights.",
+      },
+      {
+        question: "Where are the kids classes held?",
+        answer:
+          "At Indian Calisthenics School in Madhapur, near Mindspace and HITEC City, Hyderabad. The Mighty Tribe also runs a branch at Calisthenics Lab India in Kondapur.",
+      },
+      {
+        question: "Does my child need any experience?",
+        answer:
+          "No. Every child starts at Level 1 (Foundation), which teaches body control, safe falling and basic strength from scratch.",
+      },
+      {
+        question: "Is there a trial class for kids?",
+        answer:
+          "Yes. Weekday demo classes are free; a weekend demo is ₹800 and is adjusted in the fees if you join. DM @the.mighty.tribe on Instagram to book one.",
       },
       {
         question: "How do I enrol my child?",
@@ -271,6 +297,14 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       "Athletes chasing a specific skill (handstand, muscle-up, front lever and more)",
       "Anyone returning to training who wants a careful, guided start",
     ],
+    glance: [
+      ["Format", "One-on-one, 60 minutes with a dedicated coach"],
+      ["When", "Any time, 24/7, booked by appointment"],
+      ["Where", `${business.streetAddress}, Madhapur, Hyderabad ${business.postalCode}, or online`],
+      ["Price", "In-person priced after a consultation · Online personal training ₹15,000"],
+      ["Best for", "Learning a specific skill (handstand, muscle-up, front lever), full individual attention, or a guided restart"],
+      ["Book", `WhatsApp ${phoneDisplay}`],
+    ],
     pricingNote:
       "In-person personal training is priced on consultation. Online personal training is ₹15,000.",
     faqs: [
@@ -287,6 +321,11 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       {
         question: "How long is a personal training session?",
         answer: "Each session is one hour with a dedicated coach.",
+      },
+      {
+        question: "Where does personal training happen?",
+        answer:
+          "At Indian Calisthenics School in Madhapur, near Mindspace and HITEC City, Hyderabad, or online if you can't train in person.",
       },
       {
         question: "Do you offer online personal training?",

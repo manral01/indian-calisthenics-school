@@ -62,14 +62,22 @@ const FACTS: [string, string][] = [
   ["Demo", `Free on weekdays · Weekend demo ₹800, adjusted when you join · WhatsApp ${phoneDisplay}`],
 ];
 
-export const QuickFacts = () => (
-  <Section id="at-a-glance">
+export const GlanceFacts = ({
+  title,
+  facts,
+  id = "at-a-glance",
+}: {
+  title: string;
+  facts: [string, string][];
+  id?: string;
+}) => (
+  <Section id={id}>
     <Wrap>
       <H>
-        {business.name} <span>at a glance</span>
+        {title} <span>at a glance</span>
       </H>
       <List>
-        {FACTS.map(([k, v]) => (
+        {facts.map(([k, v]) => (
           <div key={k}>
             <dt>{k}</dt>
             <dd>{v}</dd>
@@ -79,3 +87,5 @@ export const QuickFacts = () => (
     </Wrap>
   </Section>
 );
+
+export const QuickFacts = () => <GlanceFacts title={business.name} facts={FACTS} />;

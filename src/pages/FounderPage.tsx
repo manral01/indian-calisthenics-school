@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { business } from "../data/business";
 import { Link } from "../router";
 import { Container, ContactActions, H2, Lead, PageHeader, PageSection } from "../components/ui";
+import { GlanceFacts } from "../components/QuickFacts";
 
 // Aman's profile, told as a timeline. The longer story lives on the
 // Calisthenics Lab India site; this page links to it instead of repeating it.
@@ -132,6 +133,18 @@ export const FounderPage = () => (
         height: 1200,
         alt: "Aman Bisht speaking on stage at a calisthenics event",
       }}
+    />
+
+    <GlanceFacts
+      title="Aman Bisht"
+      id="founder-at-a-glance"
+      facts={[
+        ["Who", "Calisthenics athlete and coach from Dehradun, based in Hyderabad, with 10 years in calisthenics"],
+        ["Titles", "3× national calisthenics champion; represented India three times (Italy 2023, Russia 2024, Asian Championship of Freestyle, Mumbai 2024: third in Asia)"],
+        ["Founded", "Indian Calisthenics School (Madhapur), Calisthenics Lab India (Kondapur), The Mighty Tribe kids program and the Hyderabad Calisthenics community"],
+        ["Coaching", "Coaching since around 2019; judges calisthenics competitions across India; hundreds of workshops in schools, colleges and companies"],
+        ["Instagram", "@gravity_antagonist_sw"],
+      ]}
     />
 
     <PageSection $alt>

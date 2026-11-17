@@ -5,6 +5,7 @@ import { ArrowRight, Calendar, Sparkles } from "lucide-react";
 import { trainingPrograms, type PricingTier, type TrainingProgramConfig } from "../data/trainingData";
 import { programPages, type ProgramSlug } from "../data/programPages";
 import { TimingSelector } from "./TimingSelector";
+import { GlanceFacts } from "./QuickFacts";
 import { PricingSelector } from "./PricingSelector";
 import { BookingModal, type BookingContext } from "./BookingModal";
 import { Link } from "../router";
@@ -281,6 +282,8 @@ export const TrainingPage = ({ slug }: Props) => {
       >
         {!page.instagramDm && <ContactActions whatsappText={page.whatsappText} />}
       </PageHeader>
+
+      {page.glance && <GlanceFacts title={page.name} facts={page.glance} />}
 
       <PageSection $alt>
         <Container>
