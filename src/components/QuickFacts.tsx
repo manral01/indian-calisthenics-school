@@ -56,7 +56,7 @@ const FACTS: [string, string][] = [
   ["Kids (The Mighty Tribe, ages 3–15)", "Weekdays ₹5,555/month · Weekends ₹3,333/month"],
   [
     "Timings",
-    "Mon–Fri 6:30–9:30 AM & 6–9 PM (kids 4–6 PM) · Sat–Sun 8–10 AM (kids 9–10 AM)",
+    "Mon–Fri 6:30–9:30 AM & 6–9 PM (kids 5–7 PM) · Sat–Sun 8–10 AM (kids 9–10 AM)",
   ],
   ["Levels", "Complete beginners to advanced: push-ups and pull-ups to handstands, levers and muscle-ups"],
   ["Demo", `Free on weekdays · Weekend demo ₹800, adjusted when you join · WhatsApp ${phoneDisplay}`],

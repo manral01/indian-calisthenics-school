@@ -56,9 +56,9 @@ export const business = {
     {
       days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       label: "Mon – Fri",
-      opens: "16:00",
+      opens: "17:00",
       closes: "21:00",
-      display: "4:00 – 9:00 PM (kids 4–6 PM, adults 6–9 PM)",
+      display: "5:00 – 9:00 PM (kids 5–7 PM, adults 6–9 PM)",
     },
     {
       days: ["Saturday", "Sunday"],

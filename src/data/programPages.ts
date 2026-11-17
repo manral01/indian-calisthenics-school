@@ -204,7 +204,7 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       {
         question: "When are the kids batches?",
         answer:
-          "Weekday kids batches run Monday to Friday from 4:00 to 5:00 PM and 5:00 to 6:00 PM. The weekend batch runs Saturday and Sunday from 9:00 to 10:00 AM.",
+          "Weekday kids batches run Monday to Friday from 5:00 to 6:00 PM and 6:00 to 7:00 PM. The weekend batch runs Saturday and Sunday from 9:00 to 10:00 AM.",
       },
       {
         question: "What are the fees for kids training?",
