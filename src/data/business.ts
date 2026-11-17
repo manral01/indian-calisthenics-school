@@ -81,7 +81,7 @@ export const business = {
       alt: "Aman Bisht, founder and owner of Indian Calisthenics School",
     } as import("./images").SiteImage | null,
     credentials: [
-      "3× national calisthenics champion",
+      "Several-time national calisthenics champion",
       "Represented India 3 times",
       "Founder of Hyderabad Calisthenics",
     ],
