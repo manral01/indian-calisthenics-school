@@ -182,9 +182,9 @@ const CARD: Record<
     price: ["From ", "₹3,333/mo"],
   },
   "personal-training": {
-    level: "1-ON-1 · ONLINE",
-    summary: "A dedicated coach and a plan built around your goals.",
-    price: ["", "On consultation"],
+    level: "1-ON-1 · IN PERSON & ONLINE",
+    summary: "A dedicated coach and a plan built around your goals. In-person priced on consultation.",
+    price: ["Online ", "₹15,000"],
   },
   "freestyle-parkour": {
     level: "DYNAMIC SKILLS",

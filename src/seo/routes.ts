@@ -81,7 +81,7 @@ export const routes: RouteMeta[] = [
     path: "/about",
     title: "About Indian Calisthenics School, Madhapur, Hyderabad",
     description:
-      "Indian Calisthenics School in Madhapur, Hyderabad was founded by Aman Bisht, 3× national calisthenics champion who has represented India 3 times.",
+      "Indian Calisthenics School in Madhapur, Hyderabad was founded by Aman Bisht, a several-time national calisthenics champion who has represented India 3 times.",
     page: { kind: "about" },
     breadcrumbs: [home, { name: "About", path: "/about" }],
     schema: [founderSchema(), breadcrumbSchema([home, { name: "About", path: "/about" }])],
@@ -91,7 +91,7 @@ export const routes: RouteMeta[] = [
     path: "/aman-bisht",
     title: "Aman Bisht | Founder, Indian Calisthenics School",
     description:
-      "Aman Bisht: 3× national calisthenics champion who has represented India three times. Founder of Indian Calisthenics School and Hyderabad Calisthenics.",
+      "Aman Bisht: several-time national calisthenics champion who has represented India three times. Founder of Indian Calisthenics School and Hyderabad Calisthenics.",
     page: { kind: "founder" },
     breadcrumbs: [home, { name: "About", path: "/about" }, { name: "Aman Bisht", path: "/aman-bisht" }],
     schema: withCrumbs(

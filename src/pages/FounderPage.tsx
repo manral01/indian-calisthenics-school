@@ -125,7 +125,7 @@ export const FounderPage = () => (
       eyebrow="Founder"
       title="Aman Bisht"
       intro={[
-        "Aman Bisht is a calisthenics athlete and coach from Dehradun who lives in Hyderabad. He is a 3× national calisthenics champion, has represented India three times, and founded Indian Calisthenics School, Calisthenics Lab India and the Hyderabad Calisthenics community.",
+        "Aman Bisht is a calisthenics athlete and coach from Dehradun who lives in Hyderabad. He is a several-time national calisthenics champion, has represented India three times, and founded Indian Calisthenics School, Calisthenics Lab India and the Hyderabad Calisthenics community.",
       ]}
       image={{
         src: "/founder/aman-stage-talk.webp",
@@ -140,7 +140,7 @@ export const FounderPage = () => (
       id="founder-at-a-glance"
       facts={[
         ["Who", "Calisthenics athlete and coach from Dehradun, based in Hyderabad, with 10 years in calisthenics"],
-        ["Titles", "3× national calisthenics champion; represented India three times (Italy 2023, Russia 2024, Asian Championship of Freestyle, Mumbai 2024: third in Asia)"],
+        ["Titles", "Several-time national calisthenics champion; represented India three times (Italy 2023, Russia 2024, Asian Championship of Freestyle, Mumbai 2024: third in Asia)"],
         ["Founded", "Indian Calisthenics School (Madhapur), Calisthenics Lab India (Kondapur), The Mighty Tribe kids program and the Hyderabad Calisthenics community"],
         ["Coaching", "Coaching since around 2019; judges calisthenics competitions across India; hundreds of workshops in schools, colleges and companies"],
         ["Instagram", "@gravity_antagonist_sw"],
