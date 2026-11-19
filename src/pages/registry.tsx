@@ -35,6 +35,7 @@ export const BlogPostPage = lazyPage(() => import("./BlogPage").then((m) => m.Bl
 export const CoursePage = lazyPage(() => import("./CoursePage").then((m) => m.CoursePage));
 export const LoginPage = lazyPage(() => import("./LoginPage").then((m) => m.LoginPage));
 export const LearnPage = lazyPage(() => import("./LearnPage").then((m) => m.LearnPage));
+export const ManualPage = lazyPage(() => import("./ManualPage").then((m) => m.ManualPage));
 export const NotFoundPage = lazyPage(() => import("./NotFoundPage").then((m) => m.NotFoundPage));
 
 /** Start (or finish) loading the code for the page at `path`. Safe to call repeatedly. */
@@ -61,6 +62,8 @@ export function preloadPage(path: string): Promise<void> {
                     ? LoginPage
                     : kind === "learn"
                       ? LearnPage
-                      : NotFoundPage;
+                      : kind === "manual"
+                        ? ManualPage
+                        : NotFoundPage;
   return page.load().catch(() => {});
 }

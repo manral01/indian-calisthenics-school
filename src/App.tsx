@@ -18,6 +18,7 @@ import {
   CoursePage,
   LearnPage,
   LoginPage,
+  ManualPage,
   FounderPage,
   Home,
   NotFoundPage,
@@ -70,6 +71,8 @@ const Page = () => {
       return <LoginPage />;
     case "learn":
       return <LearnPage />;
+    case "manual":
+      return <ManualPage />;
     default:
       return <NotFoundPage />;
   }

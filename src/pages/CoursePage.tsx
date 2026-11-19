@@ -1,7 +1,7 @@
 // /course: sales page for the online Calisthenics Trainer Certification.
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { BookOpen, Check, MessageCircle, PlayCircle } from "lucide-react";
+import { BookOpen, Check, FileText, MessageCircle, PlayCircle } from "lucide-react";
 import { Bullets, Container, Eyebrow, FaqList, H2, Lead, PageHeader, PageSection } from "../components/ui";
 import { Link, useRouter } from "../router";
 import {
@@ -13,6 +13,7 @@ import {
   type ProductId,
 } from "../data/course";
 import { courseFaqs } from "../data/courseFaq";
+import { manualHref, manuals } from "../data/manual";
 import { business, whatsappLink } from "../data/business";
 import { fetchMyStages, useSession } from "../lms/session";
 import { buy, CheckoutCancelled } from "../lms/checkout";
@@ -143,8 +144,8 @@ export const CoursePage = () => {
           <Button $primary onClick={() => navigate("#stages")}>
             <BookOpen size={18} /> See the 3 stages
           </Button>
-          <ButtonTo to="/learn?l=1-1-1">
-            <PlayCircle size={18} /> Watch a free lesson
+          <ButtonTo to={manualHref("stage-1", "1.1.1")}>
+            <FileText size={18} /> Read a free chapter
           </ButtonTo>
         </Actions>
       </PageHeader>
@@ -177,7 +178,12 @@ export const CoursePage = () => {
                   </Bullets>
                   {count > 0 && (
                     <Meta>
-                      <PlayCircle size={16} /> {count} lesson{count > 1 ? "s" : ""} so far
+                      <PlayCircle size={16} /> {count} lesson{count > 1 ? "s" : ""}
+                    </Meta>
+                  )}
+                  {manuals[s.id] && (
+                    <Meta>
+                      <FileText size={16} /> Course manual included (read online)
                     </Meta>
                   )}
                   {have ? (
@@ -255,7 +261,8 @@ export const CoursePage = () => {
             What's <span>inside</span>
           </H2>
           <Lead style={{ marginBottom: 24 }}>
-            Short video lessons you can watch on your phone. New lessons are added as they're released.
+            Short video lessons plus the full course manual, made to read on your phone. Videos are added as
+            they're released.
           </Lead>
           <Curriculum owned={owned} />
         </Container>
