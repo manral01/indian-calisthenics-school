@@ -4,7 +4,7 @@ The course pages are built. To switch them on, create 3 free accounts and paste 
 
 Pages: `/course` (sales page), `/login`, `/learn` (student dashboard and video player), `/manual` (course manual, read online).
 
-The Stage 1 manual and its free sample chapters (Welcome, 1.1.1) work already. Everything else needs the accounts below.
+The Stage 1 manual and its free sample (Welcome + Modules 1.1 and 1.2) work already. Everything else needs the accounts below.
 
 ---
 

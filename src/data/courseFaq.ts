@@ -5,7 +5,7 @@ export const courseFaqs: FAQItem[] = [
   {
     question: "Do I need any experience to join the online course?",
     answer:
-      "No. Stage 1 starts from the basics with easier versions of every movement, so complete beginners can follow along. If you already train, the progressions show you exactly where to start.",
+      "No. Stage 1 starts from the basics with easier versions of every movement, so complete beginners can follow along. Modules 1.1 and 1.2 are free to read, so you can try it first.",
   },
   {
     question: "What equipment do I need?",
