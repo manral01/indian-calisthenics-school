@@ -18,8 +18,13 @@ export interface Manual {
   toc: ManualSection[];
 }
 
-/** Sections open to everyone as a free sample. */
-export const FREE_MANUAL_SECTIONS = new Set(["welcome", "1.1.1"]);
+/** Stage 1 modules anyone can read for free (plus the Welcome). */
+export const FREE_MODULES = new Set(["1.0", "1.1", "1.2"]);
+
+/** Sections open to everyone as a free sample (every section of the free modules). */
+export const FREE_MANUAL_SECTIONS = new Set(
+  manualStage1Toc.filter((s) => FREE_MODULES.has(s.moduleId)).map((s) => s.id),
+);
 
 export const manuals: Partial<Record<StageId, Manual>> = {
   "stage-1": {

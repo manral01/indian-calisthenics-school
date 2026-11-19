@@ -145,7 +145,7 @@ export const CoursePage = () => {
             <BookOpen size={18} /> See the 3 stages
           </Button>
           <ButtonTo to={manualHref("stage-1", "1.1.1")}>
-            <FileText size={18} /> Read a free chapter
+            <FileText size={18} /> Read Modules 1.1–1.2 free
           </ButtonTo>
         </Actions>
       </PageHeader>

@@ -65,8 +65,8 @@ export const stage1Videos: Record<string, string> = {
   // "1.1.1": "8f1c2a3b-....",
 };
 
-/** Lessons anyone can watch/read without buying (keep in sync with FREE_MANUAL_SECTIONS). */
-const FREE = new Set(["welcome", "1.1.1"]);
+/** Modules anyone can watch/read without buying (same as FREE_MODULES in manual.ts). */
+const FREE_MODULES = new Set(["1.0", "1.1", "1.2"]);
 
 const stage1Modules: Module[] = (() => {
   const mods: Module[] = [];
@@ -80,7 +80,7 @@ const stage1Modules: Module[] = (() => {
       title: s.id === "welcome" ? "Welcome to the course" : s.title,
       video: stage1Videos[s.id] ?? "",
       manual: s.id,
-      free: FREE.has(s.id),
+      free: FREE_MODULES.has(s.moduleId),
     });
   }
   return mods;
