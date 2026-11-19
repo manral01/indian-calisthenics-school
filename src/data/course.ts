@@ -3,6 +3,7 @@
 // price a student sees is always the price they are charged.
 //
 // HOW TO UPDATE
+// - Stage 1 lessons are generated from the manual; add video IDs in `stage1Videos` below.
 // - Set a stage's `priceInr` (whole rupees) to open it for sale. `null` = "Coming soon".
 // - After uploading a lesson video to Bunny Stream, paste its Video ID into `video`.
 //   Lessons without a video show as "Coming soon" to students.
@@ -13,11 +14,16 @@
 export type StageId = "stage-1" | "stage-2" | "stage-3";
 export type ProductId = StageId | "bundle";
 
+// ".js" so this file also loads on the server (Node ESM); Vite/TS resolve it to the .ts file
+import { manualStage1Toc } from "./manual-stage-1.js";
+
 export interface Lesson {
   id: string;
   title: string;
   /** Bunny Stream Video ID (GUID). Empty = not uploaded yet. */
   video: string;
+  /** Matching course-manual section id, e.g. "1.1.1" */
+  manual?: string;
   minutes?: number;
   free?: boolean;
 }
@@ -43,22 +49,43 @@ export const COURSE = {
   name: "Calisthenics Trainer Certification",
   shortName: "Online Course",
   path: "/course",
-  /** false until launch: course stays out of the menu, sitemap and Google. */
-  listed: false,
+  /** true: course is in the menu, sitemap and Google. */
+  listed: true,
   intro:
     "Learn calisthenics properly, from your first push-up to coaching others. One 3-stage path: stop after Stage 1 or 2 for your own training, or finish all 3 to become a certified trainer.",
   /** Full path (all 3 stages) at a discount. null = not on sale yet. */
   bundlePriceInr: null as number | null,
 };
 
-const lesson = (id: string, title: string, extra: Partial<Lesson> = {}): Lesson => ({
-  id,
-  title,
-  video: "",
-  ...extra,
-});
+// Stage 1 modules and lessons come straight from the Stage 1 manual's contents
+// (src/data/manual-stage-1.ts, generated from the PDF). One lesson per lecture.
+//
+// ★ Paste each lesson's Bunny Stream Video ID here as you upload, keyed by lecture number.
+export const stage1Videos: Record<string, string> = {
+  // "1.1.1": "8f1c2a3b-....",
+};
 
-// Draft module titles from the Stage 1 manual. Edit titles freely; keep ids stable.
+/** Lessons anyone can watch/read without buying (keep in sync with FREE_MANUAL_SECTIONS). */
+const FREE = new Set(["welcome", "1.1.1"]);
+
+const stage1Modules: Module[] = (() => {
+  const mods: Module[] = [];
+  for (const s of manualStage1Toc) {
+    const isLecture = s.id === "welcome" || /^\d+\.\d+\.\d+$/.test(s.id);
+    if (!isLecture) continue;
+    let mod = mods.find((m) => m.id === s.moduleId);
+    if (!mod) mods.push((mod = { id: s.moduleId, title: s.moduleTitle, lessons: [] }));
+    mod.lessons.push({
+      id: s.id === "welcome" ? "1-0-1" : s.id.replace(/\./g, "-"),
+      title: s.id === "welcome" ? "Welcome to the course" : s.title,
+      video: stage1Videos[s.id] ?? "",
+      manual: s.id,
+      free: FREE.has(s.id),
+    });
+  }
+  return mods;
+})();
+
 export const stages: Stage[] = [
   {
     id: "stage-1",
@@ -71,32 +98,9 @@ export const stages: Stage[] = [
       "Progression ladders with clear targets for when to level up",
       "Warm-ups, recovery and injury prevention that actually work",
       "Your own 12-week training plan",
+      "The full Stage 1 course manual to read online",
     ],
-    modules: [
-      {
-        id: "1.0",
-        title: "Welcome",
-        lessons: [lesson("1-0-1", "Welcome to the course", { free: true })],
-      },
-      {
-        id: "1.1",
-        title: "What Is Calisthenics?",
-        lessons: [lesson("1-1-1", "A Sport Older Than Every Gym", { free: true })],
-      },
-      { id: "1.2", title: "Leverage & Movement Principles", lessons: [] },
-      { id: "1.3", title: "Adaptation & Recovery Science", lessons: [] },
-      { id: "1.4", title: "Functional Anatomy", lessons: [] },
-      { id: "1.5", title: "Screening Before You Train", lessons: [] },
-      { id: "1.6", title: "Warm-Up Structure", lessons: [] },
-      { id: "1.7", title: "Push Patterns", lessons: [] },
-      { id: "1.8", title: "Pull Patterns", lessons: [] },
-      { id: "1.9", title: "Squat & Hinge Patterns", lessons: [] },
-      { id: "1.10", title: "Core Training", lessons: [] },
-      { id: "1.11", title: "Shoulder & Scapular Control", lessons: [] },
-      { id: "1.12", title: "Grip, Breathing & Bracing", lessons: [] },
-      { id: "1.13", title: "Program Design, Recovery & Nutrition Basics", lessons: [] },
-      { id: "1.14", title: "Injury Prevention & Coaching Communication", lessons: [] },
-    ],
+    modules: stage1Modules,
   },
   {
     id: "stage-2",

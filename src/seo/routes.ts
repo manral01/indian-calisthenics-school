@@ -29,6 +29,7 @@ export type PageKind =
   | { kind: "course" }
   | { kind: "login" }
   | { kind: "learn" }
+  | { kind: "manual" }
   | { kind: "notFound" };
 
 export interface Crumb {
@@ -58,7 +59,7 @@ const withCrumbs = (crumbs: Crumb[], schema: object[]) => [
   breadcrumbSchema(crumbs),
 ];
 
-const SITE_UPDATED = "2026-11-18";
+const SITE_UPDATED = "2026-11-20";
 
 export const routes: RouteMeta[] = [
   {
@@ -174,6 +175,15 @@ export const routes: RouteMeta[] = [
     title: "My Course | Indian Calisthenics School",
     description: "Watch your calisthenics course lessons and track your progress.",
     page: { kind: "learn" },
+    schema: [],
+    lastmod: SITE_UPDATED,
+    noindex: true,
+  },
+  {
+    path: "/manual",
+    title: "Course Manual | Indian Calisthenics School",
+    description: "Read the Calisthenics Trainer Certification course manual online.",
+    page: { kind: "manual" },
     schema: [],
     lastmod: SITE_UPDATED,
     noindex: true,

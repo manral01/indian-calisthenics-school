@@ -23,6 +23,11 @@ export const courseFaqs: FAQItem[] = [
       "Once you unlock a stage, it stays in your account. Watch on your phone or laptop, at your own pace, as many times as you like.",
   },
   {
+    question: "Can I download the course manual?",
+    answer:
+      "The manual is read online inside your account, on your phone or laptop, so it's always the latest version. It isn't available as a download.",
+  },
+  {
     question: "How do I pay?",
     answer:
       "Securely through Razorpay with UPI, debit or credit card, or netbanking. Your stage unlocks right after payment.",

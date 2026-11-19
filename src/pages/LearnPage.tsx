@@ -1,11 +1,12 @@
 // /learn: student dashboard, and /learn?l=<lessonId>: lesson player.
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { ArrowLeft, ArrowRight, Check, Lock, LogOut } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, FileText, Lock, LogOut } from "lucide-react";
 import { Container, Eyebrow, PageSection } from "../components/ui";
 import { Link, useRouter } from "../router";
 import { COURSE, allLessons, lessonById, stages, type Stage } from "../data/course";
 import { whatsappLink } from "../data/business";
+import { manualHref, manuals } from "../data/manual";
 import {
   fetchMyProgress,
   fetchMyStages,
@@ -159,7 +160,7 @@ export const LearnPage = () => {
   const loginHref = `/login?next=${encodeURIComponent(`/learn${search}`)}`;
 
   // Logged out: free previews still play; everything else asks to log in
-  if (!session && !(lesson?.free && lesson.video)) {
+  if (!session && !lesson?.free) {
     return (
       <PageSection style={{ paddingTop: 120, minHeight: "70vh" }}>
         <Container style={{ maxWidth: 520 }}>
@@ -237,8 +238,8 @@ const Dashboard = ({
 }) => {
   const continueLesson = useMemo(
     () =>
-      ordered.find((l) => owned.includes(l.stage) && l.video && !done.has(l.id)) ??
-      ordered.find((l) => l.free && l.video),
+      ordered.find((l) => owned.includes(l.stage) && !done.has(l.id)) ??
+      ordered.find((l) => l.free),
     [owned, done],
   );
 
@@ -269,7 +270,7 @@ const Dashboard = ({
 
       <StageGrid>
         {stages.map((s) => {
-          const available = ordered.filter((l) => l.stage === s.id && l.video);
+          const available = ordered.filter((l) => l.stage === s.id);
           const completed = available.filter((l) => done.has(l.id)).length;
           const have = owned.includes(s.id);
           return (
@@ -295,6 +296,18 @@ const Dashboard = ({
           );
         })}
       </StageGrid>
+
+      {stages.some((s) => manuals[s.id]) && (
+        <Row style={{ marginTop: 0, marginBottom: 20 }}>
+          {stages
+            .filter((s) => manuals[s.id])
+            .map((s) => (
+              <ButtonTo key={s.id} to={manualHref(s.id)}>
+                <FileText size={18} /> Stage {s.number} course manual
+              </ButtonTo>
+            ))}
+        </Row>
+      )}
 
       {continueLesson && (
         <ButtonTo $primary to={`/learn?l=${continueLesson.id}`} style={{ marginBottom: 32 }}>
@@ -357,8 +370,10 @@ const LessonView = ({
   }, [access, lesson.id]);
 
   const idx = ordered.findIndex((l) => l.id === lesson.id);
-  const prev = ordered.slice(0, idx).reverse().find((l) => l.video);
-  const next = ordered.slice(idx + 1).find((l) => l.video);
+  const prev = idx > 0 ? ordered[idx - 1] : undefined;
+  const next = ordered[idx + 1];
+  const canStudy = lesson.free || owned.includes(lesson.stage);
+  const readHref = lesson.manual && manuals[lesson.stage] ? manualHref(lesson.stage, lesson.manual) : "";
   const isDone = done.has(lesson.id);
 
   return (
@@ -389,7 +404,14 @@ const LessonView = ({
                   </ButtonTo>
                 </div>
               ) : access === "soon" ? (
-                <p>This lesson is coming soon.</p>
+                <div>
+                  <p style={{ marginBottom: 14 }}>The video for this lesson is coming soon.</p>
+                  {readHref && (
+                    <ButtonTo $primary to={readHref}>
+                      <FileText size={18} /> Read it in the manual
+                    </ButtonTo>
+                  )}
+                </div>
               ) : error ? (
                 <p>{error}</p>
               ) : (
@@ -405,7 +427,12 @@ const LessonView = ({
         <H1 style={{ fontSize: "clamp(1.4rem, 5vw, 2rem)" }}>{lesson.title}</H1>
 
         <Row>
-          {loggedIn && access === "open" && (
+          {readHref && access !== "soon" && (
+            <ButtonTo to={readHref}>
+              <FileText size={18} /> Read in the manual
+            </ButtonTo>
+          )}
+          {loggedIn && canStudy && (
             <Button $primary={!isDone} onClick={() => onToggleDone(!isDone)}>
               <Check size={18} /> {isDone ? "Completed" : "Mark as complete"}
             </Button>
@@ -425,7 +452,7 @@ const LessonView = ({
           {next && (
             <Button
               onClick={() => {
-                if (loggedIn && access === "open" && !isDone) onToggleDone(true);
+                if (loggedIn && canStudy && !isDone) onToggleDone(true);
                 onGo(next.id);
               }}
             >

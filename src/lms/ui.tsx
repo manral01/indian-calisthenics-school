@@ -242,17 +242,13 @@ export const Curriculum = ({
                           {icon}
                           <span className="grow">{l.title}</span>
                           {l.free && !owned.includes(s.id) && <span className="tag">Free</span>}
-                          {access === "soon" && <span className="tag">Soon</span>}
+                          {access === "soon" && <span className="tag">Video soon</span>}
                           {l.minutes && access !== "soon" && <small>{l.minutes} min</small>}
                         </>
                       );
                       return (
                         <LessonRow key={l.id} $current={l.id === current}>
-                          {access === "soon" ? (
-                            <div>{body}</div>
-                          ) : (
-                            <Link to={`/learn?l=${l.id}`}>{body}</Link>
-                          )}
+                          <Link to={`/learn?l=${l.id}`}>{body}</Link>
                         </LessonRow>
                       );
                     })}

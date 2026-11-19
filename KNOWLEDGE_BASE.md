@@ -108,6 +108,7 @@ Routes are defined once in `src/seo/routes.ts`:
 | `/blog/<slug>` (3 posts) | `BlogPostPage` |
 | `/course` | `CoursePage`: online course sales page (noindex until `COURSE.listed`) |
 | `/login`, `/learn`, `/learn?l=<lessonId>` | `LoginPage`, `LearnPage` (dashboard + lesson player), noindex |
+| `/manual?stage=stage-1&s=<sectionId>` | `ManualPage`: course manual reader (no download), noindex |
 | anything else | `NotFoundPage` (noindex) |
 
 **Build pipeline (`npm run build`):** fetch-reviews → `tsc -b` → `vite build` → `vite build --ssr src/entry-server.tsx` → `prerender.mjs`.
@@ -255,6 +256,7 @@ Custom LMS for the Calisthenics Trainer Certification. Setup steps for the owner
 - **Catalog:** `src/data/course.ts` ★ stages, prices (`priceInr`, `null` = coming soon), modules, lessons (`video` = Bunny Stream Video ID, `free` = public preview). Shared by pages and API, so the charged price always matches. `COURSE.listed` adds it to nav/footer/sitemap. Lesson ids are stored in progress rows: never rename.
 - **Auth + DB:** Supabase via plain `fetch` (`src/lms/session.ts`, no SDK). Email one-time code or Google. Session in localStorage; `useSession()` returns `undefined` on prerender/first render so hydration matches. Schema + RLS: `supabase/lms-schema.sql` (`orders`, `enrollments`, `lesson_progress`, `course_sales` view).
 - **Payments:** Razorpay. `src/lms/checkout.ts` → `api/lms/create-order.ts` (price from catalog) → Checkout popup → `api/lms/verify-payment.ts` (HMAC) → enrollments. `api/lms/razorpay-webhook.ts` is the backup unlock.
+- **Manual (read online, no download):** `scripts/build-manual.py <pdf> stage-1` (needs `pdfplumber`) converts the PDF into `api/_content/manual-stage-1.ts` (section HTML, server-only) and `src/data/manual-stage-1.ts` (titles only). `api/lms/manual.ts` returns a section to owners of the stage, or anyone for `FREE_MANUAL_SECTIONS` (`src/data/manual.ts`). `ManualPage` styles it like the printed manual (white page, green #1DB954 accent, tinted boxes, black-header tables), blocks copy/right-click/print and shows "Licensed to <email>". Stage 1 lessons in `course.ts` are generated from the manual's contents; video IDs go in `stage1Videos`.
 - **Video:** `api/lms/video.ts` returns a 4-hour signed Bunny Stream embed URL only for free lessons or owners of the stage.
 - **API:** Vercel Functions in `api/` (Web `Request`/`Response`, Web Crypto, no npm deps). Helpers in `api/_lib/lms.ts` (underscore = not an endpoint). Imports use `.js` extensions (ESM on Vercel).
 - **Router:** supports `?query` (`useRouter().search`).

@@ -2,7 +2,9 @@
 
 The course pages are built. To switch them on, create 3 free accounts and paste their keys into Vercel. About 45 minutes in total.
 
-Pages: `/course` (sales page), `/login`, `/learn` (student dashboard and video player).
+Pages: `/course` (sales page), `/login`, `/learn` (student dashboard and video player), `/manual` (course manual, read online).
+
+The Stage 1 manual and its free sample chapters (Welcome, 1.1.1) work already. Everything else needs the accounts below.
 
 ---
 
@@ -39,7 +41,11 @@ Pages: `/course` (sales page), `/login`, `/learn` (student dashboard and video p
 1. bunny.net → **Stream → Add Video Library**. Name: `ics-course`. Pick Asia + Europe regions.
 2. In the library: **Security** → turn on **Token authentication** and **Block direct URL file access**. Add `indiancalisthenicsschool.com` under allowed referrers.
 3. Copy the **Library ID** and the **Token authentication key** (Security tab).
-4. Upload each lesson video. Copy its **Video ID** into `src/data/course.ts` (or send the list to Claude).
+4. Upload each lesson video. Copy its **Video ID** into `stage1Videos` in `src/data/course.ts`, next to its lecture number (or send the list to Claude).
+
+## Updating the course manual
+
+Send Claude the new PDF, or run `python3 scripts/build-manual.py Stage-1-Foundation.pdf stage-1` and commit. Lessons and chapter titles update automatically. The PDF itself is never put on the website.
 
 ## 4. Paste keys into Vercel
 
@@ -63,7 +69,7 @@ Then **Deployments → Redeploy**.
 
 In `src/data/course.ts`:
 - Set each stage's `priceInr` (e.g. `4999`) and `COURSE.bundlePriceInr`. `null` shows "Coming soon" with a WhatsApp "notify me" button.
-- At launch, set `COURSE.listed = true`: adds "Online Course" to the menu and footer and lets Google index `/course`.
+- `COURSE.listed = true` (already on): "Online Course" is in the menu and footer and Google can index `/course`.
 
 ## Day-to-day
 
