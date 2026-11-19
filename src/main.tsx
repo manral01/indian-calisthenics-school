@@ -2,12 +2,17 @@ import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
 import { preloadPage } from "./pages/registry";
+import { captureOAuthRedirect } from "./lms/session";
 import "./index.css";
+
+// Google sign-in returns to the site with the login tokens in the URL hash:
+// store them and clean the URL before the router reads it.
+captureOAuthRedirect();
 
 const root = document.getElementById("root")!;
 const app = (
   <StrictMode>
-    <App initialPath={window.location.pathname + window.location.hash} />
+    <App initialPath={window.location.pathname + window.location.search + window.location.hash} />
   </StrictMode>
 );
 

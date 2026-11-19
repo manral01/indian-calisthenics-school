@@ -3,10 +3,13 @@
 import { programList } from "../data/programPages";
 import { blogPosts } from "../data/blogPosts";
 import { faqData } from "../data/faq";
+import { COURSE } from "../data/course";
+import { courseFaqs } from "../data/courseFaq";
 import { OG_IMAGE, type SiteImage } from "../data/images";
 import {
   articleSchema,
   breadcrumbSchema,
+  courseSchema,
   faqSchema,
   founderProfileSchema,
   founderSchema,
@@ -23,6 +26,9 @@ export type PageKind =
   | { kind: "contact" }
   | { kind: "blog" }
   | { kind: "post"; slug: string }
+  | { kind: "course" }
+  | { kind: "login" }
+  | { kind: "learn" }
   | { kind: "notFound" };
 
 export interface Crumb {
@@ -139,6 +145,39 @@ export const routes: RouteMeta[] = [
       lastmod: post.dateModified,
     };
   }),
+  {
+    path: COURSE.path,
+    title: "Calisthenics Trainer Certification Online | ICS",
+    description:
+      "Online calisthenics course and trainer certification by Indian Calisthenics School. 3 stages: Foundation, Development, Mastery. Learn at your pace on your phone.",
+    page: { kind: "course" },
+    breadcrumbs: [home, { name: "Online Course", path: COURSE.path }],
+    schema: withCrumbs([home, { name: "Online Course", path: COURSE.path }], [
+      courseSchema(),
+      faqSchema(courseFaqs),
+    ]),
+    lastmod: SITE_UPDATED,
+    // Hidden from Google until launch (flip COURSE.listed in src/data/course.ts)
+    noindex: !COURSE.listed,
+  },
+  {
+    path: "/login",
+    title: "Log in | Indian Calisthenics School Online Course",
+    description: "Log in to your Indian Calisthenics School online course with a one-time email code or Google.",
+    page: { kind: "login" },
+    schema: [],
+    lastmod: SITE_UPDATED,
+    noindex: true,
+  },
+  {
+    path: "/learn",
+    title: "My Course | Indian Calisthenics School",
+    description: "Watch your calisthenics course lessons and track your progress.",
+    page: { kind: "learn" },
+    schema: [],
+    lastmod: SITE_UPDATED,
+    noindex: true,
+  },
 ];
 
 export const notFoundRoute: RouteMeta = {

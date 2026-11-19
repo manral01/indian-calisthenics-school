@@ -15,6 +15,9 @@ import {
   BlogPage,
   BlogPostPage,
   ContactPage,
+  CoursePage,
+  LearnPage,
+  LoginPage,
   FounderPage,
   Home,
   NotFoundPage,
@@ -61,6 +64,12 @@ const Page = () => {
       return <BlogPage />;
     case "post":
       return <BlogPostPage post={blogPosts.find((p) => p.slug === page.slug)!} />;
+    case "course":
+      return <CoursePage />;
+    case "login":
+      return <LoginPage />;
+    case "learn":
+      return <LearnPage />;
     default:
       return <NotFoundPage />;
   }

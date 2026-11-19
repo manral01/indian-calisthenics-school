@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { business } from "../data/business";
+import { COURSE } from "../data/course";
 import { images } from "../data/images";
 import { Link, useRouter } from "../router";
 import { DemoLink } from "./DemoBooking";
@@ -14,6 +15,8 @@ export const NAV_LINKS: [label: string, path: string][] = [
   ["About", "/about"],
   ["Blog", "/blog"],
   ["Contact", "/contact"],
+  // Online course: shown in the menu once launched (COURSE.listed in src/data/course.ts)
+  ...(COURSE.listed ? [[COURSE.shortName, COURSE.path] as [string, string]] : []),
 ];
 
 const Header = styled.header`
