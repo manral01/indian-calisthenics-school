@@ -32,11 +32,14 @@ export const FounderPage = lazyPage(() => import("./FounderPage").then((m) => m.
 export const ContactPage = lazyPage(() => import("./ContactPage").then((m) => m.ContactPage));
 export const BlogPage = lazyPage(() => import("./BlogPage").then((m) => m.BlogPage));
 export const BlogPostPage = lazyPage(() => import("./BlogPage").then((m) => m.BlogPostPage));
+export const CoursePage = lazyPage(() => import("./CoursePage").then((m) => m.CoursePage));
+export const LoginPage = lazyPage(() => import("./LoginPage").then((m) => m.LoginPage));
+export const LearnPage = lazyPage(() => import("./LearnPage").then((m) => m.LearnPage));
 export const NotFoundPage = lazyPage(() => import("./NotFoundPage").then((m) => m.NotFoundPage));
 
 /** Start (or finish) loading the code for the page at `path`. Safe to call repeatedly. */
 export function preloadPage(path: string): Promise<void> {
-  const kind = findRoute(path.split("#")[0]).page.kind;
+  const kind = findRoute(path.split(/[?#]/)[0]).page.kind;
   const page =
     kind === "home"
       ? Home
@@ -52,6 +55,12 @@ export function preloadPage(path: string): Promise<void> {
               ? BlogPage
               : kind === "post"
                 ? BlogPostPage
-                : NotFoundPage;
+                : kind === "course"
+                  ? CoursePage
+                  : kind === "login"
+                    ? LoginPage
+                    : kind === "learn"
+                      ? LearnPage
+                      : NotFoundPage;
   return page.load().catch(() => {});
 }

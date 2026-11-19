@@ -4,6 +4,7 @@ import type { FAQItem } from "../data/faq";
 import type { BlogPost } from "../data/blogPosts";
 import type { ProgramPageContent } from "../data/programPages";
 import { trainingPrograms } from "../data/trainingData";
+import { COURSE, stages } from "../data/course";
 
 export const absoluteUrl = (path: string) =>
   path.startsWith("http") ? path : `${SITE_URL}${path === "/" ? "/" : path}`;
@@ -225,5 +226,35 @@ export const serviceSchema = (program: ProgramPageContent) => {
     areaServed: { "@type": "City", name: "Hyderabad" },
     ...(details.offers && { offers: details.offers() }),
     ...(details.hoursAvailable && { hoursAvailable: details.hoursAvailable }),
+  };
+};
+
+/** Online Calisthenics Trainer Certification course (src/data/course.ts). */
+export const courseSchema = () => {
+  const offers = stages
+    .filter((s) => s.priceInr !== null)
+    .map((s) => ({
+      "@type": "Offer",
+      category: "Paid",
+      name: `Stage ${s.number}: ${s.name}`,
+      price: s.priceInr,
+      priceCurrency: "INR",
+      url: absoluteUrl(COURSE.path),
+    }));
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: COURSE.name,
+    description: COURSE.intro,
+    url: absoluteUrl(COURSE.path),
+    inLanguage: "en-IN",
+    provider: orgRef(),
+    instructor: { "@type": "Person", "@id": FOUNDER_ID, name: business.founder.name },
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: "Online",
+      courseWorkload: "PT20H",
+    },
+    ...(offers.length > 0 && { offers }),
   };
 };

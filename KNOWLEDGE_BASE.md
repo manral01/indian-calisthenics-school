@@ -106,6 +106,8 @@ Routes are defined once in `src/seo/routes.ts`:
 | `/training/calisthenics`, `/training/kids`, `/training/personal-training`, `/training/freestyle-parkour` | `TrainingPage` (content from `programPages.ts`) |
 | `/about`, `/contact`, `/blog` | About / Contact / Blog index |
 | `/blog/<slug>` (3 posts) | `BlogPostPage` |
+| `/course` | `CoursePage`: online course sales page (noindex until `COURSE.listed`) |
+| `/login`, `/learn`, `/learn?l=<lessonId>` | `LoginPage`, `LearnPage` (dashboard + lesson player), noindex |
 | anything else | `NotFoundPage` (noindex) |
 
 **Build pipeline (`npm run build`):** fetch-reviews → `tsc -b` → `vite build` → `vite build --ssr src/entry-server.tsx` → `prerender.mjs`.
@@ -241,9 +243,22 @@ Fixed right panel. **Hidden below 1024px.** Layers (bottom → top):
 ```bash
 GOOGLE_PLACES_API_KEY=   # optional, build-time only, for real Google reviews
 GOOGLE_PLACE_ID=         # optional, the ICS Google Business Profile place ID
+# Online course: see .env.example and LMS_SETUP.md
 ```
 
 ---
+
+## 12b. Online Course (LMS)
+
+Custom LMS for the Calisthenics Trainer Certification. Setup steps for the owner: `LMS_SETUP.md`.
+
+- **Catalog:** `src/data/course.ts` ★ stages, prices (`priceInr`, `null` = coming soon), modules, lessons (`video` = Bunny Stream Video ID, `free` = public preview). Shared by pages and API, so the charged price always matches. `COURSE.listed` adds it to nav/footer/sitemap. Lesson ids are stored in progress rows: never rename.
+- **Auth + DB:** Supabase via plain `fetch` (`src/lms/session.ts`, no SDK). Email one-time code or Google. Session in localStorage; `useSession()` returns `undefined` on prerender/first render so hydration matches. Schema + RLS: `supabase/lms-schema.sql` (`orders`, `enrollments`, `lesson_progress`, `course_sales` view).
+- **Payments:** Razorpay. `src/lms/checkout.ts` → `api/lms/create-order.ts` (price from catalog) → Checkout popup → `api/lms/verify-payment.ts` (HMAC) → enrollments. `api/lms/razorpay-webhook.ts` is the backup unlock.
+- **Video:** `api/lms/video.ts` returns a 4-hour signed Bunny Stream embed URL only for free lessons or owners of the stage.
+- **API:** Vercel Functions in `api/` (Web `Request`/`Response`, Web Crypto, no npm deps). Helpers in `api/_lib/lms.ts` (underscore = not an endpoint). Imports use `.js` extensions (ESM on Vercel).
+- **Router:** supports `?query` (`useRouter().search`).
+- **UI:** `src/lms/ui.tsx` (buttons, cards, progress bar, `Curriculum`), pages `CoursePage`, `LoginPage`, `LearnPage`; FAQs in `src/data/courseFaq.ts`; `courseSchema()` in `seo/schema.ts`.
 
 ## 13. Build & Dev Commands
 

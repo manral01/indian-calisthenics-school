@@ -17,6 +17,8 @@ import { preloadPage } from "./pages/registry";
 
 interface Location {
   path: string;
+  /** Query string including "?" (or ""), e.g. "?l=1-1-1" */
+  search: string;
   hash: string;
 }
 
@@ -26,13 +28,17 @@ interface RouterState extends Location {
 
 const RouterContext = createContext<RouterState>({
   path: "/",
+  search: "",
   hash: "",
   navigate: () => {},
 });
 
 const parse = (to: string): Location => {
-  const [p, h = ""] = to.split("#");
-  return { path: normalizePath(p || "/"), hash: h };
+  const [beforeHash, h = ""] = to.split("#");
+  const q = beforeHash.indexOf("?");
+  const p = q === -1 ? beforeHash : beforeHash.slice(0, q);
+  const search = q === -1 ? "" : beforeHash.slice(q);
+  return { path: normalizePath(p || "/"), search: search === "?" ? "" : search, hash: h };
 };
 
 const scrollToHash = (hash: string) => {
@@ -52,19 +58,21 @@ export const RouterProvider = ({
 
   useEffect(() => {
     const onPop = () =>
-      startTransition(() => setLoc(parse(window.location.pathname + window.location.hash)));
+      startTransition(() => setLoc(parse(window.location.pathname + window.location.search + window.location.hash)));
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
   const navigate = useCallback((to: string) => {
-    const next = parse(to.startsWith("#") ? window.location.pathname + to : to);
-    window.history.pushState({}, "", next.path + (next.hash ? `#${next.hash}` : ""));
+    const next = parse(
+      to.startsWith("#") ? window.location.pathname + window.location.search + to : to,
+    );
+    window.history.pushState({}, "", next.path + next.search + (next.hash ? `#${next.hash}` : ""));
     // Transition: keep the current page on screen until the next page's code is ready
     startTransition(() =>
       setLoc((prev) => {
         // Same page: just scroll; otherwise scroll after the new page renders
-        if (prev.path === next.path) scrollToHash(next.hash);
+        if (prev.path === next.path && prev.search === next.search) scrollToHash(next.hash);
         return next;
       }),
     );
@@ -75,7 +83,7 @@ export const RouterProvider = ({
     const id = requestAnimationFrame(() => scrollToHash(loc.hash));
     return () => cancelAnimationFrame(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loc.path]);
+  }, [loc.path, loc.search]);
 
   return (
     <RouterContext.Provider value={{ ...loc, navigate }}>
