@@ -1,45 +1,50 @@
 import styled, { keyframes } from "styled-components";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown, Mail, MapPin } from "lucide-react";
 import { Link } from "../router";
 import { DemoLink } from "./DemoBooking";
+import { business } from "../data/business";
+import { Ember, condensed, emberButton, glass } from "./home/kit";
+
+// Community photos that slowly cross-fade one at a time (3.5 s each) with a gentle
+// zoom. Pure CSS, so it runs from the first paint without waiting for JavaScript.
+const SLIDE_SECONDS = 3.5;
+const SLIDES = [
+  { src: "/hero/ics-certificates-hd.webp", w: 1600, h: 901, pos: "50% 45%", alt: "Indian Calisthenics School community with their certificates under the neon sign in Madhapur" },
+  { src: "/hero/street-run-crew-hd.webp", w: 1280, h: 1600, pos: "50% 60%", alt: "Community group after an outdoor run and calisthenics session in Hyderabad" },
+  { src: "/hero/halloween-hd.webp", w: 1200, h: 1600, pos: "50% 62%", alt: "Halloween party with the community at Indian Calisthenics School" },
+  { src: "/hero/courtyard-meetup-hd.webp", w: 1320, h: 922, pos: "50% 55%", alt: "Large Hyderabad calisthenics community meetup group photo" },
+  { src: "/hero/night-session-hd.webp", w: 1007, h: 1600, pos: "50% 55%", alt: "Night calisthenics meetup with the Hyderabad community" },
+  { src: "/hero/street-community-hd.webp", w: 1440, h: 1106, pos: "50% 55%", alt: "Members together after a group training session" },
+];
+
+const slideFade = keyframes`
+  0% { opacity: 0; transform: scale(1.03); }
+  4% { opacity: 1; }
+  16.67% { opacity: 1; }
+  21% { opacity: 0; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.1); }
+`;
 
 const HeroSection = styled.section`
   position: relative;
   min-height: calc(100svh - 72px - env(safe-area-inset-bottom));
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  padding: 88px 20px 64px;
   color: white;
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     min-height: 100svh;
-    align-items: center;
+    padding: 110px 24px 80px;
   }
 `;
 
-// Community photos that cross-fade one at a time (3s each), pure CSS so it runs
-// from the first paint without waiting for JavaScript. Enhanced, phone-sized files.
-const SLIDE_SECONDS = 3;
-const SLIDES = [
-  { src: "/hero/ics-sign-community.webp", w: 1080, h: 608, pos: "50% 30%", alt: "Indian Calisthenics School community under the neon sign in Madhapur" },
-  { src: "/hero/halloween.webp", w: 1080, h: 1440, pos: "50% 55%", alt: "Halloween party with the community at Indian Calisthenics School" },
-  { src: "/hero/street-community.webp", w: 1080, h: 830, pos: "45% 50%", alt: "Community group after an outdoor training session in Hyderabad" },
-  { src: "/hero/workshop.webp", w: 1080, h: 721, pos: "50% 50%", alt: "Calisthenics workshop with a large group" },
-  { src: "/hero/night-session.webp", w: 907, h: 1440, pos: "50% 55%", alt: "Night calisthenics meetup with the Hyderabad community" },
-  { src: "/hero/warm-up.webp", w: 1080, h: 715, pos: "50% 50%", alt: "Group warm-up and stretching session" },
-  { src: "/hero/courtyard-meetup.webp", w: 1080, h: 754, pos: "50% 45%", alt: "Large calisthenics community meetup group photo" },
-  { src: "/hero/pull-up-rig.webp", w: 960, h: 1440, pos: "50% 45%", alt: "Members training together on the pull-up rig" },
-];
-const slideFade = keyframes`
-  0% { opacity: 0; transform: scale(1.04); }
-  3% { opacity: 1; }
-  12.5% { opacity: 1; }
-  15.5% { opacity: 0; transform: scale(1.1); }
-  100% { opacity: 0; transform: scale(1.1); }
-`;
 const Backdrop = styled.div`
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
   overflow: hidden;
   img {
     position: absolute;
@@ -48,6 +53,7 @@ const Backdrop = styled.div`
     height: 100%;
     object-fit: cover;
     opacity: 0;
+    filter: brightness(0.5) saturate(0.85);
     animation: ${slideFade} ${SLIDES.length * SLIDE_SECONDS}s linear infinite both;
   }
   img:first-child {
@@ -58,31 +64,17 @@ const Backdrop = styled.div`
       animation: none;
     }
   }
+  /* Dark top and bottom so text stays readable, warm glow behind the headline */
   &::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(10, 10, 10, 0.25) 0%,
-      rgba(10, 10, 10, 0.05) 22%,
-      rgba(10, 10, 10, 0.55) 48%,
-      rgba(10, 10, 10, 0.92) 70%,
-      ${({ theme }) => theme.colors.background} 100%
-    );
-    @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-      background: linear-gradient(
-        180deg,
-        rgba(10, 10, 10, 0.35) 0%,
-        rgba(10, 10, 10, 0.6) 40%,
-        rgba(10, 10, 10, 0.78) 75%,
-        ${({ theme }) => theme.colors.background} 100%
-      );
-    }
+    background:
+      radial-gradient(50% 40% at 50% 45%, rgba(255, 106, 0, 0.2), transparent 70%),
+      linear-gradient(180deg, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0.3) 45%, ${({ theme }) => theme.colors.background} 100%);
   }
 `;
 
-// CSS (not JS) entrance animation: content is visible as soon as HTML paints
 const rise = keyframes`
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: none; }
@@ -91,207 +83,124 @@ const rise = keyframes`
 const Content = styled.div`
   position: relative;
   z-index: 2;
-  width: min(100% - 32px, 900px);
-  margin: 0 auto;
-  padding: 96px 0 28px;
+  max-width: 820px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  > * {
-    animation: ${rise} 0.7s ease-out both;
-  }
-  > *:nth-child(2) {
-    animation-delay: 0.08s;
-  }
-  > *:nth-child(3) {
-    animation-delay: 0.16s;
-  }
-  > *:nth-child(4) {
-    animation-delay: 0.24s;
-  }
-  > *:nth-child(5) {
-    animation-delay: 0.32s;
-  }
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: 120px 0 96px;
-  }
+  animation: ${rise} 0.8s ease-out both;
   @media (prefers-reduced-motion: reduce) {
-    > * {
-      animation: none;
-    }
+    animation: none;
   }
 `;
 
-/* The SEO H1, styled as a compact location pill above the display headline */
-const Title = styled.h1`
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 18px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(10, 10, 10, 0.45);
-  backdrop-filter: blur(10px);
-  font-family: ${({ theme }) => theme.typography.fontFamily};
-  font-size: clamp(0.78rem, 2.4vw, 0.95rem);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 14px;
+const Logo = styled.img`
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  margin-bottom: 20px;
+  box-shadow:
+    0 10px 40px rgba(255, 106, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    margin-bottom: 24px;
+    width: 120px;
+    height: 120px;
+    border-radius: 28px;
   }
-  &::before {
-    content: "";
-    flex: none;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.accent};
-    box-shadow: 0 0 0 4px rgba(255, 106, 0, 0.2);
-  }
+`;
+
+const outline = `
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.65);
+`;
+
+const Title = styled.h1`
+  ${condensed};
+  ${outline};
+  font-size: clamp(1.5rem, 6vw, 2.25rem);
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: white;
 `;
 
 const Display = styled.p`
-  font-family: ${({ theme }) => theme.typography.displayFamily};
-  font-size: clamp(3.2rem, 14vw, 8rem);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.045em;
-  margin-bottom: 14px;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+  ${condensed};
+  ${outline};
+  font-size: clamp(3.6rem, 17vw, 7rem);
+  line-height: 0.85;
+  margin-bottom: 24px;
   span {
-    color: ${({ theme }) => theme.colors.accent};
+    display: block;
   }
 `;
 
 const Sub = styled.p`
-  max-width: 34ch;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 16px;
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 1.15rem;
-    margin-bottom: 22px;
-  }
-`;
-const Chips = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 22px;
-  li {
-    padding: 6px 11px;
-    border-radius: ${({ theme }) => theme.radius.pill};
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
-  }
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    margin-bottom: 36px;
-  }
-`;
-const Buttons = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  > a:first-child {
-    width: 100%;
-    max-width: 360px;
-    justify-content: center;
-  }
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    gap: 18px;
-    > a:first-child {
-      width: auto;
-    }
-  }
-`;
-const SecondaryLink = styled(Link)`
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 8px;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.3);
-  text-underline-offset: 5px;
-  transition: color 0.2s;
-  &:hover {
+  ${outline};
+  max-width: 40rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 32px;
+  a {
     color: white;
-    text-decoration-color: ${({ theme }) => theme.colors.accent};
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 106, 0, 0.6);
+    text-underline-offset: 4px;
   }
-`;
-const Button = styled(DemoLink)<{ $primary?: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 56px;
-  padding: 0 34px;
-  border-radius: ${({ theme }) => theme.radius.pill};
-  font-weight: 700;
-  font-size: 1rem;
-  background: ${({ $primary, theme }) => ($primary ? theme.gradients.fire : "rgba(255,255,255,.06)")};
-  color: ${({ $primary, theme }) => ($primary ? theme.colors.onAccent : "white")};
-  border: 1px solid
-    ${({ $primary }) => ($primary ? "transparent" : "rgba(255,255,255,.22)")};
-  backdrop-filter: blur(10px);
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-  svg {
-    transition: transform 0.2s;
-  }
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${({ $primary }) => ($primary ? "0 12px 30px rgba(255,106,0,.35)" : "none")};
-  }
-  &:hover svg {
-    transform: translateX(3px);
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1rem;
   }
 `;
 
-const bob = keyframes`
-  0%, 100% { transform: translateY(0); opacity: .4; }
-  50% { transform: translateY(8px); opacity: 1; }
+const Cta = styled(DemoLink)`
+  ${emberButton};
+  margin-bottom: 30px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 1.1rem;
+    padding: 0 48px;
+  }
 `;
-const Scroll = styled.a`
+
+const Socials = styled.div`
+  display: flex;
+  gap: 16px;
+  a {
+    ${glass};
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.8);
+    transition:
+      color 0.2s,
+      transform 0.2s;
+  }
+  a:hover {
+    color: ${({ theme }) => theme.colors.accent};
+    transform: translateY(-2px);
+  }
+`;
+
+const ScrollCue = styled.a`
   position: absolute;
-  z-index: 2;
-  bottom: 22px;
+  bottom: 18px;
   left: 50%;
+  z-index: 2;
   transform: translateX(-50%);
-  display: none;
-  width: 26px;
-  height: 42px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  border-radius: 14px;
-  &::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 8px;
-    width: 4px;
-    height: 8px;
-    margin-left: -2px;
-    border-radius: 2px;
-    background: ${({ theme }) => theme.colors.accent};
-    animation: ${bob} 1.6s ease-in-out infinite;
-  }
-  @media (min-height: 640px) and (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    display: block;
+  color: rgba(255, 255, 255, 0.5);
+  svg {
+    animation: ${keyframes`0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}`} 1.4s ease-in-out infinite;
   }
 `;
+
+const InstagramIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
 
 export const Hero = () => (
   <HeroSection id="home">
@@ -313,26 +222,41 @@ export const Hero = () => (
         />
       ))}
     </Backdrop>
+
     <Content>
-      <Title>Calisthenics Academy in Madhapur, Hyderabad</Title>
+      <Logo src="/logo-512.png" alt="Indian Calisthenics School logo" width={512} height={512} fetchPriority="high" />
+      <Title>
+        Calisthenics Academy in <Ember>Madhapur, Hyderabad</Ember>
+      </Title>
       <Display>
-        Master your <span>body.</span>
+        <span>Master Your Body</span>
+        <Ember>Not Machines</Ember>
       </Display>
-      <Sub>Calisthenics, kids training and personal coaching for every level, near Mindspace.</Sub>
-      <Chips aria-label="Highlights">
-        <li>★ 5-star Google reviews</li>
-        <li>Beginner to advanced</li>
-        <li>Weekday & weekend batches</li>
-        <li>Free weekday demo</li>
-      </Chips>
-      <Buttons>
-        <Button $primary>
-          Book a demo <ArrowRight size={18} />
-        </Button>
-        <SecondaryLink to="/#skills">See programs</SecondaryLink>
-      </Buttons>
+      <Sub>
+        {business.name} is a calisthenics academy in Madhapur, near Mindspace and HITEC City. We coach adults
+        from complete beginner to advanced in{" "}
+        <Link to="/training/calisthenics">weekday &amp; weekend group batches</Link>, offer{" "}
+        <Link to="/training/personal-training">personal training</Link> and run{" "}
+        <Link to="/training/kids">The Mighty Tribe kids program</Link>.
+      </Sub>
+      <Cta>
+        Book a demo <ArrowRight size={20} />
+      </Cta>
+      <Socials>
+        <a href={business.googleBusinessProfile} target="_blank" rel="noreferrer" aria-label="Google Maps">
+          <MapPin size={20} />
+        </a>
+        <a href={business.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+          <InstagramIcon />
+        </a>
+        <a href={`mailto:${business.email}`} aria-label="Email">
+          <Mail size={20} />
+        </a>
+      </Socials>
     </Content>
 
-    <Scroll href="#skills" aria-label="Scroll to training programs" />
+    <ScrollCue href="#timings" aria-label="Scroll down">
+      <ChevronDown size={28} />
+    </ScrollCue>
   </HeroSection>
 );
