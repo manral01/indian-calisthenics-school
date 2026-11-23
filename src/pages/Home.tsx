@@ -1,33 +1,32 @@
 import { Hero } from "../components/Hero";
-import { Skills } from "../components/Skills";
-import { Gallery } from "../components/Gallery";
-import { Testimonials } from "../components/Testimonials";
-import { TimingsGlance } from "../components/TimingsGlance";
-import { FAQ } from "../components/FAQ";
-import { QuickFacts } from "../components/QuickFacts";
+import {
+  AtAGlance,
+  Community,
+  HomeFaq,
+  Method,
+  Offer,
+  PlansTimings,
+  Programs,
+  Reviews,
+  SkillsTicker,
+} from "../components/home/Sections";
 import { Contact } from "../components/Contact";
-import { HomeScene } from "../components/HomeScene";
-import styled from "styled-components";
 
-// Sections sit above the fixed 3D layer
-const Layer = styled.div`
-  position: relative;
-  z-index: 1;
-`;
-
+// Same layout as the Calisthenics Lab India homepage: photo hero, skills ticker,
+// plans & timings, the method, programs + free demo, offer, reviews, community,
+// at-a-glance facts, FAQ and contact.
 export const Home = () => (
   <>
-    {/* 3D calisthenics gym running behind the whole homepage */}
-    <HomeScene />
-    <Layer>
-      <Hero />
-      <Skills />
-      <TimingsGlance />
-      <Gallery />
-      <Testimonials />
-      <QuickFacts />
-      <FAQ />
-      <Contact />
-    </Layer>
+    <Hero />
+    <SkillsTicker />
+    <PlansTimings />
+    <Method />
+    <Programs />
+    <Offer />
+    <Reviews />
+    <Community />
+    <AtAGlance />
+    <HomeFaq />
+    <Contact />
   </>
 );
