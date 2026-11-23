@@ -44,7 +44,7 @@ export const faqData: FAQItem[] = [
   {
     question: "Do you have calisthenics classes for kids?",
     answer:
-      "Yes. The Mighty Tribe is our kids program for ages 3 to 15: calisthenics, gymnastics and parkour in one subscription, taught in three levels (Foundation, Builder and Advanced).",
+      "Yes. The Mighty Tribe is our kids program for ages 3 and up: calisthenics, gymnastics and parkour in one subscription, taught in three levels (Foundation, Builder and Advanced).",
   },
   {
     question: "Is calisthenics good for women?",

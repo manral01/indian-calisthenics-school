@@ -53,7 +53,7 @@ const FACTS: [string, string][] = [
     "Adult fees",
     "Weekdays ₹7,777/month (₹22,222 quarterly) · Weekends ₹4,444/month",
   ],
-  ["Kids (The Mighty Tribe, ages 3–15)", "Weekdays ₹5,555/month · Weekends ₹3,333/month"],
+  ["Kids (The Mighty Tribe, ages 3+)", "Weekdays ₹5,555/month · Weekends ₹3,333/month"],
   [
     "Timings",
     "Mon–Fri 6:30–9:30 AM & 6–9 PM (kids 5–7 PM) · Sat–Sun adults 8–9 AM, kids 9–10 AM",
