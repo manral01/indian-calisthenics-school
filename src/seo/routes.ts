@@ -59,7 +59,7 @@ const withCrumbs = (crumbs: Crumb[], schema: object[]) => [
   breadcrumbSchema(crumbs),
 ];
 
-const SITE_UPDATED = "2026-11-20";
+const SITE_UPDATED = "2026-11-24";
 
 export const routes: RouteMeta[] = [
   {

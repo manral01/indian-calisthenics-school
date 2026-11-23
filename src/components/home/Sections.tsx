@@ -390,7 +390,7 @@ export const PlansTimings = () => (
           <Users size={52} strokeWidth={1.5} />
           <p className="label">
             <Ember>The Mighty Tribe</Ember>
-            <span>Kids 3–15</span>
+            <span>Kids 3+</span>
           </p>
         </div>
         <p className="price">
@@ -476,7 +476,7 @@ export const Method = () => (
 // ── Programs ────────────────────────────────────────────────────────────────
 const CARD_COPY: Record<string, { level: string; text: string; price?: string }> = {
   calisthenics: { level: "All levels", text: "Group batches on weekday mornings, evenings and weekends.", price: "From ₹4,444/mo" },
-  kids: { level: "Kids 3–15", text: "The Mighty Tribe: calisthenics, gymnastics & parkour.", price: "From ₹3,333/mo" },
+  kids: { level: "Kids 3+", text: "The Mighty Tribe: calisthenics, gymnastics & parkour.", price: "From ₹3,333/mo" },
   "personal-training": { level: "1-on-1", text: "A coach and a plan built around your goals. In person or online.", price: "Online ₹15,000" },
   "freestyle-parkour": { level: "Dynamic skills", text: "Bar flow, vaults and safe landings, step by step." },
 };
@@ -889,7 +889,7 @@ export const Community = () => (
 const FACTS: [string, string][] = [
   ["Where", `${business.streetAddress}, Madhapur, Hyderabad ${business.postalCode}, near Mindspace and HITEC City`],
   ["Adult fees", "Weekdays ₹7,777/month (₹22,222 quarterly) · Weekends ₹4,444/month"],
-  ["Kids (The Mighty Tribe, ages 3–15)", "Weekdays ₹5,555/month · Weekends ₹3,333/month"],
+  ["Kids (The Mighty Tribe, ages 3+)", "Weekdays ₹5,555/month · Weekends ₹3,333/month"],
   ["Timings", `Mon–Fri 6:30–9:30 AM & 6–9 PM (kids 5–7 PM) · Sat–Sun ${business.hours[2]?.display ?? ""}`],
   ["Levels", "Complete beginners to advanced: push-ups and pull-ups to handstands, levers and muscle-ups"],
   ["Demo", `Free on weekdays · Weekend demo ₹800, adjusted when you join · WhatsApp ${phoneDisplay}`],

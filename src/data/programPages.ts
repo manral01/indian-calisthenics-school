@@ -126,13 +126,13 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
     name: "Kids Training",
     title: "The Mighty Tribe: Kids Calisthenics in Madhapur, Hyderabad",
     description:
-      "The Mighty Tribe kids program in Madhapur, Hyderabad: calisthenics, gymnastics & parkour for ages 3–15 in three levels. Weekday & weekend batches.",
+      "Kids workout & fitness classes in Madhapur, Hyderabad: The Mighty Tribe teaches calisthenics, gymnastics & parkour to children aged 3+, in three levels.",
     h1: "The Mighty Tribe",
     eyebrow: "Kids Calisthenics, Gymnastics & Parkour · Madhapur",
     logo: { src: "/the-mighty-tribe-logo.webp", alt: "The Mighty Tribe logo", size: 480 },
     instagramDm: { url: "https://ig.me/m/the.mighty.tribe", handle: "@the.mighty.tribe" },
     intro: [
-      "The Mighty Tribe is the kids program at Indian Calisthenics School in Madhapur, Hyderabad. It combines calisthenics, gymnastics and parkour in one subscription for kids aged 3 to 15, taught in three clear levels.",
+      "The Mighty Tribe is the kids program at Indian Calisthenics School in Madhapur, Hyderabad: a kids gym for calisthenics, gymnastics and parkour. It combines calisthenics, gymnastics and parkour in one subscription for kids aged 3 and up, taught in three clear levels.",
       "Every class is about 40% calisthenics, 40% gymnastics and 20% parkour, so kids build strength, balance, body control and the confidence to move freely.",
     ],
     image: {
@@ -187,13 +187,13 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       note: "Competition track: kids who pass Level 3, or show strong talent in Level 2, can be selected for inter-academy, state and national kids' events, with coach recommendation and parent consent.",
     },
     forWhom: [
-      "Kids aged 3 to 15: little ones (3–5) learn Level 1 through games and obstacle courses",
+      "Kids aged 3 and up: little ones (3–5) learn Level 1 through games and obstacle courses",
       "Children who are new to structured exercise",
       "Active kids who want to learn skills like handstands, flips and vaults",
       "Young athletes who want a strength and coordination base for other sports",
     ],
     glance: [
-      ["Ages", "3 to 15 years"],
+      ["Ages", "3 years and up"],
       ["What kids learn", "Calisthenics (40%), gymnastics (40%) and parkour (20%), in three levels with skills tests every 3 months"],
       ["Where", `${business.streetAddress}, Madhapur, Hyderabad ${business.postalCode}, near Mindspace and HITEC City. Also at Calisthenics Lab India, Kondapur`],
       ["Timings", "Mon–Fri 5–6 PM and 6–7 PM · Sat–Sun 9–10 AM"],
@@ -203,9 +203,19 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
     schedule: "kids",
     faqs: [
       {
+        question: "Is calisthenics a good workout for kids and toddlers?",
+        answer:
+          "Yes. Calisthenics is a bodyweight workout, so children build strength, balance and coordination without any heavy weights. For toddlers and preschoolers (from age 3) the workout is play: animal walks, rolls, hanging and balance games. Older kids progress to push-ups, chin-ups, handstands and cartwheels.",
+      },
+      {
+        question: "Is this a gym for kids?",
+        answer:
+          "Yes. The Mighty Tribe is a supervised kids gym in Madhapur for calisthenics and kids gymnastics. Children train on bars, rings and mats with their own bodyweight, with no heavy weights, and a coach runs every session.",
+      },
+      {
         question: "What age group is The Mighty Tribe for?",
         answer:
-          "Kids aged 3 to 15. Little ones (3–5) learn through games and obstacle courses; older kids move on to real skills and strength work.",
+          "Kids aged 3 and up. Little ones (3–5) learn through games and obstacle courses; older kids move on to real skills and strength work.",
       },
       {
         question: "How do kids move up a level?",
@@ -344,12 +354,12 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
     slug: "freestyle-parkour",
     path: "/training/freestyle-parkour",
     name: "Freestyle & Parkour",
-    title: "Freestyle Calisthenics & Parkour in Madhapur, Hyderabad",
+    title: "Parkour Classes in Hyderabad | Indian Calisthenics School",
     description:
-      "Learn freestyle calisthenics and parkour in Madhapur, Hyderabad: bar flow, dynamic skills, vaults and safe landings, coached step by step.",
-    h1: "Freestyle Calisthenics & Parkour in Madhapur, Hyderabad",
+      "Parkour and freestyle calisthenics classes in Madhapur, Hyderabad: vaults, jumps, safe landings and bar flow, coached step by step from beginner level.",
+    h1: "Parkour & Freestyle Calisthenics Classes in Madhapur, Hyderabad",
     intro: [
-      "Freestyle calisthenics and parkour at Indian Calisthenics School in Madhapur, Hyderabad is about moving with power and creativity: dynamic bar movements, flows, jumps, vaults and safe landings.",
+      "Parkour classes and freestyle calisthenics at Indian Calisthenics School in Madhapur, Hyderabad are about moving with power and creativity: dynamic bar movements, flows, jumps, vaults and safe landings.",
       "We break each movement into progressions, so you build the strength and control needed before attempting bigger skills.",
     ],
     image: images.straddle,

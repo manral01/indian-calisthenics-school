@@ -48,7 +48,7 @@ export const blogPosts: BlogPost[] = [
         ul: [
           "Weekday adult batch: ₹7,777 a month, ₹22,222 quarterly, ₹44,444 half-yearly or ₹77,777 yearly",
           "Weekend adult batch: ₹4,444 a month",
-          "Kids (The Mighty Tribe, ages 3–15): ₹5,555 a month on weekdays, ₹3,333 a month on weekends",
+          "Kids (The Mighty Tribe, ages 3+): ₹5,555 a month on weekdays, ₹3,333 a month on weekends",
           "Online personal training: ₹15,000; in-person personal training is priced after a consultation",
         ],
       },
@@ -189,17 +189,25 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "calisthenics-for-kids-benefits-and-safety",
     path: "/blog/calisthenics-for-kids-benefits-and-safety",
-    title: "Calisthenics for Kids: Benefits and Safety",
-    seoTitle: "Calisthenics for Kids: Benefits and Safety",
+    title: "Calisthenics for Kids, Toddlers and Preschoolers: Benefits, Safety and Starting Age",
+    seoTitle: "Calisthenics for Kids & Toddlers: Benefits, Safety, Age",
     description:
-      "Why bodyweight training is great for children, what a good kids class looks like, and the safety points parents should check.",
+      "Calisthenics for kids, toddlers and preschoolers: the benefits, from what age children can start, what a good class looks like and safety tips for parents.",
     datePublished: "2026-10-29",
-    dateModified: "2026-10-29",
+    dateModified: "2026-11-24",
     image: images.kidsHandstand,
     program: { path: "/training/kids", name: "Kids training" },
     body: [
       {
         p: "Children are natural movers: they climb, hang, jump and roll without being told to. Calisthenics for kids takes that instinct and gives it structure, building strength, coordination and confidence through bodyweight movements and games.",
+      },
+      { h2: "What age can kids start calisthenics?" },
+      {
+        p: "Children can start simple calisthenics from around age 3. The Mighty Tribe, our kids program, takes children from age 3 upwards. For toddlers and preschoolers, training is play: animal walks, body shapes, rolls and soft landings, short dead hangs, planks and balance games. Older children build on the same base with their first chin-ups, push-ups, handstands and cartwheels.",
+      },
+      { h2: "Calisthenics for preschoolers and young children" },
+      {
+        p: "At 3 to 6, the goal is body control and confidence, not strength records. Sessions should be short and game-based, with lots of variety and praise. Kids in this age group learn fastest when skills are turned into challenges, like holding a frog stand or crawling like a bear across the mat.",
       },
       { h2: "Benefits of calisthenics for children" },
       {
@@ -210,6 +218,23 @@ export const blogPosts: BlogPost[] = [
           "Confidence: learning a new skill step by step shows kids that practice pays off",
           "Healthy habits: regular sessions make movement a normal part of the week",
         ],
+      },
+      { h2: "A simple calisthenics workout for kids" },
+      {
+        p: "A good kids workout is short, varied and fun. Here is a simple routine children can try with a parent watching, about 15 minutes in total:",
+      },
+      {
+        ul: [
+          "Warm-up: 2 minutes of jumping jacks, arm circles and skipping on the spot",
+          "Bear crawl: crawl forward and back across the room, 3 rounds",
+          "Frog jumps: squat low and jump forward, 5 to 8 jumps, 3 rounds",
+          "Dead hang: hang from a bar or monkey bars for 5 to 15 seconds, 3 times",
+          "Plank: hold for 10 to 20 seconds, 3 times",
+          "Cool-down: easy stretches for the legs, arms and back",
+        ],
+      },
+      {
+        p: "For toddlers, keep it to a few minutes and turn every move into a game. Older children can add push-ups, squats and wall handstands as they get stronger.",
       },
       { h2: "What a good kids class looks like" },
       {
