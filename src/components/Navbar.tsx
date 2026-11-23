@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { business } from "../data/business";
@@ -211,6 +211,9 @@ const MobilePanel = styled.nav`
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(10, 10, 10, 0.96);
   backdrop-filter: blur(16px);
+  max-height: calc(100svh - 84px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   a {
     display: flex;
     align-items: center;
@@ -224,6 +227,16 @@ const MobilePanel = styled.nav`
       background: rgba(255, 255, 255, 0.04);
     }
   }
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: none;
+  }
+`;
+// Dim layer behind the open menu; tapping it closes the menu
+const MenuBackdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  background: rgba(0, 0, 0, 0.6);
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     display: none;
   }
@@ -251,6 +264,21 @@ export const Navbar = () => {
     setOpen(false);
     setProgramsOpen(false);
   }
+
+  // While the mobile menu is open, freeze the page behind it (no scrolling or shifting)
+  useEffect(() => {
+    if (!open) return;
+    const { body, documentElement: html } = document;
+    const prev = [body.style.overflow, html.style.overflow];
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      [body.style.overflow, html.style.overflow] = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   return (
     <>
@@ -309,6 +337,7 @@ export const Navbar = () => {
           </MenuButton>
         </Right>
       </Header>
+      {open && <MenuBackdrop aria-hidden="true" onClick={() => setOpen(false)} />}
       {open && (
         <MobilePanel id="mobile-menu" aria-label="Main">
           <Link to="/" aria-current={current("/")}>
