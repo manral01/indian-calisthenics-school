@@ -344,12 +344,12 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
     slug: "freestyle-parkour",
     path: "/training/freestyle-parkour",
     name: "Freestyle & Parkour",
-    title: "Freestyle Calisthenics & Parkour in Madhapur, Hyderabad",
+    title: "Parkour Classes in Hyderabad | Indian Calisthenics School",
     description:
-      "Learn freestyle calisthenics and parkour in Madhapur, Hyderabad: bar flow, dynamic skills, vaults and safe landings, coached step by step.",
-    h1: "Freestyle Calisthenics & Parkour in Madhapur, Hyderabad",
+      "Parkour and freestyle calisthenics classes in Madhapur, Hyderabad: vaults, jumps, safe landings and bar flow, coached step by step from beginner level.",
+    h1: "Parkour & Freestyle Calisthenics Classes in Madhapur, Hyderabad",
     intro: [
-      "Freestyle calisthenics and parkour at Indian Calisthenics School in Madhapur, Hyderabad is about moving with power and creativity: dynamic bar movements, flows, jumps, vaults and safe landings.",
+      "Parkour classes and freestyle calisthenics at Indian Calisthenics School in Madhapur, Hyderabad are about moving with power and creativity: dynamic bar movements, flows, jumps, vaults and safe landings.",
       "We break each movement into progressions, so you build the strength and control needed before attempting bigger skills.",
     ],
     image: images.straddle,

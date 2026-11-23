@@ -189,17 +189,25 @@ export const blogPosts: BlogPost[] = [
   {
     slug: "calisthenics-for-kids-benefits-and-safety",
     path: "/blog/calisthenics-for-kids-benefits-and-safety",
-    title: "Calisthenics for Kids: Benefits and Safety",
-    seoTitle: "Calisthenics for Kids: Benefits and Safety",
+    title: "Calisthenics for Kids, Toddlers and Preschoolers: Benefits, Safety and Starting Age",
+    seoTitle: "Calisthenics for Kids & Toddlers: Benefits, Safety, Age",
     description:
-      "Why bodyweight training is great for children, what a good kids class looks like, and the safety points parents should check.",
+      "Calisthenics for kids, toddlers and preschoolers: the benefits, from what age children can start, what a good class looks like and safety tips for parents.",
     datePublished: "2026-10-29",
-    dateModified: "2026-10-29",
+    dateModified: "2026-11-24",
     image: images.kidsHandstand,
     program: { path: "/training/kids", name: "Kids training" },
     body: [
       {
         p: "Children are natural movers: they climb, hang, jump and roll without being told to. Calisthenics for kids takes that instinct and gives it structure, building strength, coordination and confidence through bodyweight movements and games.",
+      },
+      { h2: "What age can kids start calisthenics?" },
+      {
+        p: "Children can start simple calisthenics from around age 3. The Mighty Tribe, our kids program, takes children from 3 to 15. For toddlers and preschoolers, training is play: animal walks, body shapes, rolls and soft landings, short dead hangs, planks and balance games. Older children build on the same base with their first chin-ups, push-ups, handstands and cartwheels.",
+      },
+      { h2: "Calisthenics for preschoolers and young children" },
+      {
+        p: "At 3 to 6, the goal is body control and confidence, not strength records. Sessions should be short and game-based, with lots of variety and praise. Kids in this age group learn fastest when skills are turned into challenges, like holding a frog stand or crawling like a bear across the mat.",
       },
       { h2: "Benefits of calisthenics for children" },
       {
