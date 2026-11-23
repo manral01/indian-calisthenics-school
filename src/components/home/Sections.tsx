@@ -36,8 +36,8 @@ const adult = trainingPrograms.calisthenics;
 const kids = trainingPrograms.kids;
 const slots = (t: { label: string }[]) => t.map((s) => s.label);
 
-// ── Skills ticker ───────────────────────────────────────────────────────────
-const SKILLS = ["Pull-Up", "Push-Up", "Handstand", "L-Sit", "Core Strength", "Mobility", "Muscle-Up", "Front Lever"];
+// ── Benefits ticker ───────────────────────────────────────────────────────────
+const SKILLS = ["Mind-Muscle Connection", "Muscle Coordination", "Mobility", "Flexibility", "Strength", "Fat Loss", "Muscle Gain"];
 const marquee = keyframes`
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }

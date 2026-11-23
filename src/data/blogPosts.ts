@@ -57,7 +57,7 @@ export const blogPosts: BlogPost[] = [
       },
       { h2: "When do batches run?" },
       {
-        p: "Most people in Hyderabad train before or after office hours, so academies run early-morning and evening batches. Ours run Monday to Friday from 6:30 to 9:30 AM and 6 to 9 PM in one-hour slots, with kids batches from 4 to 6 PM. Weekend batches run from 8 to 10 AM (kids 9 to 10 AM). See [all timings and fees](/training/calisthenics#timings).",
+        p: "Most people in Hyderabad train before or after office hours, so academies run early-morning and evening batches. Ours run Monday to Friday from 6:30 to 9:30 AM and 6 to 9 PM in one-hour slots, with kids batches from 5 to 7 PM. On weekends, adults train from 8 to 9 AM and kids from 9 to 10 AM. See [all timings and fees](/training/calisthenics#timings).",
       },
       { h2: "What happens in your first session?" },
       {
