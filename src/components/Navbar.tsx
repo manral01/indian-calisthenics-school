@@ -326,7 +326,7 @@ export const Navbar = () => {
               {label}
             </Link>
           ))}
-          <a href={STAFF_LOGIN_URL} rel="nofollow noopener" style={{ opacity: 0.6, fontSize: "0.85rem" }}>
+          <a href={STAFF_LOGIN_URL} rel="nofollow noopener">
             Staff Login
           </a>
         </MobilePanel>
