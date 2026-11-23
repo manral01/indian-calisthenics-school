@@ -132,7 +132,7 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
     logo: { src: "/the-mighty-tribe-logo.webp", alt: "The Mighty Tribe logo", size: 480 },
     instagramDm: { url: "https://ig.me/m/the.mighty.tribe", handle: "@the.mighty.tribe" },
     intro: [
-      "The Mighty Tribe is the kids program at Indian Calisthenics School in Madhapur, Hyderabad. It combines calisthenics, gymnastics and parkour in one subscription for kids aged 3 and up, taught in three clear levels.",
+      "The Mighty Tribe is the kids program at Indian Calisthenics School in Madhapur, Hyderabad: a kids gym for calisthenics, gymnastics and parkour. It combines calisthenics, gymnastics and parkour in one subscription for kids aged 3 and up, taught in three clear levels.",
       "Every class is about 40% calisthenics, 40% gymnastics and 20% parkour, so kids build strength, balance, body control and the confidence to move freely.",
     ],
     image: {
@@ -206,6 +206,11 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
         question: "Is calisthenics a good workout for kids and toddlers?",
         answer:
           "Yes. Calisthenics is a bodyweight workout, so children build strength, balance and coordination without any heavy weights. For toddlers and preschoolers (from age 3) the workout is play: animal walks, rolls, hanging and balance games. Older kids progress to push-ups, chin-ups, handstands and cartwheels.",
+      },
+      {
+        question: "Is this a gym for kids?",
+        answer:
+          "Yes. The Mighty Tribe is a supervised kids gym in Madhapur for calisthenics and kids gymnastics. Children train on bars, rings and mats with their own bodyweight, with no heavy weights, and a coach runs every session.",
       },
       {
         question: "What age group is The Mighty Tribe for?",
