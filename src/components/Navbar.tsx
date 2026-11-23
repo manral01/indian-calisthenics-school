@@ -268,14 +268,15 @@ export const Navbar = () => {
   // While the mobile menu is open, freeze the page behind it (no scrolling or shifting)
   useEffect(() => {
     if (!open) return;
-    const { body, documentElement: html } = document;
-    const prev = [body.style.overflow, html.style.overflow];
+    // Lock only <body>; also locking <html> turns <body> into its own scroll box,
+    // which breaks sticky elements on scrolled pages.
+    const { body } = document;
+    const prev = body.style.overflow;
     body.style.overflow = "hidden";
-    html.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => {
-      [body.style.overflow, html.style.overflow] = prev;
+      body.style.overflow = prev;
       window.removeEventListener("keydown", onKey);
     };
   }, [open]);
