@@ -83,7 +83,6 @@ export const trainingPrograms: Record<string, TrainingProgramConfig> = {
       batchName: "Weekend Batch",
       morningTimings: [
         { label: "8:00 AM – 9:00 AM", time: "8:00 AM - 9:00 AM" },
-        { label: "9:00 AM – 10:00 AM", time: "9:00 AM - 10:00 AM" },
       ],
       eveningTimings: [],
       pricing: [

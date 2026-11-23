@@ -99,7 +99,7 @@ export const programPages: Record<ProgramSlug, ProgramPageContent> = {
       {
         question: "What are the calisthenics batch timings?",
         answer:
-          "Weekday batches run at 6:30, 7:30 and 8:30 AM and at 6:00, 7:00 and 8:00 PM, each for one hour. Weekend batches run at 8:00 and 9:00 AM.",
+          "Weekday batches run at 6:30, 7:30 and 8:30 AM and at 6:00, 7:00 and 8:00 PM, each for one hour. The weekend batch runs Saturday and Sunday from 8:00 to 9:00 AM.",
       },
       {
         question: "How much do calisthenics classes cost?",

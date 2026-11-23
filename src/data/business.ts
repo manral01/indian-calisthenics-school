@@ -65,7 +65,7 @@ export const business = {
       label: "Sat – Sun",
       opens: "08:00",
       closes: "10:00",
-      display: "8:00 – 10:00 AM (kids 9–10 AM)",
+      display: "8:00 – 10:00 AM (adults 8–9 AM, kids 9–10 AM)",
     },
   ] as OpeningHours[],
 
