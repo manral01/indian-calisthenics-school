@@ -7,7 +7,7 @@ import {
 } from "../data/business";
 import { images } from "../data/images";
 import { Link } from "../router";
-import { NAV_LINKS } from "./Navbar";
+import { NAV_LINKS, STAFF_LOGIN_URL } from "./Navbar";
 
 const Foot = styled.footer`
   padding: 56px 16px 24px;
@@ -124,6 +124,9 @@ export const Footer = () => (
             </Link>
           ))}
           <Link to="/aman-bisht">Founder: Aman Bisht</Link>
+          <a href={STAFF_LOGIN_URL} rel="nofollow noopener">
+            Staff Login
+          </a>
         </Col>
         <Col>
           <Heading>Timings</Heading>

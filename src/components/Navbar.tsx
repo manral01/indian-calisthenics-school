@@ -19,6 +19,9 @@ export const NAV_LINKS: [label: string, path: string][] = [
   ...(COURSE.listed ? [[COURSE.shortName, COURSE.path] as [string, string]] : []),
 ];
 
+/** Staff/trainer login for the CalisthenicsHQ attendance app (separate site). */
+export const STAFF_LOGIN_URL = "https://staff.indiancalisthenicsschool.com";
+
 const Header = styled.header`
   position: fixed;
   top: 12px;
@@ -323,6 +326,9 @@ export const Navbar = () => {
               {label}
             </Link>
           ))}
+          <a href={STAFF_LOGIN_URL} rel="nofollow noopener">
+            Staff Login
+          </a>
         </MobilePanel>
       )}
     </>
