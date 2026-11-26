@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0a0a0a" />
+<title>Pay your fees · Indian Calisthenics School</title>
+<link rel="icon" href="/pay-assets/logo.webp" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" />
+<style>
+  :root {
+    --bg: #0a0a0a; --card: #141414; --line: rgba(255,255,255,.09);
+    --ink: #fff; --muted: rgba(255,255,255,.58);
+    --accent: #FF6A00; --ember: linear-gradient(110deg,#FFB15C,#FF7A1A 45%,#E2531A);
+    --body: Inter, system-ui, sans-serif; --display: 'Bebas Neue', Impact, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+  body { min-height: 100dvh; background-image: radial-gradient(circle at 20% -10%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 50%); }
+  .wrap { max-width: 440px; margin: 0 auto; padding: 20px 18px calc(28px + env(safe-area-inset-bottom)); }
+  header { display: flex; align-items: center; gap: 12px; padding: 6px 0 22px; }
+  header img { height: 44px; width: auto; border-radius: 10px; }
+  header .name { font-family: var(--display); font-size: 22px; letter-spacing: .06em; line-height: 1; text-transform: uppercase; }
+  header .sub { font-size: 11px; color: var(--muted); letter-spacing: .14em; text-transform: uppercase; margin-top: 4px; }
+  h1 { font-family: var(--display); font-weight: 400; font-size: 34px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.05; }
+  .lead { color: var(--muted); font-size: 15px; margin: 8px 0 18px; line-height: 1.5; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 16px 6px; }
+  .row { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .row:last-child { border-bottom: 0; }
+  .row span:first-child { color: var(--muted); }
+  .row span:last-child { text-align: right; font-weight: 600; }
+  .due { margin: 14px 0 18px; border-radius: 18px; padding: 18px; background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, var(--card)), var(--card)); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+  .due .k { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .due .v { font-family: var(--display); font-size: 46px; line-height: 1.05; letter-spacing: .02em; margin-top: 4px; }
+  .due .s { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; border: 0; border-radius: 14px; padding: 17px 18px; font: 700 17px var(--body); text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .btn:active { transform: scale(.985); }
+  .pay { background-image: var(--ember); color: #0a0a0a; box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 35%, transparent); }
+  .paid { background: transparent; color: var(--ink); border: 1.5px solid var(--line); margin-top: 12px; }
+  .paid[disabled] { opacity: .55; }
+  .qr { margin: 22px 0 6px; text-align: center; }
+  .qr .box { display: inline-block; background: #fff; padding: 12px; border-radius: 16px; }
+  .qr .box svg { display: block; width: 196px; height: 196px; }
+  .qr p { color: var(--muted); font-size: 13px; margin-top: 10px; line-height: 1.5; }
+  .upi { display: inline-flex; gap: 8px; align-items: center; margin-top: 8px; font-size: 13.5px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 7px 8px 7px 14px; }
+  .upi button { border: 0; background: var(--accent); color: #0a0a0a; font: 700 12px var(--body); padding: 5px 10px; border-radius: 999px; }
+  .note { margin-top: 14px; padding: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); font-size: 14.5px; line-height: 1.5; }
+  .ok { border-color: color-mix(in srgb, #4ade80 50%, transparent); }
+  .foot { text-align: center; color: var(--muted); font-size: 12px; margin-top: 26px; line-height: 1.6; }
+  .foot a { color: var(--muted); }
+  .skel { height: 18px; border-radius: 8px; background: var(--card); margin: 12px 0; animation: p 1.2s infinite alternate; }
+  @keyframes p { to { opacity: .45; } }
+  .hide { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="/pay-assets/logo.webp" alt="Indian Calisthenics School logo" />
+    <div><div class="name">Indian Calisthenics School</div><div class="sub">Fees &amp; renewals</div></div>
+  </header>
+
+  <main id="app">
+    <div class="skel" style="width:60%;height:34px"></div>
+    <div class="skel"></div><div class="skel"></div><div class="skel" style="width:80%"></div>
+  </main>
+
+  <div class="foot">
+    Indian Calisthenics School · Madhapur, Hyderabad<br />
+    Questions? <a href="https://wa.me/918826762234">WhatsApp 88267 62234</a>
+  </div>
+</div>
+
+<script src="/pay-assets/qr.js"></script>
+<script>
+(function () {
+  var SUPABASE_URL = "https://edfpofbtesqpchskctre.supabase.co";
+  var KEY = "sb_publishable_itBgWy2b4ISFL4UNnCVyaw_dAJ3sBVJ";
+  var app = document.getElementById("app");
+  var token = (location.pathname.split("/").filter(Boolean)[1] || new URLSearchParams(location.search).get("t") || "").toLowerCase();
+
+  function rpc(fn, body) {
+    return fetch(SUPABASE_URL + "/rest/v1/rpc/" + fn, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", apikey: KEY, Authorization: "Bearer " + KEY },
+      body: JSON.stringify(body)
+    }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+  }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function inr(n) { return "₹" + Number(n || 0).toLocaleString("en-IN", { maximumFractionDigits: 0 }); }
+  var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  function d(iso) { if (!iso) return ""; var p = iso.split("-"); return +p[2] + " " + MON[+p[1] - 1] + " " + p[0]; }
+  function mon(iso) { return iso ? MON[+iso.split("-")[1] - 1] : ""; }
+  function months(n) { n = Number(n); return n + (n === 1 ? " month" : " months"); }
+  function msg(html, cls) { app.innerHTML = '<div class="note ' + (cls || "") + '">' + html + "</div>"; }
+
+  if (!token) { msg("This payment link looks incomplete. Please use the link from your WhatsApp message."); return; }
+
+  rpc("get_pay_page", { p_token: token }).then(function (x) {
+    if (!x) { msg("This payment link is no longer active. If you still need to pay, just reply on WhatsApp and we'll help."); return; }
+    var isRenewal = x.due_kind !== "installment";
+    var first = x.first_name || "there";
+    var tn = x.academy_code + "-" + first + "-" + mon(isRenewal ? (x.renewal_start || x.due_date) : x.due_date) + (isRenewal ? " renewal" : " installment");
+    var amt = Number(x.amount_due).toFixed(2);
+    var upi = x.upi_id ? "upi://pay?pa=" + String(x.upi_id).replace(/[^A-Za-z0-9.\-_@]/g, "") + "&pn=" + encodeURIComponent(x.academy_name) +
+      "&am=" + amt + "&cu=INR&tn=" + encodeURIComponent(tn) : null;
+
+    var done = x.status === "confirmed";
+    var pending = x.status === "claimed" || x.status === "desk_paid";
+
+    var h = "<h1>Hi " + esc(first) + "</h1>";
+    h += '<p class="lead">' + (isRenewal
+      ? (x.due_kind === "expired" ? "Your package ended on " + d(x.package_end) + ". Here are the details for your renewal."
+                                 : "Your package ends on " + d(x.package_end) + ". Here are the details for your renewal.")
+      : "Here are the details of your package and the installment due.") + "</p>";
+    h += '<div class="card">';
+    h += '<div class="row"><span>Package</span><span>' + months(x.package_months) + (x.package_label ? " · " + esc(x.package_label) : "") + "</span></div>";
+    h += '<div class="row"><span>Package amount</span><span>' + inr(x.package_fee) + "</span></div>";
+    h += '<div class="row"><span>Dates</span><span>' + d(x.package_start) + " – " + d(x.package_end) + "</span></div>";
+    h += '<div class="row"><span>Paid so far</span><span>' + inr(x.paid_so_far) + "</span></div>";
+    h += "</div>";
+    h += '<div class="due"><div class="k">' + (isRenewal ? "Renewal amount" : "Installment due" + (x.installment_label ? " (" + esc(x.installment_label) + ")" : "")) + "</div>";
+    h += '<div class="v">' + inr(x.amount_due) + "</div>";
+    h += '<div class="s">' + (isRenewal && x.renewal_start ? "Next " + months(x.renewal_months) + ": " + d(x.renewal_start) + " – " + d(x.renewal_end) : "Due " + d(x.due_date)) + "</div></div>";
+
+    if (done) {
+      h += '<div class="note ok">✅ Payment received. Thank you!</div>';
+    } else if (pending) {
+      h += '<div class="note ok">✅ Thanks! Your payment is noted. We\'ll confirm it shortly.</div>';
+    } else {
+      if (upi) {
+        h += '<a class="btn pay" id="pay" href="' + esc(upi) + '">Pay ' + inr(x.amount_due) + " with UPI</a>";
+        h += '<div class="qr"><div class="box" id="qr"></div><p>On a laptop or another phone? Scan with any UPI app<br />(GPay, PhonePe, Paytm, BHIM).</p>';
+        h += '<div class="upi"><span>UPI ID: <b>' + esc(x.upi_id) + '</b></span><button id="copy">Copy</button></div></div>';
+      } else {
+        h += '<div class="note">UPI details will be added here shortly. You can also pay at the desk.</div>';
+      }
+      h += '<button class="btn paid" id="claim">I\'ve paid ✅</button>';
+    }
+    app.innerHTML = h;
+
+    if (upi && document.getElementById("qr")) {
+      try {
+        document.getElementById("qr").innerHTML = window.payQrSvg(upi);
+      } catch (e) { document.getElementById("qr").parentNode.classList.add("hide"); }
+    }
+    var c = document.getElementById("copy");
+    if (c) c.onclick = function () { navigator.clipboard && navigator.clipboard.writeText(x.upi_id); c.textContent = "Copied"; };
+    var b = document.getElementById("claim");
+    if (b) b.onclick = function () {
+      b.disabled = true; b.textContent = "Saving…";
+      rpc("claim_payment", { p_token: token }).then(function () {
+        b.outerHTML = '<div class="note ok">✅ Thanks, ' + esc(first) + "! We'll confirm your payment shortly.</div>";
+        var p = document.getElementById("pay"); if (p) p.classList.add("hide");
+      }).catch(function () { b.disabled = false; b.textContent = "I've paid ✅"; b.textContent = "Couldn't save, tap to try again"; });
+    };
+  }).catch(function () {
+    msg("Couldn't load your details right now. Please check your internet and refresh.");
+  });
+})();
+</script>
+</body>
+</html>
