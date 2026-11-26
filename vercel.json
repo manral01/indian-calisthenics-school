@@ -41,7 +41,7 @@
   "rewrites": [
     {
       "source": "/pay/:token",
-      "destination": "/pay-page.html"
+      "destination": "/pay-page"
     }
   ]
 }
